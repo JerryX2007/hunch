@@ -9,9 +9,10 @@ backend/            FastAPI (Python)
   app/
     main.py         app setup, CORS, routers mounted under /api
     config.py       settings from env / backend/.env
-    db.py           SQLModel engine + session (needs DATABASE_URL)
+    database.py     Supabase client + table helpers (needs backend/.env)
     schemas.py      API models (keep in sync with frontend/src/api/types.ts)
     routers/        one file per resource (health, residents, ...)
+  scripts/check_db.py  read-only check that every table is reachable
   requirements.txt
   .env.example
 frontend/           Vite + React + TypeScript + Tailwind
@@ -30,7 +31,8 @@ Backend (http://localhost:8000, docs at /docs):
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env        # fill in DATABASE_URL when the database is ready
+cp .env.example .env        # fill in SUPABASE_URL and the two keys
+python -m scripts.check_db  # confirm the database connection
 uvicorn app.main:app --reload
 ```
 
