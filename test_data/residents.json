@@ -1,0 +1,79 @@
+[
+  {
+    "id": "DEMO-011",
+    "display_name": "DEMO-011",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "stable"
+  },
+  {
+    "id": "DEMO-012",
+    "display_name": "DEMO-012",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "stable"
+  },
+  {
+    "id": "DEMO-013",
+    "display_name": "DEMO-013",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "stable"
+  },
+  {
+    "id": "DEMO-014",
+    "display_name": "DEMO-014",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "planted_decline"
+  },
+  {
+    "id": "DEMO-015",
+    "display_name": "DEMO-015",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "negation_test"
+  },
+  {
+    "id": "DEMO-016",
+    "display_name": "DEMO-016",
+    "baseline_start": "2026-10-12",
+    "baseline_end": "2026-10-13",
+    "scenario": "short_history"
+  },
+  {
+    "id": "DEMO-017",
+    "display_name": "DEMO-017",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "urgent_symptom"
+  },
+  {
+    "id": "DEMO-018",
+    "display_name": "DEMO-018",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "isolated_dip"
+  },
+  {
+    "id": "DEMO-019",
+    "display_name": "DEMO-019",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "planted_decline"
+  },
+  {
+    "id": "DEMO-020",
+    "display_name": "DEMO-020",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "stable"
+  },
+  {
+    "id": "DEMO-021",
+    "display_name": "DEMO-021",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "isolated_dip"
+  }
+]

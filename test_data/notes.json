@@ -1,0 +1,4508 @@
+[
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-20T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-20T12:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of lunch. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-20T18:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-21T03:55:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-21T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-21T12:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate 90% of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-22T02:15:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-22T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-22T12:55:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-23T04:40:00",
+    "author_role": "PSW",
+    "note_text": "Denies pain. Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-23T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. In good spirits, chatting with tablemates. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-23T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-24T03:20:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-24T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-25T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-25T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. In good spirits, chatting with tablemates. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-25T19:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate 100% of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-26T03:05:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-26T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-26T19:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-27T02:40:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-27T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-27T12:10:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-28T04:15:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-28T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-28T12:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of lunch. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-29T03:15:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-29T08:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-29T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-30T02:50:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-30T07:00:00",
+    "author_role": "nurse",
+    "note_text": "Finished her breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-09-30T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Finished her lunch. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-01T02:25:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-01T07:20:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-01T19:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-02T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-02T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-02T19:45:00",
+    "author_role": "PSW",
+    "note_text": "Finished her dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-03T04:00:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-03T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-03T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-04T04:00:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-04T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-05T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-05T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-05T19:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-06T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-06T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-07T04:50:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-07T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-07T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-08T04:05:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-08T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-08T19:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-09T02:25:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-09T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-09T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-10T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-10T19:35:00",
+    "author_role": "PSW",
+    "note_text": "No difficulty walking. Ate 100% of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-11T03:00:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-11T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-11T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-12T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-12T07:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-12T18:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-13T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-13T12:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-14T08:05:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-14T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of lunch. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-14T18:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-15T04:50:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-15T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-15T19:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-16T03:55:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-16T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Alert and chatty during morning activities. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-16T19:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of dinner."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-17T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. In good spirits, chatting with tablemates. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-011",
+    "recorded_at": "2026-10-17T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-20T02:10:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-20T07:30:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-20T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-21T04:20:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-21T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-21T18:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-22T02:35:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-22T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-22T12:25:00",
+    "author_role": "PSW",
+    "note_text": "No difficulty walking. Ate well at lunch. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-23T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-23T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-23T18:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-24T02:20:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-24T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-24T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-25T02:10:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-25T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-25T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-26T08:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of breakfast. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-26T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-27T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-27T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-27T18:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-28T04:15:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-28T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-28T19:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-29T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-29T12:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of lunch. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-29T19:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-30T04:00:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-09-30T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-01T04:55:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-01T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-01T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-02T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-02T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Bright and engaged this morning. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-02T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-03T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-03T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. In good spirits, chatting with tablemates. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-04T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Denies shortness of breath. Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-04T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-04T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-05T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-05T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-05T18:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-06T03:05:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-06T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-06T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-07T08:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-07T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-08T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-08T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-08T12:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-09T08:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-09T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-09T19:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-10T04:15:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-10T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast. In good spirits, chatting with tablemates. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-11T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-11T08:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-11T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-12T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-12T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-12T18:45:00",
+    "author_role": "nurse",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-13T04:30:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-13T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Awake and alert for morning care. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-13T19:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-14T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-14T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-14T18:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-15T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast. Awake and alert for morning care. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-15T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-16T02:15:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-16T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-17T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-012",
+    "recorded_at": "2026-10-17T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-20T04:05:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-20T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-20T12:40:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at lunch. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-21T03:55:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-21T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-21T18:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-22T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Awake and alert for morning care. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-22T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-22T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-23T03:30:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-23T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-24T02:40:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-24T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-24T18:40:00",
+    "author_role": "PSW",
+    "note_text": "No difficulty walking. Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-25T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-25T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-25T18:55:00",
+    "author_role": "PSW",
+    "note_text": "Finished her dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-26T04:05:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-26T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-26T18:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-27T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-27T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-27T19:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-28T08:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-28T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Finished her lunch. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-28T18:15:00",
+    "author_role": "PSW",
+    "note_text": "Finished her dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-29T02:00:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-29T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-30T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-09-30T12:00:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-01T03:55:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-01T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-01T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-02T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-02T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-02T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-03T03:50:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-03T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-03T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Denies shortness of breath. Ate 90% of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-04T08:00:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-04T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-05T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-05T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-05T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-06T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-06T19:10:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-07T02:05:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-07T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-07T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-08T02:10:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-08T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast. In good spirits, chatting with tablemates. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-08T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-09T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-09T18:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate 80% of dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-10T02:55:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-10T08:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-10T18:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-11T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-11T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-11T18:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-12T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-12T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at lunch. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-13T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-13T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-13T19:15:00",
+    "author_role": "nurse",
+    "note_text": "Finished her dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-14T04:30:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-14T08:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-14T18:35:00",
+    "author_role": "PSW",
+    "note_text": "Finished her dinner."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-15T04:30:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-15T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast. Alert and chatty during morning activities. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-16T03:20:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-16T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-16T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-17T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-013",
+    "recorded_at": "2026-10-17T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-20T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-20T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-20T18:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-21T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-21T12:10:00",
+    "author_role": "PSW",
+    "note_text": "Finished her lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-21T18:15:00",
+    "author_role": "nurse",
+    "note_text": "Denies shortness of breath. Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-22T03:35:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-22T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Alert and chatty during morning activities. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-23T03:50:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-23T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-23T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-24T04:00:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-24T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-24T18:30:00",
+    "author_role": "nurse",
+    "note_text": "Ate 100% of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-25T07:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate 100% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-25T18:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-26T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-26T19:55:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-27T04:00:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-27T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-28T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-28T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-28T19:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-29T03:30:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-29T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast. In good spirits, chatting with tablemates. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-30T07:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-30T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at lunch. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-09-30T18:40:00",
+    "author_role": "nurse",
+    "note_text": "No signs of fatigue today. Ate 100% of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-01T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-01T12:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of lunch. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-02T02:45:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-02T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-03T04:10:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-03T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-03T18:45:00",
+    "author_role": "PSW",
+    "note_text": "Finished her dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-04T03:15:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-04T07:40:00",
+    "author_role": "nurse",
+    "note_text": "Ate 80% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-04T18:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-05T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-05T12:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-05T18:55:00",
+    "author_role": "nurse",
+    "note_text": "Ate 100% of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-06T03:00:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-06T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-06T18:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-07T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-07T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-08T04:55:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-08T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-09T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-09T19:10:00",
+    "author_role": "nurse",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-10T02:30:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-10T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-10T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-11T08:05:00",
+    "author_role": "nurse",
+    "note_text": "Ate all of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-11T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-12T04:05:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-12T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-12T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-13T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-13T08:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-13T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Finished her lunch."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-14T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast. Seemed more tired than usual during morning activities."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-14T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about 60% of lunch. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-14T18:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner. Asked to go to bed early."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-15T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 50% of breakfast. Quiet this morning."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-15T12:30:00",
+    "author_role": "nurse",
+    "note_text": "Ate less than usual at lunch. Dozed in chair after lunch, which is unusual for her."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-16T08:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about 40% of breakfast. Tired, needed prompting to finish."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-16T12:40:00",
+    "author_role": "nurse",
+    "note_text": "Ate about 40% of lunch. Needed hands-on help walking to dining room, usually only standby. Declined afternoon bingo."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-16T19:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate poorly at dinner, a few bites only. Needed hands-on help to walk back to room."
+  },
+  {
+    "resident_id": "DEMO-014",
+    "recorded_at": "2026-10-17T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about a quarter of breakfast. Very sleepy during morning care. Needed hands-on assist walking."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-20T03:20:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-20T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast. Alert and chatty during morning activities. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-20T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-21T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Bright and engaged this morning. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-21T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-21T19:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-22T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-22T12:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate 75% of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-23T07:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-23T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Finished his lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-23T18:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-24T04:35:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-24T07:05:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-24T18:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-25T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-25T19:40:00",
+    "author_role": "PSW",
+    "note_text": "Finished his dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-26T02:35:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-26T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-26T18:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner. Joined exercise class after dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-27T02:35:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-27T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-27T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-28T02:55:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-28T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-28T18:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-29T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-29T19:55:00",
+    "author_role": "PSW",
+    "note_text": "No signs of fatigue today. Ate a fair amount of dinner. Joined exercise class after dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-30T04:30:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-09-30T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-01T04:00:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-01T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-01T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-02T02:05:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-02T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-03T08:00:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-03T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-03T19:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-04T03:45:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-04T08:30:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-04T19:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-05T08:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-05T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Denies pain. Ate most of lunch. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-05T19:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner. Joined exercise class after dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-06T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-06T19:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-07T02:15:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-07T08:40:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-07T18:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-08T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Awake and alert for morning care. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-08T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-08T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-09T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-09T18:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of dinner. Joined exercise class after dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-10T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-10T12:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-10T18:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-11T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-11T12:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate all of lunch. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-11T18:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-12T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-12T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-13T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-13T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-13T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-14T08:20:00",
+    "author_role": "nurse",
+    "note_text": "Denies shortness of breath. Ate well."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-14T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-15T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Not tired today, joined exercise class. Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-15T18:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-16T12:25:00",
+    "author_role": "PSW",
+    "note_text": "No difficulty walking, did not need extra help to the dining room. Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-16T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of dinner. Daughter visited."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-17T08:10:00",
+    "author_role": "nurse",
+    "note_text": "Denies pain or fatigue. Ate 90% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-015",
+    "recorded_at": "2026-10-17T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-12T03:45:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-12T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-13T02:45:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-13T08:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Bright and engaged this morning. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-13T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-14T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of breakfast. In good spirits, chatting with tablemates. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-14T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of lunch. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-14T18:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-15T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-15T07:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-15T18:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of dinner."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-16T03:05:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-16T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about 60% of lunch. Still settling in, asked about her daughter."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-16T19:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-17T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-016",
+    "recorded_at": "2026-10-17T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-20T04:15:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-20T07:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-20T19:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-21T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-21T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-21T19:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-22T04:55:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-22T08:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate 75% of breakfast. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-22T18:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-23T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-23T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-24T03:25:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-24T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-24T19:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-25T02:20:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-25T07:40:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-25T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-26T03:05:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-26T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. In good spirits, chatting with tablemates. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-26T18:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-27T03:35:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-27T07:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Awake and alert for morning care. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-27T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-28T08:00:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-28T18:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-29T04:45:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-29T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-29T19:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-30T03:30:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-30T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-09-30T19:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-01T03:50:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-01T07:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-01T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Denies pain. Finished his lunch."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-02T04:15:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-02T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Awake and alert for morning care. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-02T19:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-03T03:20:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-03T08:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-03T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Finished his dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-04T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-04T19:55:00",
+    "author_role": "PSW",
+    "note_text": "Denies shortness of breath. Ate about three quarters of dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-05T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-05T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 75% of lunch. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-05T19:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-06T02:45:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-06T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-06T12:55:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-07T04:40:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-07T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-07T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of lunch. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-08T04:35:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-08T08:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-08T18:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate 90% of dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-09T04:20:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-09T07:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-09T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-10T03:45:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-10T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-10T18:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-11T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-11T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast. In good spirits, chatting with tablemates. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-11T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-12T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Bright and engaged this morning. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-12T19:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-13T03:25:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-13T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-14T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-14T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-15T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-15T18:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner. Joined the coffee group after dinner."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-16T03:10:00",
+    "author_role": "nurse",
+    "note_text": "Found on floor beside bed at 0300. Unable to bear weight on right leg and grimacing when right hip moved. RN assessed, NP called."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-16T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Stayed in bed for breakfast per nurse. Ate about half."
+  },
+  {
+    "resident_id": "DEMO-017",
+    "recorded_at": "2026-10-16T11:15:00",
+    "author_role": "nurse",
+    "note_text": "Transferred to hospital for assessment of right hip."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-20T04:55:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-20T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-20T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-21T04:40:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-21T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-22T04:55:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-22T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-22T18:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-23T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-23T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-23T19:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-24T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-24T19:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-25T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-25T12:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate 100% of lunch. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-26T02:30:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-26T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-26T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-27T02:25:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-27T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-27T12:10:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-28T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Awake and alert for morning care. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-28T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Denies shortness of breath. Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-29T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-29T18:05:00",
+    "author_role": "PSW",
+    "note_text": "Finished her dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-30T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-30T08:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate 90% of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-09-30T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Finished her lunch. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-01T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-01T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-01T18:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-02T02:30:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-02T08:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate all of breakfast. Awake and alert for morning care. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-02T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-03T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-03T19:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-04T03:30:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-04T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-04T12:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of lunch. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-05T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-05T18:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-06T03:15:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-06T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-06T18:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-07T02:35:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-07T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-07T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-08T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-08T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Finished her lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-09T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-09T12:15:00",
+    "author_role": "PSW",
+    "note_text": "No signs of fatigue today. Ate well at lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-09T18:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-10T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-10T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-11T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-11T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-12T04:20:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-12T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-12T19:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-13T07:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate all of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-13T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-13T18:05:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-14T02:40:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-14T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-14T19:50:00",
+    "author_role": "nurse",
+    "note_text": "Finished her dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-15T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Tired this morning after a restless night, perked up by lunch."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-15T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Finished her lunch. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-16T03:35:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-16T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Finished her breakfast."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-16T19:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner. Joined chair exercises after dinner."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-17T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-018",
+    "recorded_at": "2026-10-17T12:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-20T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-20T12:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-20T19:00:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-21T03:20:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-21T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Awake and alert for morning care. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-21T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-22T07:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-22T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-23T07:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-23T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-23T19:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-24T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-24T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-25T02:00:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-25T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. In good spirits, chatting with tablemates. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-26T02:25:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-26T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-26T18:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-27T02:05:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-27T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-27T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Finished his lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-28T07:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-28T19:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-29T07:15:00",
+    "author_role": "nurse",
+    "note_text": "Finished his breakfast."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-29T18:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-30T03:35:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-30T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-09-30T18:45:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-01T02:20:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-01T08:10:00",
+    "author_role": "nurse",
+    "note_text": "Finished his breakfast. In good spirits, chatting with tablemates. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-01T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Denies shortness of breath. Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-02T08:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-02T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Denies pain. Ate well at dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-03T08:40:00",
+    "author_role": "nurse",
+    "note_text": "Ate almost all of breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-03T19:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-04T04:35:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-04T07:05:00",
+    "author_role": "nurse",
+    "note_text": "Ate 90% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-04T18:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-05T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-05T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Finished his lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-06T02:05:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-06T07:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast. Awake and alert for morning care. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-06T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-07T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast. In good spirits, chatting with tablemates. Ambulated with standby assist, steady."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-07T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-08T07:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-08T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-08T19:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-09T04:40:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-09T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-09T18:55:00",
+    "author_role": "nurse",
+    "note_text": "Finished his dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-10T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-10T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-10T18:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-11T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-11T19:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-12T03:15:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-12T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Awake and alert for morning care. Walked back to room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-12T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-13T02:45:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-13T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Finished his breakfast."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-13T19:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-14T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about 60% of breakfast. Walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-14T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate half his lunch. Seemed tired, rested in room after."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-15T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate poorly at breakfast. Drowsy during morning care."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-15T12:45:00",
+    "author_role": "nurse",
+    "note_text": "Ate about 40% of lunch. Slept through most of the afternoon. Walked with standby assist as usual."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-16T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast. More tired than usual."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-16T18:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 50% of dinner. Declined bingo, which he usually attends."
+  },
+  {
+    "resident_id": "DEMO-019",
+    "recorded_at": "2026-10-17T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 40% of breakfast. Sleepy but walked to dining room with standby assist."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-20T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-20T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-20T19:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-21T03:25:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-21T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast. Awake and alert for morning care. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-22T07:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of breakfast. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-22T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-22T19:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate half her dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-23T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-23T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-23T18:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-24T03:35:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-24T07:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-24T19:05:00",
+    "author_role": "nurse",
+    "note_text": "Ate 60% of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-25T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-25T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 60% of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-25T18:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate half her dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-26T02:30:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-26T07:20:00",
+    "author_role": "nurse",
+    "note_text": "Ate about half of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-26T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-27T02:25:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-27T08:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate 70% of breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-28T04:10:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-28T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-28T12:40:00",
+    "author_role": "nurse",
+    "note_text": "Ate about half of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-29T08:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate about half of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-29T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-30T08:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 50% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-30T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Denies shortness of breath. Ate about two thirds of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-09-30T18:10:00",
+    "author_role": "PSW",
+    "note_text": "Only a few bites of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-01T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast. In good spirits, chatting with tablemates. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-01T18:10:00",
+    "author_role": "nurse",
+    "note_text": "Ate 50% of dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-02T02:20:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-02T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-02T18:55:00",
+    "author_role": "PSW",
+    "note_text": "No difficulty walking. Ate about two thirds of dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-03T04:35:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-03T07:10:00",
+    "author_role": "nurse",
+    "note_text": "Ate 60% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-03T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 50% of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-04T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-04T18:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-05T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate half her breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-05T12:55:00",
+    "author_role": "nurse",
+    "note_text": "Ate half her lunch. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-05T19:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-06T04:40:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-06T07:35:00",
+    "author_role": "nurse",
+    "note_text": "Ate about two thirds of breakfast. Awake and alert for morning care. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-07T02:25:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-07T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of breakfast. Awake and alert for morning care. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-07T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate half her lunch. Walked to dining room with a walker."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-08T04:45:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-08T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-08T12:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-09T04:55:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-09T07:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about two thirds of breakfast. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-09T19:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate about 40% of dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-10T03:25:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-10T07:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 70% of breakfast. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-11T04:05:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-11T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-11T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-12T04:05:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-12T07:15:00",
+    "author_role": "nurse",
+    "note_text": "Ate a fair amount of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-12T18:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate half her dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-13T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-13T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 60% of breakfast. Walked back to room with a walker."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-13T18:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate half her dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-14T02:25:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-14T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-14T19:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate half her dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-15T07:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 50% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-15T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about half of dinner. Joined the music program after dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-16T07:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 50% of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-16T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of lunch."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-16T19:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate half her dinner."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-17T07:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate a fair amount of breakfast."
+  },
+  {
+    "resident_id": "DEMO-020",
+    "recorded_at": "2026-10-17T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate poorly at lunch. Ambulated with a walker, steady."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-20T02:15:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-20T07:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-21T03:05:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-21T08:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-22T04:05:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-22T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. In good spirits, chatting with tablemates."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-22T18:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-23T04:45:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-23T08:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast. Awake and alert for morning care. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-23T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-24T08:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-24T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-24T18:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-25T08:05:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of breakfast. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-25T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-26T08:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-26T18:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-27T07:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-27T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-27T19:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-28T07:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Alert and chatty during morning activities. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-28T12:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-28T19:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-29T08:10:00",
+    "author_role": "nurse",
+    "note_text": "Ate most of breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-29T12:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-30T08:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast. Bright and engaged this morning. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-09-30T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-01T08:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast. Alert and chatty during morning activities. Walked to dining room with a cane."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-01T12:15:00",
+    "author_role": "PSW",
+    "note_text": "Denies pain. Ate 90% of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-01T18:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-02T03:10:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-02T07:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-02T18:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-03T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Alert and chatty during morning activities."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-03T12:55:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-03T19:35:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-04T08:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-04T18:15:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-05T04:10:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-05T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-05T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-06T02:10:00",
+    "author_role": "PSW",
+    "note_text": "Slept well overnight."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-06T07:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate 80% of breakfast. Ambulated with a cane, steady."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-06T12:55:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-07T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-07T12:20:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-07T19:50:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-08T07:25:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at breakfast. Bright and engaged this morning."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-08T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at lunch. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-08T19:40:00",
+    "author_role": "nurse",
+    "note_text": "Finished his dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-09T04:20:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-09T07:20:00",
+    "author_role": "nurse",
+    "note_text": "Ate 80% of breakfast. Alert and chatty during morning activities. Walked back to room with a cane."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-09T12:25:00",
+    "author_role": "PSW",
+    "note_text": "Ate almost all of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-10T02:45:00",
+    "author_role": "PSW",
+    "note_text": "No signs of fatigue today. Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-10T07:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-10T19:10:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at dinner. Joined bingo after dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-11T02:35:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-11T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-11T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate most of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-12T08:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-12T12:00:00",
+    "author_role": "PSW",
+    "note_text": "Ate 100% of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-13T07:05:00",
+    "author_role": "PSW",
+    "note_text": "Ate 80% of breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-13T12:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate 90% of lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-13T18:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about three quarters of dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-14T04:25:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-14T07:30:00",
+    "author_role": "nurse",
+    "note_text": "Finished his breakfast."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-14T12:40:00",
+    "author_role": "PSW",
+    "note_text": "Finished his lunch."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-15T04:20:00",
+    "author_role": "PSW",
+    "note_text": "Repositioned at 0200, slept between checks."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-15T12:30:00",
+    "author_role": "PSW",
+    "note_text": "Ate about 30% of lunch. Said he had a big breakfast and wasn't hungry. Walked with a cane, cheerful."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-15T19:00:00",
+    "author_role": "nurse",
+    "note_text": "Ate well at dinner."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-16T02:55:00",
+    "author_role": "PSW",
+    "note_text": "Up once to the bathroom, settled back to sleep."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-16T08:45:00",
+    "author_role": "PSW",
+    "note_text": "Ate well at breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-17T08:40:00",
+    "author_role": "PSW",
+    "note_text": "Ate all of breakfast. Awake and alert for morning care."
+  },
+  {
+    "resident_id": "DEMO-021",
+    "recorded_at": "2026-10-17T12:50:00",
+    "author_role": "nurse",
+    "note_text": "Ate about three quarters of lunch."
+  }
+]

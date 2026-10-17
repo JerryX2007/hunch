@@ -1,0 +1,114 @@
+[
+  {
+    "resident_id": "DEMO-011",
+    "scenario": "stable",
+    "expected": {
+      "alert_created": false,
+      "reason": "normal variation within usual range"
+    }
+  },
+  {
+    "resident_id": "DEMO-012",
+    "scenario": "stable",
+    "expected": {
+      "alert_created": false,
+      "reason": "normal variation within usual range"
+    }
+  },
+  {
+    "resident_id": "DEMO-013",
+    "scenario": "stable",
+    "expected": {
+      "alert_created": false,
+      "reason": "normal variation within usual range"
+    }
+  },
+  {
+    "resident_id": "DEMO-014",
+    "scenario": "planted_decline",
+    "expected": {
+      "alert_created": true,
+      "categories": [
+        "nutrition",
+        "energy",
+        "mobility"
+      ],
+      "min_similar_cases": 2
+    }
+  },
+  {
+    "resident_id": "DEMO-015",
+    "scenario": "negation_test",
+    "expected": {
+      "alert_created": false,
+      "reason": "negated symptoms only",
+      "must_not_extract": [
+        {
+          "category": "energy",
+          "direction": "worsening"
+        },
+        {
+          "category": "mobility",
+          "direction": "worsening"
+        }
+      ]
+    }
+  },
+  {
+    "resident_id": "DEMO-016",
+    "scenario": "short_history",
+    "expected": {
+      "alert_created": false,
+      "baseline_limited": true,
+      "reason": "fewer than 7 days of history"
+    }
+  },
+  {
+    "resident_id": "DEMO-017",
+    "scenario": "urgent_symptom",
+    "expected": {
+      "alert_created": true,
+      "urgent": true,
+      "categories": [
+        "mobility"
+      ],
+      "reason": "single serious event must not wait for pattern accumulation"
+    }
+  },
+  {
+    "resident_id": "DEMO-018",
+    "scenario": "isolated_dip",
+    "expected": {
+      "alert_created": false,
+      "reason": "single tired morning with an explanation"
+    }
+  },
+  {
+    "resident_id": "DEMO-019",
+    "scenario": "planted_decline",
+    "expected": {
+      "alert_created": true,
+      "categories": [
+        "nutrition",
+        "energy"
+      ],
+      "min_similar_cases": 2
+    }
+  },
+  {
+    "resident_id": "DEMO-020",
+    "scenario": "stable",
+    "expected": {
+      "alert_created": false,
+      "reason": "intake of 50-70% matches this resident's own low baseline"
+    }
+  },
+  {
+    "resident_id": "DEMO-021",
+    "scenario": "isolated_dip",
+    "expected": {
+      "alert_created": false,
+      "reason": "single low meal only"
+    }
+  }
+]
