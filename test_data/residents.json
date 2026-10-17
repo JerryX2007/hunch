@@ -75,5 +75,12 @@
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
     "scenario": "isolated_dip"
+  },
+  {
+    "id": "DEMO-022",
+    "display_name": "DEMO-022",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "scenario": "constipation_pattern"
   }
 ]

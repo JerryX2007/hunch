@@ -30,8 +30,10 @@
       "alert_created": true,
       "categories": [
         "nutrition",
+        "fluids",
         "energy",
-        "mobility"
+        "mobility",
+        "toileting.urine"
       ],
       "min_similar_cases": 2
     }
@@ -50,6 +52,19 @@
         {
           "category": "mobility",
           "direction": "worsening"
+        },
+        {
+          "category": "pain",
+          "direction": "worsening"
+        },
+        {
+          "category": "confusion",
+          "direction": "worsening"
+        },
+        {
+          "category": "toileting",
+          "subcategory": "bowel",
+          "change": "increased"
         }
       ]
     }
@@ -109,6 +124,20 @@
     "expected": {
       "alert_created": false,
       "reason": "single low meal only"
+    }
+  },
+  {
+    "resident_id": "DEMO-022",
+    "scenario": "constipation_pattern",
+    "expected": {
+      "alert_created": true,
+      "categories": [
+        "toileting.bowel",
+        "nutrition",
+        "pain"
+      ],
+      "min_similar_cases": 2,
+      "reason": "no bowel movement for 5 days with eating less and abdominal discomfort"
     }
   }
 ]

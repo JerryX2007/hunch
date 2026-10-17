@@ -1,7 +1,7 @@
 [
   {
     "id": "CASE-001",
-    "case_summary": "Over four days, resident ate less, slept more during the day and needed more help transferring.",
+    "case_summary": "Over four days, resident ate less, slept more during the day, became mixed up about the time of day and needed more help transferring.",
     "observations": [
       {
         "category": "nutrition",
@@ -9,6 +9,10 @@
       },
       {
         "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "confusion",
         "direction": "worsening"
       },
       {
@@ -28,6 +32,11 @@
         "note": "Dozed through morning activities"
       },
       {
+        "day": 2,
+        "category": "confusion",
+        "note": "Asked several times if it was morning"
+      },
+      {
         "day": 3,
         "category": "mobility",
         "note": "Needed one-person assist to transfer, usually independent"
@@ -35,14 +44,26 @@
     ],
     "duration_days": 4,
     "documented_outcome": "Nurse assessment found a low-grade temperature; the NP diagnosed a respiratory infection treated in the home. Back to usual routine by day 10.",
-    "limitations": "No vital signs recorded before day 3."
+    "limitations": "No vital signs recorded before day 3.",
+    "outcome_category": "infection",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-002",
-    "case_summary": "Gradual decline over six days in meal intake, alertness and walking.",
+    "case_summary": "Over six days, resident drank and ate less, urinated less often, became sleepy and then unsteady walking.",
     "observations": [
       {
+        "category": "fluids",
+        "direction": "worsening"
+      },
+      {
         "category": "nutrition",
+        "direction": "worsening"
+      },
+      {
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
         "direction": "worsening"
       },
       {
@@ -57,6 +78,11 @@
     "timeline": [
       {
         "day": 1,
+        "category": "fluids",
+        "note": "Drank about half of usual fluids"
+      },
+      {
+        "day": 1,
         "category": "nutrition",
         "note": "Ate about 60% of meals"
       },
@@ -66,6 +92,13 @@
         "note": "Sleepy at lunch, needed prompting"
       },
       {
+        "day": 4,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
+        "note": "Voided twice in 24 hours, urine dark"
+      },
+      {
         "day": 5,
         "category": "mobility",
         "note": "Unsteady, required hands-on assist"
@@ -73,11 +106,13 @@
     ],
     "duration_days": 6,
     "documented_outcome": "Bloodwork showed dehydration; a hydration plan was started and the resident recovered over one week.",
-    "limitations": "Fluid intake was not recorded on days 1 to 3."
+    "limitations": "Fluid intake was not recorded on days 1 to 3.",
+    "outcome_category": "dehydration",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-003",
-    "case_summary": "Rapid change over three days: poor intake, drowsiness and inability to walk to the dining room.",
+    "case_summary": "Rapid change over three days: poor intake, drowsiness, new confusion and inability to walk to the dining room.",
     "observations": [
       {
         "category": "nutrition",
@@ -85,6 +120,10 @@
       },
       {
         "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "confusion",
         "direction": "worsening"
       },
       {
@@ -105,24 +144,31 @@
       },
       {
         "day": 2,
+        "category": "confusion",
+        "note": "New confusion, calling out for family"
+      },
+      {
+        "day": 2,
         "category": "mobility",
         "note": "Could not walk to dining room, used wheelchair"
       }
     ],
     "duration_days": 3,
     "documented_outcome": "Transferred to hospital on day 3 after a nurse found low oxygen saturation; admitted with pneumonia.",
-    "limitations": "Record does not include hospital discharge details."
+    "limitations": "Record does not include hospital discharge details.",
+    "outcome_category": "infection",
+    "disposition": "hospital_transfer"
   },
   {
     "id": "CASE-004",
     "case_summary": "Over five days, resident ate less, seemed sedated in the mornings and was unsteady walking.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "energy",
         "direction": "worsening"
       },
       {
-        "category": "energy",
+        "category": "nutrition",
         "direction": "worsening"
       },
       {
@@ -149,18 +195,24 @@
     ],
     "duration_days": 5,
     "documented_outcome": "Medication review found a sedating medication started the week before; the dose was reduced and changes resolved within four days.",
-    "limitations": "Exact start date of the new medication is unclear."
+    "limitations": "Exact start date of the new medication is unclear.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-005",
-    "case_summary": "Over a week, resident ate less, withdrew from activities and walked less.",
+    "case_summary": "Over a week, resident ate less, withdrew from activities and visitors, and walked less.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "social",
         "direction": "worsening"
       },
       {
         "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
         "direction": "worsening"
       },
       {
@@ -171,6 +223,11 @@
     "timeline": [
       {
         "day": 1,
+        "category": "social",
+        "note": "Declined visit from daughter"
+      },
+      {
+        "day": 2,
         "category": "energy",
         "note": "Declined usual activity"
       },
@@ -187,12 +244,20 @@
     ],
     "duration_days": 7,
     "documented_outcome": "Assessed by the NP; no medical cause found. The team noted low mood, and the resident returned to usual pattern over two weeks after family visits and activity changes.",
-    "limitations": "No mood screening score documented."
+    "limitations": "No mood screening score documented.",
+    "outcome_category": "mood_or_psychosocial",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-006",
-    "case_summary": "Resident ate less, was tired and needed more help walking over four days.",
+    "case_summary": "Over four days, resident had no bowel movement, ate less, became tired, held their stomach and needed more help walking.",
     "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "decreased",
+        "direction": "worsening"
+      },
       {
         "category": "nutrition",
         "direction": "worsening"
@@ -202,11 +267,22 @@
         "direction": "worsening"
       },
       {
+        "category": "pain",
+        "direction": "worsening"
+      },
+      {
         "category": "mobility",
         "direction": "worsening"
       }
     ],
     "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "decreased",
+        "note": "No bowel movement for three days"
+      },
       {
         "day": 1,
         "category": "nutrition",
@@ -218,14 +294,21 @@
         "note": "Tired, napping more"
       },
       {
+        "day": 3,
+        "category": "pain",
+        "note": "Holding stomach, said it felt full"
+      },
+      {
         "day": 4,
         "category": "mobility",
         "note": "Needed hands-on help walking"
       }
     ],
     "duration_days": 4,
-    "documented_outcome": "Constipation identified on assessment (no bowel movement for five days); bowel routine adjusted and intake recovered.",
-    "limitations": "Bowel records incomplete for the prior week."
+    "documented_outcome": "Constipation confirmed (no bowel movement for five days); bowel routine adjusted and intake recovered.",
+    "limitations": "Bowel records incomplete for the prior week.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-007",
@@ -263,12 +346,18 @@
     ],
     "duration_days": 5,
     "documented_outcome": "Care team requested a clinical assessment; a medical cause was identified and treated.",
-    "limitations": "Record does not state the resident's baseline mobility or any medication changes."
+    "limitations": "Record does not state the resident's baseline mobility or any medication changes.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-008",
     "case_summary": "Over five days, resident ate less, was tired and walked less, with new reports of knee pain.",
     "observations": [
+      {
+        "category": "mobility",
+        "direction": "worsening"
+      },
       {
         "category": "nutrition",
         "direction": "worsening"
@@ -278,7 +367,7 @@
         "direction": "worsening"
       },
       {
-        "category": "mobility",
+        "category": "pain",
         "direction": "worsening"
       }
     ],
@@ -294,6 +383,11 @@
         "note": "Ate about 60% of meals"
       },
       {
+        "day": 3,
+        "category": "pain",
+        "note": "Rubbing right knee, said it ached"
+      },
+      {
         "day": 4,
         "category": "energy",
         "note": "Rested in room most afternoons"
@@ -301,18 +395,24 @@
     ],
     "duration_days": 5,
     "documented_outcome": "Urine culture negative; the NP attributed the changes to worsening arthritis pain. Pain plan adjusted and mobility improved partially.",
-    "limitations": "Pain scores not recorded until day 4."
+    "limitations": "Pain scores not recorded until day 4.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-009",
-    "case_summary": "Over six days, resident ate less, was drowsy and needed help walking; two others on the unit had similar changes.",
+    "case_summary": "Over six days, resident ate and drank less, was drowsy and needed help walking; two others on the unit had similar changes.",
     "observations": [
+      {
+        "category": "energy",
+        "direction": "worsening"
+      },
       {
         "category": "nutrition",
         "direction": "worsening"
       },
       {
-        "category": "energy",
+        "category": "fluids",
         "direction": "worsening"
       },
       {
@@ -332,6 +432,11 @@
         "note": "Ate about half of meals"
       },
       {
+        "day": 2,
+        "category": "fluids",
+        "note": "Refused most drinks"
+      },
+      {
         "day": 3,
         "category": "mobility",
         "note": "Needed hands-on assist walking"
@@ -339,18 +444,24 @@
     ],
     "duration_days": 6,
     "documented_outcome": "COVID-19 test positive on day 2; resident isolated and recovered in the home. Two other residents on the unit tested positive that week.",
-    "limitations": "Onset dates for the other residents are not recorded in this case."
+    "limitations": "Onset dates for the other residents are not recorded in this case.",
+    "outcome_category": "infection",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-010",
-    "case_summary": "For three days resident ate less, was tired and unsteady after a room move.",
+    "case_summary": "For three days after a room move, resident slept poorly, ate less, was tired and slightly unsteady.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "sleep",
         "direction": "worsening"
       },
       {
         "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
         "direction": "worsening"
       },
       {
@@ -359,6 +470,11 @@
       }
     ],
     "timeline": [
+      {
+        "day": 1,
+        "category": "sleep",
+        "note": "Awake much of the night in new room"
+      },
       {
         "day": 1,
         "category": "energy",
@@ -377,18 +493,28 @@
     ],
     "duration_days": 3,
     "documented_outcome": "Changes resolved without treatment by day 5. Nurse noted a disrupted sleep schedule after the room move.",
-    "limitations": "Short follow-up; no clinical assessment documented."
+    "limitations": "Short follow-up; no clinical assessment documented.",
+    "outcome_category": "environmental",
+    "disposition": "resolved_without_treatment"
   },
   {
     "id": "CASE-011",
-    "case_summary": "Over five days, resident ate less, slept more and stopped walking to meals.",
+    "case_summary": "Over five days, resident ate and drank less, slept most of the day, stopped joining others and stopped walking to meals.",
     "observations": [
       {
         "category": "nutrition",
         "direction": "worsening"
       },
       {
+        "category": "fluids",
+        "direction": "worsening"
+      },
+      {
         "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "social",
         "direction": "worsening"
       },
       {
@@ -403,9 +529,19 @@
         "note": "Ate about 40% of meals"
       },
       {
+        "day": 1,
+        "category": "fluids",
+        "note": "Took only sips of fluids"
+      },
+      {
         "day": 2,
         "category": "energy",
         "note": "Sleeping most of the day"
+      },
+      {
+        "day": 3,
+        "category": "social",
+        "note": "No longer coming out to the lounge"
       },
       {
         "day": 4,
@@ -415,7 +551,9 @@
     ],
     "duration_days": 5,
     "documented_outcome": "Resident declined further assessment in line with advance care wishes; comfort-focused care continued and family was updated.",
-    "limitations": "Cause of the change was not investigated."
+    "limitations": "Cause of the change was not investigated.",
+    "outcome_category": "comfort_care",
+    "disposition": "declined_assessment"
   },
   {
     "id": "CASE-012",
@@ -444,18 +582,24 @@
     ],
     "duration_days": 2,
     "documented_outcome": "Symptoms resolved after a medication timing adjustment. No further concerns.",
-    "limitations": "Short observation window; no follow-up beyond day 4."
+    "limitations": "Short observation window; no follow-up beyond day 4.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-013",
-    "case_summary": "Resident ate less and was drowsy before lunch for three days.",
+    "case_summary": "Resident ate less, was drowsy and briefly confused before lunch for three days.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "energy",
         "direction": "worsening"
       },
       {
-        "category": "energy",
+        "category": "confusion",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
         "direction": "worsening"
       }
     ],
@@ -466,6 +610,11 @@
         "note": "Drowsy before lunch"
       },
       {
+        "day": 1,
+        "category": "confusion",
+        "note": "Briefly did not recognise tablemate"
+      },
+      {
         "day": 2,
         "category": "nutrition",
         "note": "Ate about half of lunch"
@@ -473,11 +622,13 @@
     ],
     "duration_days": 3,
     "documented_outcome": "Low blood sugar episodes found; diabetes medication adjusted.",
-    "limitations": "Blood glucose checked only once daily."
+    "limitations": "Blood glucose checked only once daily.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-014",
-    "case_summary": "Resident ate much less and was tired and irritable for two days.",
+    "case_summary": "Resident ate much less, was tired and irritable, and winced when chewing for two days.",
     "observations": [
       {
         "category": "nutrition",
@@ -485,6 +636,10 @@
       },
       {
         "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "pain",
         "direction": "worsening"
       }
     ],
@@ -495,6 +650,11 @@
         "note": "Ate only soft parts of meals, about 40%"
       },
       {
+        "day": 1,
+        "category": "pain",
+        "note": "Winced when chewing on the left"
+      },
+      {
         "day": 2,
         "category": "energy",
         "note": "Tired and irritable"
@@ -502,18 +662,24 @@
     ],
     "duration_days": 2,
     "documented_outcome": "Dental abscess found; dental visit arranged and intake recovered after treatment.",
-    "limitations": "Mouth not examined until day 2."
+    "limitations": "Mouth not examined until day 2.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-015",
-    "case_summary": "Over four days, resident ate less and was very tired, with new aches.",
+    "case_summary": "Over four days, resident ate and drank less and was very tired, with new aches.",
     "observations": [
+      {
+        "category": "energy",
+        "direction": "worsening"
+      },
       {
         "category": "nutrition",
         "direction": "worsening"
       },
       {
-        "category": "energy",
+        "category": "fluids",
         "direction": "worsening"
       }
     ],
@@ -527,11 +693,18 @@
         "day": 2,
         "category": "nutrition",
         "note": "Ate about a quarter of meals"
+      },
+      {
+        "day": 2,
+        "category": "fluids",
+        "note": "Drank about half of usual fluids"
       }
     ],
     "duration_days": 4,
     "documented_outcome": "Influenza confirmed by swab; antiviral started. Resident recovered over ten days.",
-    "limitations": "Vaccination status not recorded in this case."
+    "limitations": "Vaccination status not recorded in this case.",
+    "outcome_category": "infection",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-016",
@@ -560,18 +733,24 @@
     ],
     "duration_days": 5,
     "documented_outcome": "No cause found on assessment; appetite and energy returned without intervention by day 8.",
-    "limitations": "No weight recorded."
+    "limitations": "No weight recorded.",
+    "outcome_category": "resolved_no_cause",
+    "disposition": "resolved_without_treatment"
   },
   {
     "id": "CASE-017",
-    "case_summary": "Over three days, resident ate less and was lethargic.",
+    "case_summary": "Over three days, resident ate less, was lethargic and became muddled in conversation.",
     "observations": [
+      {
+        "category": "energy",
+        "direction": "worsening"
+      },
       {
         "category": "nutrition",
         "direction": "worsening"
       },
       {
-        "category": "energy",
+        "category": "confusion",
         "direction": "worsening"
       }
     ],
@@ -585,47 +764,69 @@
         "day": 2,
         "category": "nutrition",
         "note": "Ate about half of meals"
+      },
+      {
+        "day": 3,
+        "category": "confusion",
+        "note": "Lost track of conversation, unusual for her"
       }
     ],
     "duration_days": 3,
     "documented_outcome": "Bloodwork showed low sodium; the NP adjusted a diuretic and the resident improved.",
-    "limitations": "Baseline bloodwork was more than six months old."
+    "limitations": "Baseline bloodwork was more than six months old.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-018",
-    "case_summary": "Over six days, resident ate less and withdrew from usual activities after a roommate died.",
+    "case_summary": "Over six days after a roommate died, resident ate less and withdrew from usual activities and friends.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "social",
         "direction": "worsening"
       },
       {
         "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
         "direction": "worsening"
       }
     ],
     "timeline": [
       {
         "day": 1,
+        "category": "social",
+        "note": "Stopped sitting with usual tablemates"
+      },
+      {
+        "day": 2,
         "category": "energy",
         "note": "Declined usual activities"
       },
       {
-        "day": 2,
+        "day": 3,
         "category": "nutrition",
         "note": "Ate about 60% of meals"
       }
     ],
     "duration_days": 6,
     "documented_outcome": "Team identified grief; social work and chaplain visits followed and intake improved slowly.",
-    "limitations": "No standardized mood assessment completed."
+    "limitations": "No standardized mood assessment completed.",
+    "outcome_category": "mood_or_psychosocial",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-019",
-    "case_summary": "Resident ate less and seemed tired for two days, complaining of mouth soreness.",
+    "case_summary": "Resident ate less, seemed tired and complained of a sore mouth for two days.",
     "observations": [
       {
         "category": "nutrition",
+        "direction": "worsening"
+      },
+      {
+        "category": "pain",
         "direction": "worsening"
       },
       {
@@ -640,6 +841,11 @@
         "note": "Ate about half of breakfast, chewing slowly"
       },
       {
+        "day": 1,
+        "category": "pain",
+        "note": "Said her gums were sore"
+      },
+      {
         "day": 2,
         "category": "energy",
         "note": "Tired after lunch"
@@ -647,18 +853,30 @@
     ],
     "duration_days": 2,
     "documented_outcome": "A denture sore spot was found; the denture was adjusted and intake returned to normal within three days.",
-    "limitations": "The tiredness is not explained in the record."
+    "limitations": "The tiredness is not explained in the record.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-020",
-    "case_summary": "Over four days, resident ate less and was tired, then developed a fever.",
+    "case_summary": "Over four days, resident ate less, was tired, urinated much more often and then became confused with a fever.",
     "observations": [
+      {
+        "category": "energy",
+        "direction": "worsening"
+      },
       {
         "category": "nutrition",
         "direction": "worsening"
       },
       {
-        "category": "energy",
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "direction": "worsening"
+      },
+      {
+        "category": "confusion",
         "direction": "worsening"
       }
     ],
@@ -672,22 +890,40 @@
         "day": 2,
         "category": "nutrition",
         "note": "Ate about half of meals"
+      },
+      {
+        "day": 2,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "note": "Asking for the toilet every hour, small amounts"
+      },
+      {
+        "day": 4,
+        "category": "confusion",
+        "note": "New confusion, fever 38.2 °C"
       }
     ],
     "duration_days": 4,
-    "documented_outcome": "Urinary tract infection confirmed by culture alongside the new fever; antibiotics given.",
-    "limitations": "Urine sample collected on day 4, after symptoms had progressed."
+    "documented_outcome": "Urinary tract infection confirmed by culture alongside the new fever and urinary symptoms; antibiotics given.",
+    "limitations": "Urine sample collected on day 4, after symptoms had progressed.",
+    "outcome_category": "infection",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-021",
-    "case_summary": "Over four days, resident ate less and was reluctant to walk, guarding one hip.",
+    "case_summary": "Over four days, resident ate less and was reluctant to walk, guarding one hip and wincing on standing.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "mobility",
         "direction": "worsening"
       },
       {
-        "category": "mobility",
+        "category": "pain",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
         "direction": "worsening"
       }
     ],
@@ -698,6 +934,11 @@
         "note": "Reluctant to walk, guarding left hip"
       },
       {
+        "day": 1,
+        "category": "pain",
+        "note": "Winced when standing up"
+      },
+      {
         "day": 2,
         "category": "nutrition",
         "note": "Ate about 60% of meals"
@@ -705,18 +946,24 @@
     ],
     "duration_days": 4,
     "documented_outcome": "Hip pain traced to an unreported fall; X-ray showed no fracture. Physiotherapy started.",
-    "limitations": "Date of the fall is unknown."
+    "limitations": "Date of the fall is unknown.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-022",
-    "case_summary": "Over six days, resident ate less and became short of breath walking short distances.",
+    "case_summary": "Over six days, resident ate less, slept propped up and became short of breath walking short distances.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "mobility",
         "direction": "worsening"
       },
       {
-        "category": "mobility",
+        "category": "sleep",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
         "direction": "worsening"
       }
     ],
@@ -727,6 +974,11 @@
         "note": "Stopped to rest walking to dining room"
       },
       {
+        "day": 2,
+        "category": "sleep",
+        "note": "Woke at night short of breath, slept propped up"
+      },
+      {
         "day": 3,
         "category": "nutrition",
         "note": "Ate about half of meals"
@@ -734,18 +986,24 @@
     ],
     "duration_days": 6,
     "documented_outcome": "Worsening heart failure; the NP adjusted medications and swelling and walking improved.",
-    "limitations": "Daily weights missing on three days."
+    "limitations": "Daily weights missing on three days.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-023",
-    "case_summary": "Over three days, resident ate less and limped when walking.",
+    "case_summary": "Over three days, resident ate less and limped, saying their foot hurt.",
     "observations": [
       {
-        "category": "nutrition",
+        "category": "mobility",
         "direction": "worsening"
       },
       {
-        "category": "mobility",
+        "category": "pain",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
         "direction": "worsening"
       }
     ],
@@ -756,6 +1014,11 @@
         "note": "Limping on right foot"
       },
       {
+        "day": 1,
+        "category": "pain",
+        "note": "Said right foot hurt in shoe"
+      },
+      {
         "day": 2,
         "category": "nutrition",
         "note": "Ate about 60% of lunch"
@@ -763,7 +1026,9 @@
     ],
     "duration_days": 3,
     "documented_outcome": "A painful foot wound was found during a bath; wound care started and walking improved as it healed.",
-    "limitations": "Skin check frequency not documented."
+    "limitations": "Skin check frequency not documented.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-024",
@@ -791,8 +1056,10 @@
       }
     ],
     "duration_days": 5,
-    "documented_outcome": "No clear cause found; the resident's damaged walker was replaced and intake returned to baseline.",
-    "limitations": "Unclear whether the two changes were related."
+    "documented_outcome": "No medical cause found; the resident's damaged walker was replaced and intake returned to baseline.",
+    "limitations": "Unclear whether the two changes were related.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-025",
@@ -821,11 +1088,13 @@
     ],
     "duration_days": 7,
     "documented_outcome": "NP noted progression of Parkinson's disease; care plan updated to more assistance at meals and walking.",
-    "limitations": "Neurology follow-up not included."
+    "limitations": "Neurology follow-up not included.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-026",
-    "case_summary": "Over three days, resident was drowsy and unsteady in the mornings.",
+    "case_summary": "Over three days, resident was drowsy and unsteady in the mornings after a new sleeping pill.",
     "observations": [
       {
         "category": "energy",
@@ -850,7 +1119,9 @@
     ],
     "duration_days": 3,
     "documented_outcome": "Over-sedation after a new sleep medication; medication stopped and resident back to usual by day 5.",
-    "limitations": "Medication start date recorded only in pharmacy notes."
+    "limitations": "Medication start date recorded only in pharmacy notes.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-027",
@@ -879,12 +1150,18 @@
     ],
     "duration_days": 4,
     "documented_outcome": "Low hemoglobin found on bloodwork; the NP arranged further investigation and started iron.",
-    "limitations": "Investigation results are not in this record."
+    "limitations": "Investigation results are not in this record.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-028",
-    "case_summary": "For two days resident was tired and slightly unsteady after a late family outing.",
+    "case_summary": "For two days after a late family outing, resident slept in, was tired and slightly unsteady.",
     "observations": [
+      {
+        "category": "sleep",
+        "direction": "worsening"
+      },
       {
         "category": "energy",
         "direction": "worsening"
@@ -895,6 +1172,11 @@
       }
     ],
     "timeline": [
+      {
+        "day": 1,
+        "category": "sleep",
+        "note": "Slept until 10 am, unusual"
+      },
       {
         "day": 1,
         "category": "energy",
@@ -908,7 +1190,9 @@
     ],
     "duration_days": 2,
     "documented_outcome": "Changes resolved after one day; attributed to the late-night outing.",
-    "limitations": "Single-shift observation only."
+    "limitations": "Single-shift observation only.",
+    "outcome_category": "environmental",
+    "disposition": "resolved_without_treatment"
   },
   {
     "id": "CASE-029",
@@ -942,7 +1226,9 @@
     ],
     "duration_days": 5,
     "documented_outcome": "Transferred to hospital on day 5 after a fall with head strike; returned to the home after two days.",
-    "limitations": "Hospital findings summarized only briefly."
+    "limitations": "Hospital findings summarized only briefly.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "hospital_transfer"
   },
   {
     "id": "CASE-030",
@@ -971,7 +1257,9 @@
     ],
     "duration_days": 6,
     "documented_outcome": "Hypothyroidism found on bloodwork; thyroid medication adjusted with gradual improvement.",
-    "limitations": "No prior thyroid results for comparison."
+    "limitations": "No prior thyroid results for comparison.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-031",
@@ -996,14 +1284,20 @@
     ],
     "duration_days": 3,
     "documented_outcome": "Resident disliked the new menu items; the dietitian added preferred alternatives and intake recovered.",
-    "limitations": "Fluid intake not recorded."
+    "limitations": "Fluid intake not recorded.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-032",
-    "case_summary": "Over five days, resident ate less and coughed during meals.",
+    "case_summary": "Over five days, resident ate less, avoided drinks and coughed during meals.",
     "observations": [
       {
         "category": "nutrition",
+        "direction": "worsening"
+      },
+      {
+        "category": "fluids",
         "direction": "worsening"
       }
     ],
@@ -1014,14 +1308,21 @@
         "note": "Coughing while eating, ate about half"
       },
       {
+        "day": 2,
+        "category": "fluids",
+        "note": "Coughed after sips of water, pushed cup away"
+      },
+      {
         "day": 4,
         "category": "nutrition",
         "note": "Refused bread and meat"
       }
     ],
     "duration_days": 5,
-    "documented_outcome": "Swallowing difficulty identified by a speech-language pathologist; diet texture changed.",
-    "limitations": "No choking events documented before the referral."
+    "documented_outcome": "Swallowing difficulty identified by a speech-language pathologist; diet and fluid texture changed.",
+    "limitations": "No choking events documented before the referral.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-033",
@@ -1046,7 +1347,9 @@
     ],
     "duration_days": 2,
     "documented_outcome": "Intake returned to normal on day 3; no cause recorded.",
-    "limitations": "No assessment documented."
+    "limitations": "No assessment documented.",
+    "outcome_category": "resolved_no_cause",
+    "disposition": "resolved_without_treatment"
   },
   {
     "id": "CASE-034",
@@ -1071,14 +1374,22 @@
     ],
     "duration_days": 7,
     "documented_outcome": "Weight loss of 3 kg over a month confirmed; the dietitian started supplements.",
-    "limitations": "Weights recorded monthly only."
+    "limitations": "Weights recorded monthly only.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-035",
-    "case_summary": "Over four days, resident ate less and reported nausea.",
+    "case_summary": "Over four days, resident ate less, reported nausea and had loose stools.",
     "observations": [
       {
         "category": "nutrition",
+        "direction": "worsening"
+      },
+      {
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "increased",
         "direction": "worsening"
       }
     ],
@@ -1089,25 +1400,43 @@
         "note": "Nauseated, ate about half of breakfast"
       },
       {
+        "day": 2,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "increased",
+        "note": "Loose stools twice daily"
+      },
+      {
         "day": 3,
         "category": "nutrition",
         "note": "Ate about 40% of meals"
       }
     ],
     "duration_days": 4,
-    "documented_outcome": "Nausea attributed to a new antibiotic for a skin infection; resolved after the course ended.",
-    "limitations": "Antibiotic name not recorded in this case."
+    "documented_outcome": "Nausea and loose stools attributed to a new antibiotic for a skin infection; resolved after the course ended.",
+    "limitations": "Antibiotic name not recorded in this case.",
+    "outcome_category": "medication_effect",
+    "disposition": "resolved_without_treatment"
   },
   {
     "id": "CASE-036",
-    "case_summary": "Over three days, resident was tired during the day.",
+    "case_summary": "Over three days, resident slept badly at night and was tired during the day.",
     "observations": [
+      {
+        "category": "sleep",
+        "direction": "worsening"
+      },
       {
         "category": "energy",
         "direction": "worsening"
       }
     ],
     "timeline": [
+      {
+        "day": 1,
+        "category": "sleep",
+        "note": "Woken repeatedly by roommate at night"
+      },
       {
         "day": 1,
         "category": "energy",
@@ -1121,12 +1450,18 @@
     ],
     "duration_days": 3,
     "documented_outcome": "Sleep disrupted by a noisy roommate; a room change resolved the daytime tiredness.",
-    "limitations": "Night-shift notes are sparse."
+    "limitations": "Night-shift notes are sparse.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-037",
-    "case_summary": "Over five days, resident withdrew from activities and seemed low in energy.",
+    "case_summary": "Over five days, resident withdrew from activities and people and seemed low in energy.",
     "observations": [
+      {
+        "category": "social",
+        "direction": "worsening"
+      },
       {
         "category": "energy",
         "direction": "worsening"
@@ -1135,18 +1470,25 @@
     "timeline": [
       {
         "day": 1,
+        "category": "social",
+        "note": "Declined to join tablemates"
+      },
+      {
+        "day": 2,
         "category": "energy",
         "note": "Declined usual activities"
       },
       {
         "day": 5,
-        "category": "energy",
+        "category": "social",
         "note": "Stayed in room most of the day"
       }
     ],
     "duration_days": 5,
     "documented_outcome": "Depression screening was positive; the physician started treatment and engagement improved over several weeks.",
-    "limitations": "Screening tool not named."
+    "limitations": "Screening tool not named.",
+    "outcome_category": "mood_or_psychosocial",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-038",
@@ -1171,12 +1513,18 @@
     ],
     "duration_days": 2,
     "documented_outcome": "Tiredness resolved by day 3; no cause found.",
-    "limitations": "No vital signs recorded."
+    "limitations": "No vital signs recorded.",
+    "outcome_category": "resolved_no_cause",
+    "disposition": "resolved_without_treatment"
   },
   {
     "id": "CASE-039",
     "case_summary": "Over four days, resident walked less and complained of knee pain.",
     "observations": [
+      {
+        "category": "pain",
+        "direction": "worsening"
+      },
       {
         "category": "mobility",
         "direction": "worsening"
@@ -1185,7 +1533,7 @@
     "timeline": [
       {
         "day": 1,
-        "category": "mobility",
+        "category": "pain",
         "note": "Knee pain when walking"
       },
       {
@@ -1196,7 +1544,9 @@
     ],
     "duration_days": 4,
     "documented_outcome": "Knee osteoarthritis flare; pain medication and physiotherapy improved walking.",
-    "limitations": "No pain score recorded before day 2."
+    "limitations": "No pain score recorded before day 2.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-040",
@@ -1221,7 +1571,9 @@
     ],
     "duration_days": 2,
     "documented_outcome": "New shoes were causing instability; the resident returned to old footwear and walking normalized.",
-    "limitations": "Single observer."
+    "limitations": "Single observer.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-041",
@@ -1246,14 +1598,20 @@
     ],
     "duration_days": 6,
     "documented_outcome": "Dizziness on standing confirmed; blood pressure medication reduced and falls risk lowered.",
-    "limitations": "Standing blood pressure checked only once."
+    "limitations": "Standing blood pressure checked only once.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
   },
   {
     "id": "CASE-042",
-    "case_summary": "Over three days, resident was increasingly unsteady, then had an unwitnessed fall.",
+    "case_summary": "Over three days, resident was increasingly unsteady, then had an unwitnessed fall with hip pain.",
     "observations": [
       {
         "category": "mobility",
+        "direction": "worsening"
+      },
+      {
+        "category": "pain",
         "direction": "worsening"
       }
     ],
@@ -1267,11 +1625,18 @@
         "day": 3,
         "category": "mobility",
         "note": "Found on floor, unable to stand"
+      },
+      {
+        "day": 3,
+        "category": "pain",
+        "note": "Severe pain moving right hip"
       }
     ],
     "duration_days": 3,
     "documented_outcome": "Transferred to hospital for a hip fracture after the unwitnessed fall on day 3.",
-    "limitations": "The earlier mobility change is not linked to the fall in the record."
+    "limitations": "The earlier mobility change is not linked to the fall in the record.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "hospital_transfer"
   },
   {
     "id": "CASE-043",
@@ -1296,7 +1661,9 @@
     ],
     "duration_days": 5,
     "documented_outcome": "Intake stayed at baseline over the following month.",
-    "limitations": "No weight recorded after the change."
+    "limitations": "No weight recorded after the change.",
+    "outcome_category": null,
+    "disposition": null
   },
   {
     "id": "CASE-044",
@@ -1321,7 +1688,9 @@
     ],
     "duration_days": 7,
     "documented_outcome": "Physiotherapy goals met; resident discharged from the program.",
-    "limitations": "Physiotherapy notes summarized, not attached."
+    "limitations": "Physiotherapy notes summarized, not attached.",
+    "outcome_category": null,
+    "disposition": null
   },
   {
     "id": "CASE-045",
@@ -1346,14 +1715,20 @@
     ],
     "duration_days": 4,
     "documented_outcome": "Resident stayed alert; medication not restarted.",
-    "limitations": "Reason for the original medication not recorded."
+    "limitations": "Reason for the original medication not recorded.",
+    "outcome_category": null,
+    "disposition": null
   },
   {
     "id": "CASE-046",
-    "case_summary": "Over six days of recovery from influenza, resident ate more and had more energy.",
+    "case_summary": "Over six days of recovery from influenza, resident ate and drank more and had more energy.",
     "observations": [
       {
         "category": "nutrition",
+        "direction": "improving"
+      },
+      {
+        "category": "fluids",
         "direction": "improving"
       },
       {
@@ -1368,6 +1743,11 @@
         "note": "Ate about 60% of meals"
       },
       {
+        "day": 2,
+        "category": "fluids",
+        "note": "Drinking most of each cup again"
+      },
+      {
         "day": 3,
         "category": "energy",
         "note": "Joined one activity"
@@ -1380,7 +1760,9 @@
     ],
     "duration_days": 6,
     "documented_outcome": "Resident returned to usual routine; no complications.",
-    "limitations": "Influenza onset is described in a separate record."
+    "limitations": "Influenza onset is described in a separate record.",
+    "outcome_category": null,
+    "disposition": null
   },
   {
     "id": "CASE-047",
@@ -1405,7 +1787,9 @@
     ],
     "duration_days": 3,
     "documented_outcome": "No falls in the following month.",
-    "limitations": "Short observation window."
+    "limitations": "Short observation window.",
+    "outcome_category": null,
+    "disposition": null
   },
   {
     "id": "CASE-048",
@@ -1430,11 +1814,13 @@
     ],
     "duration_days": 4,
     "documented_outcome": "Dietitian continued the supplement; weight stable at the next monthly check.",
-    "limitations": "Intake before the supplement recorded for only two days."
+    "limitations": "Intake before the supplement recorded for only two days.",
+    "outcome_category": null,
+    "disposition": null
   },
   {
     "id": "CASE-049",
-    "case_summary": "Over a week after returning from hospital, resident regained energy and walking.",
+    "case_summary": "Over a week after returning from hospital, resident regained energy, walking and social contact.",
     "observations": [
       {
         "category": "energy",
@@ -1442,6 +1828,10 @@
       },
       {
         "category": "mobility",
+        "direction": "improving"
+      },
+      {
+        "category": "social",
         "direction": "improving"
       }
     ],
@@ -1457,6 +1847,11 @@
         "note": "Walking short distances with assist"
       },
       {
+        "day": 5,
+        "category": "social",
+        "note": "Back at usual table for dinner"
+      },
+      {
         "day": 7,
         "category": "mobility",
         "note": "Walking to dining room with standby"
@@ -1464,12 +1859,18 @@
     ],
     "duration_days": 7,
     "documented_outcome": "Resident returned to pre-hospital level of function.",
-    "limitations": "Hospital stay details not included."
+    "limitations": "Hospital stay details not included.",
+    "outcome_category": null,
+    "disposition": null
   },
   {
     "id": "CASE-050",
-    "case_summary": "Over five days as a foot wound healed, resident ate more and walked more.",
+    "case_summary": "Over five days as a foot wound healed, resident had less pain, ate more and walked more.",
     "observations": [
+      {
+        "category": "pain",
+        "direction": "improving"
+      },
       {
         "category": "nutrition",
         "direction": "improving"
@@ -1486,6 +1887,11 @@
         "note": "Walking short distances only"
       },
       {
+        "day": 2,
+        "category": "pain",
+        "note": "Foot pain eased"
+      },
+      {
         "day": 3,
         "category": "nutrition",
         "note": "Ate most of meals"
@@ -1498,6 +1904,682 @@
     ],
     "duration_days": 5,
     "documented_outcome": "Wound healed; resident back to usual mobility.",
-    "limitations": "Wound measurements not recorded."
+    "limitations": "Wound measurements not recorded.",
+    "outcome_category": null,
+    "disposition": null
+  },
+  {
+    "id": "CASE-051",
+    "case_summary": "Over three days, resident drank less and urinated less often, with dark urine.",
+    "observations": [
+      {
+        "category": "fluids",
+        "direction": "worsening"
+      },
+      {
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "fluids",
+        "note": "Drank about a third of usual fluids"
+      },
+      {
+        "day": 2,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
+        "note": "Voided twice on day shift, urine dark"
+      }
+    ],
+    "duration_days": 3,
+    "documented_outcome": "Mild dehydration found on bloodwork; scheduled drinks offered every hour and urine output returned to normal.",
+    "limitations": "Fluid intake was estimated, not measured.",
+    "outcome_category": "dehydration",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-052",
+    "case_summary": "Over four days, resident drank less, urinated less, then became confused in the afternoons.",
+    "observations": [
+      {
+        "category": "fluids",
+        "direction": "worsening"
+      },
+      {
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
+        "direction": "worsening"
+      },
+      {
+        "category": "confusion",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "fluids",
+        "note": "Refusing water, takes only tea"
+      },
+      {
+        "day": 2,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
+        "note": "Brief dry at most checks"
+      },
+      {
+        "day": 3,
+        "category": "confusion",
+        "note": "Confused and restless in the afternoon"
+      }
+    ],
+    "duration_days": 4,
+    "documented_outcome": "Dehydration with delirium; fluids given under the skin in the home for two days and confusion cleared by day 6.",
+    "limitations": "No bladder scan done to rule out retention.",
+    "outcome_category": "dehydration",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-053",
+    "case_summary": "For three days during a heat wave, resident drank less than needed and urinated less.",
+    "observations": [
+      {
+        "category": "fluids",
+        "direction": "worsening"
+      },
+      {
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "fluids",
+        "note": "Drank usual amount but sweating in warm room"
+      },
+      {
+        "day": 2,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "decreased",
+        "note": "Voided only twice, urine dark"
+      }
+    ],
+    "duration_days": 3,
+    "documented_outcome": "The unit's air conditioning had failed; extra fluids and a fan were provided and urine output recovered once cooling was restored.",
+    "limitations": "Room temperature was not logged.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-054",
+    "case_summary": "Over three days, resident needed the toilet far more often and became confused.",
+    "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "direction": "worsening"
+      },
+      {
+        "category": "confusion",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "note": "Toileting every hour, burning when voiding"
+      },
+      {
+        "day": 2,
+        "category": "confusion",
+        "note": "Picking at clothes, not following conversation"
+      }
+    ],
+    "duration_days": 3,
+    "documented_outcome": "Urinary tract infection confirmed with fever and painful urination; antibiotics given and confusion resolved.",
+    "limitations": "Temperature not recorded on day 1.",
+    "outcome_category": "infection",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-055",
+    "case_summary": "Over two days, resident urinated much more often after a medication change.",
+    "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "note": "Voiding every two hours on day shift"
+      },
+      {
+        "day": 2,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "note": "Two incontinent episodes"
+      }
+    ],
+    "duration_days": 2,
+    "documented_outcome": "The NP confirmed an expected effect of an increased diuretic dose; the toileting schedule was adjusted.",
+    "limitations": "Weight not checked after the dose change.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-056",
+    "case_summary": "Over four days, resident was up many times at night to urinate and slept poorly.",
+    "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "direction": "worsening"
+      },
+      {
+        "category": "sleep",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "urine",
+        "change": "increased",
+        "note": "Up four times overnight to void"
+      },
+      {
+        "day": 2,
+        "category": "sleep",
+        "note": "Slept in short stretches only"
+      }
+    ],
+    "duration_days": 4,
+    "documented_outcome": "Night-time urination linked to large evening drinks; fluids were moved earlier in the day and sleep improved.",
+    "limitations": "Day-time voiding not recorded.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-057",
+    "case_summary": "Over three days, resident had diarrhea, ate and drank less; several others on the unit had the same.",
+    "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "increased",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
+        "direction": "worsening"
+      },
+      {
+        "category": "fluids",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "increased",
+        "note": "Three loose stools on day shift"
+      },
+      {
+        "day": 1,
+        "category": "nutrition",
+        "note": "Ate about half of breakfast"
+      },
+      {
+        "day": 2,
+        "category": "fluids",
+        "note": "Drinking only sips"
+      }
+    ],
+    "duration_days": 3,
+    "documented_outcome": "Norovirus outbreak confirmed by public health; resident isolated and recovered in the home within four days.",
+    "limitations": "Stool sample results reported for the unit, not this resident.",
+    "outcome_category": "infection",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-058",
+    "case_summary": "For two days, resident had frequent loose stools.",
+    "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "increased",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "increased",
+        "note": "Four loose stools"
+      },
+      {
+        "day": 2,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "increased",
+        "note": "Two loose stools"
+      }
+    ],
+    "duration_days": 2,
+    "documented_outcome": "Linked to a laxative given on top of the usual bowel routine; laxative held for two days and stools returned to normal.",
+    "limitations": "Bowel routine before the change not documented.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-059",
+    "case_summary": "Over four days, resident had no bowel movement, then abdominal pain and stopped eating.",
+    "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "decreased",
+        "direction": "worsening"
+      },
+      {
+        "category": "pain",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "decreased",
+        "note": "No bowel movement for four days"
+      },
+      {
+        "day": 2,
+        "category": "pain",
+        "note": "Crying out when abdomen touched"
+      },
+      {
+        "day": 3,
+        "category": "nutrition",
+        "note": "Refused all meals"
+      }
+    ],
+    "duration_days": 4,
+    "documented_outcome": "Transferred to hospital on day 4 for a suspected bowel obstruction; admitted for treatment.",
+    "limitations": "Earlier bowel records missing for one week.",
+    "outcome_category": "other_medical",
+    "disposition": "hospital_transfer"
+  },
+  {
+    "id": "CASE-060",
+    "case_summary": "Over five days after starting a new pain medication, resident had no bowel movement.",
+    "observations": [
+      {
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "decreased",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "decreased",
+        "note": "No bowel movement since new medication"
+      },
+      {
+        "day": 5,
+        "category": "toileting",
+        "subcategory": "bowel",
+        "change": "decreased",
+        "note": "Still no bowel movement"
+      }
+    ],
+    "duration_days": 5,
+    "documented_outcome": "Constipation from a new opioid; the NP added a bowel routine and movements resumed on day 6.",
+    "limitations": "Fluid intake not recorded.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-061",
+    "case_summary": "Over three days, resident slept badly, was drowsy by day and newly confused.",
+    "observations": [
+      {
+        "category": "sleep",
+        "direction": "worsening"
+      },
+      {
+        "category": "energy",
+        "direction": "worsening"
+      },
+      {
+        "category": "confusion",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "sleep",
+        "note": "Awake and restless most of the night"
+      },
+      {
+        "day": 2,
+        "category": "energy",
+        "note": "Drowsy at breakfast"
+      },
+      {
+        "day": 2,
+        "category": "confusion",
+        "note": "Did not recognise her room"
+      }
+    ],
+    "duration_days": 3,
+    "documented_outcome": "Delirium linked to a new bladder medication with sedating side effects; medication stopped and confusion cleared within a week.",
+    "limitations": "Pharmacy review date not recorded.",
+    "outcome_category": "medication_effect",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-062",
+    "case_summary": "Over six days, resident was up at night, napping by day and withdrawing from others.",
+    "observations": [
+      {
+        "category": "sleep",
+        "direction": "worsening"
+      },
+      {
+        "category": "social",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "sleep",
+        "note": "Up wandering at 0300"
+      },
+      {
+        "day": 3,
+        "category": "social",
+        "note": "Stopped attending coffee group"
+      }
+    ],
+    "duration_days": 6,
+    "documented_outcome": "Depression identified on assessment; treatment started and sleep improved over three weeks.",
+    "limitations": "Sleep was not charted every night.",
+    "outcome_category": "mood_or_psychosocial",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-063",
+    "case_summary": "Resident slept poorly for two nights after night checks changed.",
+    "observations": [
+      {
+        "category": "sleep",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "sleep",
+        "note": "Woken by light during 0200 check"
+      },
+      {
+        "day": 2,
+        "category": "sleep",
+        "note": "Awake from 0300"
+      }
+    ],
+    "duration_days": 2,
+    "documented_outcome": "Night checks were switched to a flashlight; sleep returned to usual.",
+    "limitations": "Only two nights observed.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-064",
+    "case_summary": "For two days, resident was suddenly confused, then cleared.",
+    "observations": [
+      {
+        "category": "confusion",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "confusion",
+        "note": "Thought she was at home, asked for her husband"
+      },
+      {
+        "day": 2,
+        "category": "confusion",
+        "note": "Still muddled in the evening"
+      }
+    ],
+    "duration_days": 2,
+    "documented_outcome": "Confusion resolved by day 3; no cause found on assessment.",
+    "limitations": "Urine and bloodwork were not tested, so causes were not ruled out.",
+    "outcome_category": "resolved_no_cause",
+    "disposition": "resolved_without_treatment"
+  },
+  {
+    "id": "CASE-065",
+    "case_summary": "Over a week, resident became more forgetful and stopped joining activities.",
+    "observations": [
+      {
+        "category": "confusion",
+        "direction": "worsening"
+      },
+      {
+        "category": "social",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "confusion",
+        "note": "Forgot routine of morning care"
+      },
+      {
+        "day": 4,
+        "category": "social",
+        "note": "No longer joining music program"
+      }
+    ],
+    "duration_days": 7,
+    "documented_outcome": "NP attributed the change to gradual progression of dementia after ruling out infection; care plan updated.",
+    "limitations": "Cognitive score last measured six months earlier.",
+    "outcome_category": "other_medical",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-066",
+    "case_summary": "Over five days, resident's shoulder hurt and they stopped joining activities.",
+    "observations": [
+      {
+        "category": "pain",
+        "direction": "worsening"
+      },
+      {
+        "category": "social",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "pain",
+        "note": "Wincing when dressing, right shoulder"
+      },
+      {
+        "day": 2,
+        "category": "social",
+        "note": "Declined exercise class and bingo"
+      }
+    ],
+    "duration_days": 5,
+    "documented_outcome": "Shoulder strain found; pain plan and physiotherapy started and the resident rejoined activities.",
+    "limitations": "Mechanism of injury unknown.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-067",
+    "case_summary": "Over four days, back pain woke the resident at night.",
+    "observations": [
+      {
+        "category": "pain",
+        "direction": "worsening"
+      },
+      {
+        "category": "sleep",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "pain",
+        "note": "Back pain on repositioning"
+      },
+      {
+        "day": 2,
+        "category": "sleep",
+        "note": "Woke twice overnight in pain"
+      }
+    ],
+    "duration_days": 4,
+    "documented_outcome": "Pain plan changed to include a bedtime dose; sleep improved.",
+    "limitations": "Pain scores recorded only on day shift.",
+    "outcome_category": "pain_or_injury",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-068",
+    "case_summary": "Over three days, resident withdrew after a favourite staff member left.",
+    "observations": [
+      {
+        "category": "social",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "social",
+        "note": "Asked repeatedly for a staff member who left"
+      },
+      {
+        "day": 3,
+        "category": "social",
+        "note": "Stayed in room at activity time"
+      }
+    ],
+    "duration_days": 3,
+    "documented_outcome": "Resident settled after being introduced to new staff; no treatment needed.",
+    "limitations": "No mood assessment completed.",
+    "outcome_category": "mood_or_psychosocial",
+    "disposition": "resolved_without_treatment"
+  },
+  {
+    "id": "CASE-069",
+    "case_summary": "Over six days while family was away, resident ate less and spent more time alone.",
+    "observations": [
+      {
+        "category": "social",
+        "direction": "worsening"
+      },
+      {
+        "category": "nutrition",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "social",
+        "note": "Stayed in room during visiting hours"
+      },
+      {
+        "day": 3,
+        "category": "nutrition",
+        "note": "Ate about 60% of meals"
+      }
+    ],
+    "duration_days": 6,
+    "documented_outcome": "Daily video calls with family were set up; appetite and social contact improved.",
+    "limitations": "Family travel dates are approximate.",
+    "outcome_category": "mood_or_psychosocial",
+    "disposition": "treated_in_home"
+  },
+  {
+    "id": "CASE-070",
+    "case_summary": "For two days, resident complained of headaches.",
+    "observations": [
+      {
+        "category": "pain",
+        "direction": "worsening"
+      }
+    ],
+    "timeline": [
+      {
+        "day": 1,
+        "category": "pain",
+        "note": "Headache in the afternoon"
+      },
+      {
+        "day": 2,
+        "category": "pain",
+        "note": "Headache after reading"
+      }
+    ],
+    "duration_days": 2,
+    "documented_outcome": "Headaches stopped after new glasses were adjusted.",
+    "limitations": "Blood pressure not recorded.",
+    "outcome_category": "environmental",
+    "disposition": "treated_in_home"
   }
 ]
