@@ -1,7 +1,7 @@
 from google import genai
 from google.genai import types
 
-from observation import ObservationResponse
+from backend.app.models.observation import ObservationResponse
 
 SYSTEM_INSTRUCTION = """
 You extract structured observations from free-text care notes about a care-home resident.
