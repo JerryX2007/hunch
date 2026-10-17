@@ -1,0 +1,524 @@
+{
+  "alert_evidence": {
+    "alert_id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/> This is a Foreign Key to `alerts.id`.<fk table='alerts' column='id'/>"
+    },
+    "observation_id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/> This is a Foreign Key to `observations.id`.<fk table='observations' column='id'/>"
+    }
+  },
+  "alerts": {
+    "id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/>"
+    },
+    "resident_id": {
+      "type": "text",
+      "required": true,
+      "note": "Note: This is a Foreign Key to `residents.id`.<fk table='residents' column='id'/>"
+    },
+    "title": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "summary": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "explanation": {
+      "type": "jsonb",
+      "required": false,
+      "note": ""
+    },
+    "triggered_rules": {
+      "type": "jsonb",
+      "required": false,
+      "note": ""
+    },
+    "status": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "urgent": {
+      "type": "boolean",
+      "required": true,
+      "note": ""
+    },
+    "created_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    }
+  },
+  "care_notes": {
+    "id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/>"
+    },
+    "resident_id": {
+      "type": "text",
+      "required": true,
+      "note": "Note: This is a Foreign Key to `residents.id`.<fk table='residents' column='id'/>"
+    },
+    "note_text": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "recorded_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    },
+    "author_role": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "extraction_status": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "created_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    }
+  },
+  "case_match_runs": {
+    "id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/>"
+    },
+    "alert_id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Foreign Key to `alerts.id`.<fk table='alerts' column='id'/>"
+    },
+    "alert_fingerprint": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "query_signals": {
+      "type": "text[]",
+      "required": true,
+      "note": ""
+    },
+    "query_duration_days": {
+      "type": "int32",
+      "required": true,
+      "note": ""
+    },
+    "query_text": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "query_embedding": {
+      "type": "public.vector",
+      "required": false,
+      "note": ""
+    },
+    "scorer_version": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "weights": {
+      "type": "jsonb",
+      "required": true,
+      "note": ""
+    },
+    "candidates_seen": {
+      "type": "int32",
+      "required": true,
+      "note": ""
+    },
+    "created_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    }
+  },
+  "case_matches": {
+    "run_id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/> This is a Foreign Key to `case_match_runs.id`.<fk table='case_match_runs' column='id'/>"
+    },
+    "historical_case_id": {
+      "type": "text",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/> This is a Foreign Key to `historical_cases.id`.<fk table='historical_cases' column='id'/>"
+    },
+    "rank": {
+      "type": "int32",
+      "required": true,
+      "note": ""
+    },
+    "structured_score": {
+      "type": "real",
+      "required": true,
+      "note": ""
+    },
+    "temporal_score": {
+      "type": "real",
+      "required": true,
+      "note": ""
+    },
+    "semantic_score": {
+      "type": "real",
+      "required": false,
+      "note": ""
+    },
+    "total_score": {
+      "type": "real",
+      "required": true,
+      "note": ""
+    },
+    "shared_signals": {
+      "type": "text[]",
+      "required": true,
+      "note": ""
+    },
+    "case_only_signals": {
+      "type": "text[]",
+      "required": true,
+      "note": ""
+    },
+    "resident_only_signals": {
+      "type": "text[]",
+      "required": true,
+      "note": ""
+    },
+    "differences": {
+      "type": "jsonb",
+      "required": true,
+      "note": ""
+    }
+  },
+  "historical_cases": {
+    "id": {
+      "type": "text",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/>"
+    },
+    "case_summary": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "observations": {
+      "type": "jsonb",
+      "required": true,
+      "note": ""
+    },
+    "timeline": {
+      "type": "jsonb",
+      "required": true,
+      "note": ""
+    },
+    "duration_days": {
+      "type": "int32",
+      "required": true,
+      "note": ""
+    },
+    "documented_outcome": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "limitations": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "embedding": {
+      "type": "public.vector(384)",
+      "required": false,
+      "note": ""
+    },
+    "outcome_category": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "disposition": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "embedding_model": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "is_fictional": {
+      "type": "boolean",
+      "required": true,
+      "note": ""
+    },
+    "created_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    }
+  },
+  "latest_case_matches": {
+    "alert_id": {
+      "type": "uuid",
+      "required": false,
+      "note": "Note: This is a Foreign Key to `alerts.id`.<fk table='alerts' column='id'/>"
+    },
+    "rank": {
+      "type": "int32",
+      "required": false,
+      "note": ""
+    },
+    "historical_case_id": {
+      "type": "text",
+      "required": false,
+      "note": "Note: This is a Foreign Key to `historical_cases.id`.<fk table='historical_cases' column='id'/>"
+    },
+    "case_summary": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "documented_outcome": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "outcome_category": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "disposition": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "limitations": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "duration_days": {
+      "type": "int32",
+      "required": false,
+      "note": ""
+    },
+    "timeline": {
+      "type": "jsonb",
+      "required": false,
+      "note": ""
+    },
+    "total_score": {
+      "type": "real",
+      "required": false,
+      "note": ""
+    },
+    "structured_score": {
+      "type": "real",
+      "required": false,
+      "note": ""
+    },
+    "temporal_score": {
+      "type": "real",
+      "required": false,
+      "note": ""
+    },
+    "semantic_score": {
+      "type": "real",
+      "required": false,
+      "note": ""
+    },
+    "shared_signals": {
+      "type": "text[]",
+      "required": false,
+      "note": ""
+    },
+    "case_only_signals": {
+      "type": "text[]",
+      "required": false,
+      "note": ""
+    },
+    "resident_only_signals": {
+      "type": "text[]",
+      "required": false,
+      "note": ""
+    },
+    "differences": {
+      "type": "jsonb",
+      "required": false,
+      "note": ""
+    },
+    "scorer_version": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "matched_at": {
+      "type": "timestamp with time zone",
+      "required": false,
+      "note": ""
+    }
+  },
+  "latest_outcome_spread": {
+    "alert_id": {
+      "type": "uuid",
+      "required": false,
+      "note": "Note: This is a Foreign Key to `alerts.id`.<fk table='alerts' column='id'/>"
+    },
+    "outcome_category": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "n": {
+      "type": "int64",
+      "required": false,
+      "note": ""
+    }
+  },
+  "observations": {
+    "id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/>"
+    },
+    "note_id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Foreign Key to `care_notes.id`.<fk table='care_notes' column='id'/>"
+    },
+    "resident_id": {
+      "type": "text",
+      "required": true,
+      "note": "Note: This is a Foreign Key to `residents.id`.<fk table='residents' column='id'/>"
+    },
+    "category": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "observation_text": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "direction": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "numeric_value": {
+      "type": "numeric",
+      "required": false,
+      "note": ""
+    },
+    "unit": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "assertion": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "confidence": {
+      "type": "numeric",
+      "required": false,
+      "note": ""
+    },
+    "evidence_span": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "recorded_at": {
+      "type": "timestamp with time zone",
+      "required": false,
+      "note": ""
+    },
+    "created_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    },
+    "subcategory": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    },
+    "change": {
+      "type": "text",
+      "required": false,
+      "note": ""
+    }
+  },
+  "profiles": {
+    "id": {
+      "type": "uuid",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/>"
+    },
+    "full_name": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "role": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "created_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    }
+  },
+  "residents": {
+    "id": {
+      "type": "text",
+      "required": true,
+      "note": "Note: This is a Primary Key.<pk/>"
+    },
+    "display_name": {
+      "type": "text",
+      "required": true,
+      "note": ""
+    },
+    "created_at": {
+      "type": "timestamp with time zone",
+      "required": true,
+      "note": ""
+    },
+    "baseline_start": {
+      "type": "date",
+      "required": false,
+      "note": ""
+    },
+    "baseline_end": {
+      "type": "date",
+      "required": false,
+      "note": ""
+    }
+  }
+}

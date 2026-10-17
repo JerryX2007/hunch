@@ -29,7 +29,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from dotenv import load_dotenv
 from supabase import Client, create_client
@@ -90,11 +90,32 @@ def _require_admin() -> Client:
 # ---------------------------------------------------------------------------
 # Generic helpers (every table below is a thin wrapper around these)
 # ---------------------------------------------------------------------------
-def _list(table: str, **filters: Any) -> List[Dict[str, Any]]:
-    q = supabase.table(table).select("*")
-    for col, val in filters.items():
-        q = q.eq(col, val)
-    return q.execute().data
+PAGE_SIZE = 1000  # Supabase's default max rows per request
+
+
+def _fetch_all(make_query: Callable[[], Any]) -> List[Dict[str, Any]]:
+    """Run a select page by page so results aren't silently cut at 1000 rows.
+
+    ``make_query`` builds a fresh query each time (builders can't be reused).
+    """
+    rows: List[Dict[str, Any]] = []
+    start = 0
+    while True:
+        page = make_query().range(start, start + PAGE_SIZE - 1).execute().data
+        rows.extend(page)
+        if len(page) < PAGE_SIZE:
+            return rows
+        start += PAGE_SIZE
+
+
+def _list(table: str, order_by: str = "id", **filters: Any) -> List[Dict[str, Any]]:
+    """All rows (optionally filtered by equality), in a stable order for paging."""
+    def q():
+        b = supabase.table(table).select("*")
+        for col, val in filters.items():
+            b = b.eq(col, val)
+        return b.order(order_by)
+    return _fetch_all(q)
 
 
 def _get(table: str, row_id: str) -> Optional[Dict[str, Any]]:
@@ -162,10 +183,12 @@ def delete_resident(resident_id: str) -> None:
 # ---------------------------------------------------------------------------
 def get_care_notes(resident_id: Optional[str] = None) -> List[Dict[str, Any]]:
     """All care notes, or one resident's notes, newest first."""
-    q = supabase.table("care_notes").select("*")
-    if resident_id:
-        q = q.eq("resident_id", resident_id)
-    return q.order("recorded_at", desc=True).execute().data
+    def q():
+        b = supabase.table("care_notes").select("*")
+        if resident_id:
+            b = b.eq("resident_id", resident_id)
+        return b.order("recorded_at", desc=True).order("id")
+    return _fetch_all(q)
 
 
 def get_care_note(note_id: str) -> Optional[Dict[str, Any]]:
@@ -223,7 +246,9 @@ def delete_alert(alert_id: str) -> None:
 # alert_evidence (junction table)
 # ---------------------------------------------------------------------------
 def get_alert_evidence(alert_id: Optional[str] = None) -> List[Dict[str, Any]]:
-    return _list("alert_evidence", alert_id=alert_id) if alert_id else _list("alert_evidence")
+    if alert_id:
+        return _list("alert_evidence", order_by="observation_id", alert_id=alert_id)
+    return _list("alert_evidence", order_by="alert_id")
 
 
 def link_alert_evidence(alert_id: str, observation_id: str) -> Dict[str, Any]:
@@ -265,9 +290,8 @@ DEFAULT_CASES_PATH = REPO_DIR / "test_data" / "cases.json"
 
 
 def get_historical_cases() -> List[Dict[str, Any]]:
-    return _require_admin().table("historical_cases").select(
-        ", ".join(CASE_COLUMNS)
-    ).execute().data
+    admin = _require_admin()
+    return _fetch_all(lambda: admin.table("historical_cases").select(", ".join(CASE_COLUMNS)).order("id"))
 
 
 def seed_historical_cases(cases: List[Dict[str, Any]]) -> int:
@@ -296,12 +320,13 @@ def set_case_embedding(case_id: str, embedding: List[float], model: str) -> None
 
 def get_cases_for_matching() -> List[Dict[str, Any]]:
     """Every case with the fields the scorer needs, embeddings parsed to lists."""
-    resp = _require_admin().table("historical_cases").select(
-        "id, observations, timeline, duration_days, embedding, embedding_model"
-    ).execute()
-    for row in resp.data:
+    admin = _require_admin()
+    rows = _fetch_all(lambda: admin.table("historical_cases").select(
+        "id, observations, timeline, duration_days, outcome_category, embedding, embedding_model"
+    ).order("id"))
+    for row in rows:
         row["embedding"] = _parse_vector(row.get("embedding"))
-    return resp.data
+    return rows
 
 
 # --- runs and matches --------------------------------------------------------
