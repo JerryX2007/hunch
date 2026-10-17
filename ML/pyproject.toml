@@ -1,0 +1,18 @@
+[project]
+name = "hunch"
+version = "0.1.0"
+description = "Hunch: PSW change-of-condition reports scored against each resident's own baseline"
+requires-python = ">=3.12"
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+# Lets tests do `from engine import ...` and `from data import ...` from the repo root.
+pythonpath = ["."]
+testpaths = ["tests"]

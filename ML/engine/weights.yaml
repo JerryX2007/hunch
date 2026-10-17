@@ -1,0 +1,35 @@
+# PROPOSED weights and thresholds - NOT clinically validated.
+# Clinical thresholds cite their source; points are the team's choice.
+# Tune these with a nurse; the code never needs to change.
+
+hunch_window_hours: 72   # how far back hunch reports count
+
+points:
+  hunch: 1                   # at least one report
+  multi_staff_per_extra: 1   # each extra distinct staff member...
+  multi_staff_max: 3         # ...up to this many points
+  multi_shift_per_extra: 1   # each extra distinct shift...
+  multi_shift_max: 2         # ...up to this many points
+  multi_sign: 1              # more than one kind of change
+  fever: 2
+  fever_with_delirium: 1     # fever plus new sleepiness/confusion
+  spo2: 2
+  fluids_low: 2
+
+thresholds:
+  fever_abs_c: 37.8      # IDSA 2009: single oral temp > 37.8 C
+  fever_rise_c: 1.1      # IDSA 2009: rise > 1.1 C over baseline
+  spo2_low: 94           # McGeer: SpO2 < 94% on room air
+  spo2_drop: 3           # McGeer: drop > 3% from baseline
+  spo2_red_flag: 90      # team's choice: always Call NP
+  fluids_ratio: 0.667    # team's own: intake at or below 2/3 of baseline
+
+baseline:
+  days: 14
+  skip_hours: 48
+  min_points: 5
+
+tiers:   # minimum score for each tier (NEWS2 care-home bands)
+  watch: 3
+  assess: 5
+  call_np: 7
