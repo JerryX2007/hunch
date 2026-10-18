@@ -8,7 +8,8 @@ export default defineConfig({
   server: {
     // Forward API calls to the FastAPI backend during development (no CORS needed).
     proxy: {
-      '/api': 'http://localhost:8000',
+      // HUNCH_API lets run.py point the proxy at another port.
+      '/api': process.env.HUNCH_API ?? 'http://localhost:8000',
     },
   },
 })

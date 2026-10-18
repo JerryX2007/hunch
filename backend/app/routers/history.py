@@ -1,10 +1,11 @@
-"""History check: compare residents with their own past notes, and with past cases."""
+"""History check, alerts and similar historical cases."""
 
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException
 
 from ..history import service
+from ..schemas import StatusUpdate
 
 router = APIRouter(tags=["history"])
 
@@ -19,24 +20,30 @@ def check(resident_id: Optional[str] = None, evidence: bool = False) -> List[Dic
 
 
 @router.post("/history/run")
-def run() -> Dict[str, Any]:
-    """Compute and save: alerts, their evidence, and similar historical cases."""
-    return service.run()
+def run(resident_id: Optional[str] = None) -> Dict[str, Any]:
+    """Compute and save: alerts, their evidence, summaries and similar historical cases."""
+    return service.run(resident_id)
 
 
 @router.get("/alerts")
 def list_alerts(status: Optional[str] = "open") -> List[Dict[str, Any]]:
-    db = service._db()
-    q = db.supabase.table("alerts").select("id, resident_id, title, summary, status, urgent, created_at")
-    if status:
-        q = q.eq("status", status)
-    rows = q.order("created_at", desc=True).execute().data
-    return sorted(rows, key=lambda a: not a["urgent"])  # urgent first, then newest
+    """Alerts, urgent first then newest. Pass status= (empty) for every status."""
+    return service.alerts(status or None)
 
 
 @router.get("/alerts/{alert_id}")
 def get_alert(alert_id: str) -> Dict[str, Any]:
-    alert = service._db().get_alert(alert_id)
+    alert = service.get_alert(alert_id)
+    if not alert:
+        raise HTTPException(status_code=404, detail="Alert not found")
+    return alert
+
+
+@router.patch("/alerts/{alert_id}/status")
+def set_status(alert_id: str, body: StatusUpdate) -> Dict[str, Any]:
+    """Nurse review: reviewed / needs_assessment / dismissed (not useful) / open.
+    A review status records what the nurse did; it is not a diagnosis."""
+    alert = service.set_alert_status(alert_id, body.status)
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
     return alert
@@ -44,10 +51,4 @@ def get_alert(alert_id: str) -> Dict[str, Any]:
 
 @router.get("/alerts/{alert_id}/similar-cases")
 def similar_cases(alert_id: str) -> Dict[str, Any]:
-    db = service._db()
-    return {
-        "alert_id": alert_id,
-        "note": "Fictional case library. Shows what happened in similar past cases; not a diagnosis.",
-        "outcomes": db.get_outcome_spread(alert_id),
-        "cases": db.get_latest_case_matches(alert_id),
-    }
+    return service.similar_cases(alert_id)

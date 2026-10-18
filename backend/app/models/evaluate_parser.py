@@ -1,7 +1,7 @@
 
 import time
 
-from backend.app.models.parser import extract
+from app.models.parser import extract
 
 
 # Each test contains a care note and its expected observations.

@@ -1,7 +1,26 @@
+"""Gemini-based extraction: free-text care note -> structured observations.
+
+Run the checks from backend/:
+    python -m app.models.test_parser        # one sample note
+    python -m app.models.evaluate_parser    # 10 labelled notes
+
+Needs GEMINI_API_KEY in backend/.env (see .env.example).
+"""
+
+import os
+from functools import lru_cache
+from pathlib import Path
+
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-from backend.app.models.observation import ObservationResponse
+from .observation import ObservationResponse
+
+# Load backend/.env no matter which directory the script is started from.
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
+
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
 
 SYSTEM_INSTRUCTION = """
 You extract structured observations from free-text care notes about a care-home resident.
@@ -30,12 +49,17 @@ Create separate observations for distinct applicable categories, but avoid dupli
 """
 
 
-client = genai.Client()
+@lru_cache(maxsize=1)
+def _client() -> genai.Client:
+    """Created on first use, so importing this module never needs an API key."""
+    if not (os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")):
+        raise RuntimeError("GEMINI_API_KEY is not set. Add it to backend/.env (see .env.example).")
+    return genai.Client()
 
 
 def extract(note_text: str) -> ObservationResponse:
-    response = client.models.generate_content(
-        model="gemini-3.1-flash-lite",
+    response = _client().models.generate_content(
+        model=MODEL,
         contents=note_text,
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_INSTRUCTION,
