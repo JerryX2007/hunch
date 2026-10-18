@@ -64,15 +64,25 @@ def _unauthorized(detail: str = "Please sign in.") -> HTTPException:
 # ---------------------------------------------------------------------------
 # Supabase Auth
 # ---------------------------------------------------------------------------
-def _supabase(service: bool = False):
-    """A short-lived client, so a user's session never replaces the backend's service client."""
-    from supabase import create_client
+_shared_auth_client = None
 
+
+def _supabase(service: bool = False):
+    """A new client for calls that keep session state (sign-in, refresh, sign-out), so a
+    user's session never ends up on a client someone else uses."""
     from . import database as db
     key = db._SERVICE_KEY if service else (db._ANON_KEY or db._SERVICE_KEY)
     if not key:
         raise HTTPException(status_code=503, detail="SUPABASE_SERVICE_ROLE_KEY is not set.")
-    return create_client(db.SUPABASE_URL, key)
+    return db._client(key)
+
+
+def _token_checker():
+    """One shared client for get_user(token), which keeps no state: no new connection per request."""
+    global _shared_auth_client
+    if _shared_auth_client is None:
+        _shared_auth_client = _supabase()
+    return _shared_auth_client
 
 
 def _session_dict(session, user) -> Dict[str, Any]:
@@ -173,7 +183,7 @@ def verify(token: str) -> User:
     if mode() == "demo":
         return _demo_verify(token)
     try:
-        res = _supabase().auth.get_user(token)
+        res = _token_checker().auth.get_user(token)
     except HTTPException:
         raise
     except Exception as e:  # noqa: BLE001

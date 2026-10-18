@@ -31,11 +31,13 @@ import hashlib
 import json
 import logging
 import os
+import time
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
+import httpx
 from dotenv import load_dotenv
-from supabase import Client, create_client
+from supabase import Client, ClientOptions, create_client
 
 log = logging.getLogger(__name__)
 
@@ -68,11 +70,53 @@ if not SUPABASE_URL or not (_ANON_KEY or _SERVICE_KEY):
         "and fill in SUPABASE_URL and at least one key."
     )
 
-supabase_admin: Optional[Client] = (
-    create_client(SUPABASE_URL, _SERVICE_KEY) if _SERVICE_KEY else None
-)
+# ---------------------------------------------------------------------------
+# HTTP connection to Supabase
+#
+# supabase-py's default is one shared HTTP/2 connection. FastAPI serves requests on
+# several threads at once, and concurrent use of that connection (or reuse after
+# Supabase closes it while idle) fails with "Server disconnected". So: HTTP/1.1
+# connections (safe to share across threads), dropped after 20 s idle, and one retry
+# when a connection breaks, only for requests that are safe to repeat. A POST
+# (insert / upsert) is retried only if the connection failed before it was sent.
+# ---------------------------------------------------------------------------
+_SAFE_TO_REPEAT = {"GET", "HEAD", "OPTIONS", "PATCH", "PUT", "DELETE"}
+
+
+class _RetryingTransport(httpx.HTTPTransport):
+    def handle_request(self, request: httpx.Request) -> httpx.Response:
+        for attempt in range(3):
+            try:
+                return super().handle_request(request)
+            except httpx.ConnectError:
+                if attempt == 2:
+                    raise
+            except (httpx.RemoteProtocolError, httpx.ReadError, httpx.WriteError):
+                if request.method not in _SAFE_TO_REPEAT or attempt == 2:
+                    raise
+            log.info("Supabase connection dropped; retrying %s %s", request.method, request.url.path)
+            time.sleep(0.15 * (attempt + 1))
+        raise RuntimeError("unreachable")
+
+
+def _http_client() -> httpx.Client:
+    return httpx.Client(
+        transport=_RetryingTransport(
+            http2=False,
+            limits=httpx.Limits(max_connections=20, max_keepalive_connections=10, keepalive_expiry=20.0),
+        ),
+        timeout=httpx.Timeout(30.0, connect=10.0),
+        follow_redirects=True,
+    )
+
+
+def _client(key: str) -> Client:
+    return create_client(SUPABASE_URL, key, options=ClientOptions(httpx_client=_http_client()))
+
+
+supabase_admin: Optional[Client] = _client(_SERVICE_KEY) if _SERVICE_KEY else None
 # General-purpose client: service key if available, else anon key.
-supabase: Client = supabase_admin or create_client(SUPABASE_URL, _ANON_KEY)
+supabase: Client = supabase_admin or _client(_ANON_KEY)
 
 if supabase_admin is None:
     log.warning(

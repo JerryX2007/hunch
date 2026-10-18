@@ -152,6 +152,7 @@ def supabase_mode(monkeypatch):
     fake = SimpleNamespace(auth=FakeAuth())
     monkeypatch.setattr(auth, "mode", lambda: "supabase")
     monkeypatch.setattr(auth, "_supabase", lambda service=False: fake)
+    monkeypatch.setattr(auth, "_token_checker", lambda: fake)
     get_store().save_profile({"id": "user-dana", "full_name": "Dana Lee", "role": "nurse"})
     return fake
 
