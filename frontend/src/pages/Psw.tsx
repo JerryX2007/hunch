@@ -20,15 +20,6 @@ const SIGNS: { label: string; text: string; urgent?: boolean }[] = [
   { label: 'Short of breath', text: 'Short of breath.', urgent: true },
 ]
 
-const ROLE_KEY = 'hunch.role'
-function savedRole() {
-  try {
-    return localStorage.getItem(ROLE_KEY) ?? 'PSW'
-  } catch {
-    return 'PSW'
-  }
-}
-
 export default function Psw() {
   const [params, setParams] = useSearchParams()
   const [residents, setResidents] = useState<ResidentSummary[]>([])
@@ -37,7 +28,6 @@ export default function Psw() {
   const [find, setFind] = useState('')
   const [picked, setPicked] = useState<string[]>([])
   const [extra, setExtra] = useState('')
-  const [role, setRole] = useState(savedRole)
   const [busy, setBusy] = useState(false)
   const [result, setResult] = useState<{ name: string; run: RunResult | null; text: string } | null>(null)
 
@@ -47,14 +37,6 @@ export default function Psw() {
       .then((r) => setResidents([...r].sort((a, b) => a.display_name.localeCompare(b.display_name))))
       .catch((e: Error) => setError(friendlyError(e.message)))
   }, [])
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(ROLE_KEY, role)
-    } catch {
-      /* private mode: role just isn't remembered */
-    }
-  }, [role])
 
   const resident = residents.find((r) => r.id === rid)
   const noteText = [...SIGNS.filter((s) => picked.includes(s.label)).map((s) => s.text), extra.trim()].filter(Boolean).join(' ')
@@ -79,7 +61,7 @@ export default function Psw() {
     setBusy(true)
     setError(null)
     try {
-      const r = await api.addNote(resident.id, noteText, role)
+      const r = await api.addNote(resident.id, noteText, 'PSW')
       setResult({ name: resident.display_name, run: r.result, text: noteText })
       setPicked([])
       setExtra('')
@@ -201,15 +183,6 @@ export default function Psw() {
             placeholder="e.g. Ate about half of breakfast. Seemed quieter than usual."
             className="mt-2 w-full rounded-lg border border-line bg-paper p-3 text-base"
           />
-        </label>
-
-        <label className="mt-3 flex items-center gap-2 text-muted">
-          I’m a
-          <select value={role} onChange={(e) => setRole(e.target.value)} className="rounded-md border border-line bg-paper px-2 py-1.5 text-ink">
-            <option>PSW</option>
-            <option>RPN</option>
-            <option>RN</option>
-          </select>
         </label>
       </section>
 

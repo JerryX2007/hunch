@@ -320,7 +320,7 @@ function NotesSection({
     if (text.trim().length < 3) return
     setSaving(true)
     try {
-      await api.addNote(residentId, text, 'RN')
+      await api.addNote(residentId, text, 'Nurse')
       setText('')
       toast({ tone: 'ok', text: `Note saved for ${name}. Re-checked.` })
       onSaved()

@@ -1,4 +1,4 @@
-import type { Alert, AlertStatus, CareNote, Health, Me, Profile, ResidentOverview, ResidentSummary, RunResult, RunSummary, StaffRole } from './types'
+import type { Alert, AlertStatus, CareNote, Health, Me, Profile, ResidentOverview, ResidentSummary, RunResult, RunSummary } from './types'
 
 /** Fired when a nurse-only call comes back 401 (session ended); the sign-in state re-checks. */
 export const SIGNED_OUT_EVENT = 'hunch:signed-out'
@@ -32,8 +32,8 @@ export const api = {
   signIn: (email: string, password: string) =>
     request<Me>('/auth/signin', { method: 'POST', body: JSON.stringify({ email, password }) }),
   signOut: () => request<{ signed_in: boolean }>('/auth/logout', { method: 'POST' }),
-  saveProfile: (full_name: string, role: StaffRole) =>
-    request<Profile>('/profile/me', { method: 'PUT', body: JSON.stringify({ full_name, role }) }),
+  saveProfile: (full_name: string) =>
+    request<Profile>('/profile/me', { method: 'PUT', body: JSON.stringify({ full_name }) }),
   // residents (signed out: only id + display_name come back)
   residents: (q?: string) => request<ResidentSummary[]>(`/residents${q ? `?q=${encodeURIComponent(q)}` : ''}`),
   resident: (id: string) => request<ResidentOverview>(`/residents/${encodeURIComponent(id)}`),

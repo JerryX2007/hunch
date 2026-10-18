@@ -226,7 +226,8 @@ def main() -> int:
         print()
         say(f"Ready: open {url}")
         if health.get("mode") == "supabase":
-            say("Nurses sign in with their own account (add one: cd backend && python -m scripts.create_nurse).")
+            say("Nurses sign in with their own account. Add one from backend/: "
+                "python -m scripts.create_nurse --email you@example.com --name 'Your Name'")
         else:
             say("Demo nurse sign-in: nurse@demo.hunch / hunch-demo (or HUNCH_DEMO_EMAIL / HUNCH_DEMO_PASSWORD).")
         say("PSW note page (no sign-in): /psw   API docs: /docs on the API port.   Ctrl+C to stop.")

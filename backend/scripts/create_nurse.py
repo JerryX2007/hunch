@@ -1,10 +1,10 @@
 """Create a nurse account (live Supabase data). Run from backend/:
 
-    python -m scripts.create_nurse --email dana@example.com --name "Dana Lee" --role RN
+    python -m scripts.create_nurse --email dana@example.com --name "Dana Lee"
 
 Asks for the password (not shown as you type). Creates the Supabase Auth user with the
 email already confirmed, plus their profile. Running it again for an existing email
-updates the name, role and password. Needs SUPABASE_SERVICE_ROLE_KEY in backend/.env.
+updates the name and password. Needs SUPABASE_SERVICE_ROLE_KEY in backend/.env.
 """
 
 import argparse
@@ -13,12 +13,9 @@ import sys
 
 from app import database as db
 
-ROLES = ("RN", "RPN", "NP")
-
 p = argparse.ArgumentParser(description="Create or update a nurse account.")
 p.add_argument("--email", required=True)
 p.add_argument("--name", required=True, help='Full name, e.g. "Dana Lee"')
-p.add_argument("--role", required=True, choices=ROLES)
 args = p.parse_args()
 
 password = getpass.getpass("Password (8+ characters): ")
@@ -42,10 +39,10 @@ else:
     print(f"Created {email}.")
 
 try:
-    db.upsert_profile({"id": user_id, "full_name": args.name, "role": args.role})
+    db.upsert_profile({"id": user_id, "full_name": args.name, "role": "nurse"})
 except Exception as e:  # noqa: BLE001
     if "profiles_role_check" in str(e):
         sys.exit("The account exists, but the database rejected the role. Run "
                  "db/migrations/009_profile_roles.sql in the Supabase SQL Editor, then run this again.")
     raise
-print(f"{args.name} ({args.role}) can now sign in to the nurse screen.")
+print(f"{args.name} can now sign in to the nurse screen.")

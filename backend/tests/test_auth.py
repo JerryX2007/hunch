@@ -53,7 +53,7 @@ def test_wrong_password_then_right(client):
     assert r.status_code == 401 and "don’t match" in r.json()["detail"]
     r = sign_in(client)
     assert r.status_code == 200 and r.json()["is_nurse"] is True
-    assert r.json()["profile"]["role"] == "RN"
+    assert r.json()["profile"]["role"] == "nurse"
     assert "hunch_access" in r.cookies or client.cookies.get("hunch_access")
 
 
@@ -69,12 +69,10 @@ def test_signed_in_nurse_sees_everything_and_can_act(client):
     assert created.status_code == 201
 
 
-def test_nurse_note_is_tagged_with_their_role(client):
+def test_nurse_note_is_tagged_nurse(client):
     sign_in(client)
-    get_store().save_profile({"id": auth.DEMO_USER_ID, "full_name": "Demo Nurse", "role": "RPN"})
     client.post("/api/residents/DEMO-013/notes", json={"note_text": "Temp 37.2, resting.", "author_role": "PSW"})
-    assert client.get("/api/residents/DEMO-013/notes?limit=1").json()[0]["author_role"] == "RPN"
-    get_store().save_profile({"id": auth.DEMO_USER_ID, "full_name": "Demo Nurse", "role": "RN"})
+    assert client.get("/api/residents/DEMO-013/notes?limit=1").json()[0]["author_role"] == "Nurse"
 
 
 def test_logout_ends_the_session(client):
@@ -99,18 +97,17 @@ def test_too_many_wrong_passwords_are_slowed_down(client):
     assert sign_in(client).status_code == 429  # even the right password waits
 
 
-# --------------------------------------------------------------------------- profiles and roles
-def test_profile_setup_and_psw_role_is_refused(client):
-    sign_in(client)
-    me = client.get("/api/profile/me").json()
-    assert me["role"] == "RN"
-    assert client.put("/api/profile/me", json={"full_name": "Pat Lee", "role": "boss"}).status_code == 422
-    client.put("/api/profile/me", json={"full_name": "Pat Lee", "role": "PSW"})
+# --------------------------------------------------------------------------- profiles
+def test_new_account_must_add_a_name_first(client, supabase_mode):
+    get_store()._profiles.pop("user-dana", None)  # account exists, profile doesn't yet
+    client.post("/api/auth/signin", json={"email": "dana@example.com", "password": "correct horse"})
     r = client.get("/api/alerts")
-    assert r.status_code == 403 and "RN, RPN and NP" in r.json()["detail"]
+    assert r.status_code == 403 and "name" in r.json()["detail"]
     assert client.get("/api/auth/me").json()["is_nurse"] is False
-    client.put("/api/profile/me", json={"full_name": "Demo Nurse", "role": "RN"})
+    saved = client.put("/api/profile/me", json={"full_name": "Dana Lee"}).json()
+    assert saved["role"] == "nurse"
     assert client.get("/api/alerts").status_code == 200
+    assert client.put("/api/profile/me", json={"full_name": ""}).status_code == 422
 
 
 def test_profile_requires_sign_in(client):
@@ -155,7 +152,7 @@ def supabase_mode(monkeypatch):
     fake = SimpleNamespace(auth=FakeAuth())
     monkeypatch.setattr(auth, "mode", lambda: "supabase")
     monkeypatch.setattr(auth, "_supabase", lambda service=False: fake)
-    get_store().save_profile({"id": "user-dana", "full_name": "Dana Lee", "role": "RN"})
+    get_store().save_profile({"id": "user-dana", "full_name": "Dana Lee", "role": "nurse"})
     return fake
 
 

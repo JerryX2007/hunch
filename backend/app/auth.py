@@ -4,7 +4,7 @@ Two back ends, picked like the data store (app/store.py):
 
 * Supabase mode: Supabase Auth, email + password. Accounts are created by whoever
   runs the system (no public sign-up):
-      python -m scripts.create_nurse --email dana@example.com --name "Dana Lee" --role RN
+      python -m scripts.create_nurse --email dana@example.com --name "Dana Lee"
 * Demo mode: one built-in demo nurse (HUNCH_DEMO_EMAIL / HUNCH_DEMO_PASSWORD,
   default nurse@demo.hunch / hunch-demo). Demo sessions are signed by this server.
 
@@ -12,8 +12,8 @@ The browser never handles a token: sign-in sets HttpOnly, SameSite=Lax cookies, 
 an expired Supabase session is renewed from the refresh cookie. API clients may send
 ``Authorization: Bearer <access_token>`` instead.
 
-The nurse screen needs a signed-in user whose profile role is RN, RPN or NP.
-PSWs log notes on the note screen without signing in.
+Everyone with an account is a nurse (profile role "nurse"). The nurse screen needs a
+signed-in nurse; PSWs log notes on the note screen without signing in.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ from .store import get_store
 
 ACCESS_COOKIE = "hunch_access"
 REFRESH_COOKIE = "hunch_refresh"
-NURSE_ROLES = ("RN", "RPN", "NP")
+NURSE_ROLE = "nurse"
 DEMO_SESSION_SECONDS = 12 * 60 * 60
 REFRESH_SECONDS = 30 * 24 * 60 * 60
 MAX_FAILURES = 5          # wrong passwords allowed per address...
@@ -147,7 +147,7 @@ def sign_in(email: str, password: str, client: str = "unknown") -> Dict[str, Any
                 raise _unauthorized("That email and password don’t match an account.")
             user = User(DEMO_USER_ID, DEMO_EMAIL)
             if not get_store().profile(user.id):
-                get_store().save_profile({"id": user.id, "full_name": "Demo Nurse", "role": "RN"})
+                get_store().save_profile({"id": user.id, "full_name": "Demo Nurse", "role": NURSE_ROLE})
             session = {"access_token": _demo_token(user), "refresh_token": None,
                        "expires_in": DEMO_SESSION_SECONDS, "user": user}
         else:
@@ -260,13 +260,12 @@ def _internal_caller(request: Request) -> bool:
 
 
 def nurse_profile(request: Request, user: Optional[User]) -> Optional[Dict[str, Any]]:
-    """The caller's profile if they may use the nurse screen (RN/RPN/NP), else None."""
+    """The caller's profile if they may use the nurse screen (signed in, profile set up), else None."""
     if _internal_caller(request):
         return {"id": "system", "full_name": "Hunch", "role": "system"}
     if not user:
         return None
-    profile = get_store().profile(user.id)
-    return profile if profile and profile.get("role") in NURSE_ROLES else None
+    return get_store().profile(user.id)
 
 
 def require_nurse(request: Request, user: Optional[User] = Depends(optional_user)) -> Dict[str, Any]:
@@ -276,7 +275,4 @@ def require_nurse(request: Request, user: Optional[User] = Depends(optional_user
         return profile
     if not user:
         raise _unauthorized()
-    if not get_store().profile(user.id):
-        raise HTTPException(status_code=403, detail="Add your name and role first.")
-    raise HTTPException(status_code=403, detail="The nurse screen is for RN, RPN and NP staff. "
-                                                "PSWs can log notes without signing in.")
+    raise HTTPException(status_code=403, detail="Add your name first.")

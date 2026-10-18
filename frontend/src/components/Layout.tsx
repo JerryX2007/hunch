@@ -59,7 +59,7 @@ export default function Layout() {
             {me?.signed_in ? (
               <>
                 <span className="hidden text-white sm:inline">
-                  {me.profile ? `${me.profile.full_name}, ${me.profile.role}` : me.user?.email}
+                  {me.profile?.full_name ?? me.user?.email}
                 </span>
                 <button onClick={doSignOut} className="whitespace-nowrap rounded-md border border-white/30 px-3 py-1.5 font-bold text-white hover:bg-white/10">
                   Sign out

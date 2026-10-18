@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { SIGNED_OUT_EVENT, api } from '../api/client'
-import type { Me, StaffRole } from '../api/types'
+import type { Me } from '../api/types'
 import { AuthCtx, type AuthState } from './authContext'
 
 const SIGNED_OUT: Me = { signed_in: false, user: null, profile: null, is_nurse: false, demo_login: null }
@@ -41,8 +41,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setMe((m) => ({ ...SIGNED_OUT, demo_login: m?.demo_login ?? null }))
         }
       },
-      saveProfile: async (fullName: string, role: StaffRole) => {
-        await api.saveProfile(fullName, role)
+      saveProfile: async (fullName: string) => {
+        await api.saveProfile(fullName)
         await recheck()
       },
     }),

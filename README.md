@@ -27,12 +27,12 @@ Optional: `cp backend/.env.example backend/.env` and fill in Supabase URL + keys
 
 ## Nurse sign-in
 
-Each nurse has their own account. The resident screen needs a signed-in RN, RPN or NP;
-PSWs log notes at `/psw` without signing in.
+Each nurse has their own account, and every account is a nurse. The resident screen
+needs a signed-in nurse; PSWs log notes at `/psw` without signing in.
 
 - **Live data (Supabase):** create accounts from `backend/`:
-  `python -m scripts.create_nurse --email dana@example.com --name "Dana Lee" --role RN`
-  (asks for the password; run it again to change the password or role).
+  `python -m scripts.create_nurse --email dana@example.com --name "Dana Lee"`
+  (asks for the password; run it again to change the name or password).
 - **Demo data:** one built-in account, `nurse@demo.hunch` / `hunch-demo`, shown on the
   sign-in screen. Change it with `HUNCH_DEMO_EMAIL` / `HUNCH_DEMO_PASSWORD`.
 
@@ -94,10 +94,9 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 | POST | `/api/auth/signin` | `{email, password}` → sets the session cookies (HttpOnly) |
 | GET | `/api/auth/me` | who is signed in on this browser (never 401) |
 | POST | `/api/auth/logout` | sign out |
-| GET/PUT | `/api/profile/me` | your name and role (RN / RPN / NP / PSW / other) |
+| GET/PUT | `/api/profile/me` | your name |
 
-Nurse endpoints (resident details, alerts, reviews, history check) need a signed-in
-RN, RPN or NP. Without sign-in, `/api/residents` returns only IDs and names, and
+Nurse endpoints (resident details, alerts, reviews, history check) need a signed-in nurse. Without sign-in, `/api/residents` returns only IDs and names, and
 `POST /api/residents/{id}/notes` still works, so PSWs log notes without an account.
 
 ## Adding things

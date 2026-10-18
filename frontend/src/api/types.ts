@@ -144,7 +144,7 @@ export interface RunSummary {
   alerts: number
 }
 
-export type StaffRole = 'RN' | 'RPN' | 'NP' | 'PSW' | 'other'
+export type StaffRole = 'nurse'
 
 export interface Profile {
   id: string

@@ -1,11 +1,11 @@
 import { createContext, useContext } from 'react'
-import type { Me, StaffRole } from '../api/types'
+import type { Me } from '../api/types'
 
 export interface AuthState {
   me: Me | null // null while the first check is running
   signIn: (email: string, password: string) => Promise<Me>
   signOut: () => Promise<void>
-  saveProfile: (fullName: string, role: StaffRole) => Promise<void>
+  saveProfile: (fullName: string) => Promise<void>
   recheck: () => Promise<void>
 }
 
