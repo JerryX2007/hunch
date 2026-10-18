@@ -8,7 +8,7 @@
     python run.py --api-only   # just the API (docs at http://localhost:8000/docs)
 
 What happens:
-  1. finds a Python with the backend's packages (backend/.venv is used automatically)
+  1. uses backend/.venv (creating it and installing requirements.txt when anything is missing)
   2. (--seed) loads test_data/ into Supabase
   3. starts the FastAPI backend on :8000
   4. runs the history check for every resident and saves alerts + similar cases
@@ -41,28 +41,38 @@ def say(msg: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# 1. Python with the backend's packages
+# 1. Python with the backend's packages (creates backend/.venv and installs if needed)
 # ---------------------------------------------------------------------------
-def _has_backend_packages() -> bool:
-    try:
-        import dotenv, fastapi, pydantic_settings, uvicorn  # noqa: F401,E401
-        return True
-    except ImportError:
-        return False
+# Import names of the packages the backend needs (google-genai only matters with a Gemini key,
+# but it's in requirements.txt, so a missing one also triggers the install).
+NEEDED = "import fastapi, uvicorn, pydantic_settings, dotenv, supabase, multipart, google.genai"
+VENV = BACKEND / ".venv"
+VENV_PY = VENV / ("Scripts/python.exe" if IS_WIN else "bin/python")
+
+
+def _has_packages(py: str) -> bool:
+    return subprocess.run([py, "-c", NEEDED], capture_output=True).returncode == 0
 
 
 def ensure_python() -> str:
-    if _has_backend_packages():
+    if _has_packages(sys.executable):
         return sys.executable
-    venv_py = BACKEND / ".venv" / ("Scripts/python.exe" if IS_WIN else "bin/python")
-    if venv_py.exists() and Path(sys.executable).resolve() != venv_py.resolve():
-        say(f"Using {venv_py.relative_to(ROOT)}")
-        os.execv(str(venv_py), [str(venv_py), __file__, *sys.argv[1:]])
-    activate = r".venv\Scripts\activate" if IS_WIN else "source .venv/bin/activate"
-    say("The backend's Python packages aren't installed. Run once:")
-    print(f"    cd backend && {Path(sys.executable).name} -m venv .venv && {activate} && "
-          "pip install -r requirements.txt\n  then: python run.py")
-    sys.exit(1)
+    if not VENV_PY.exists():
+        if sys.version_info < (3, 10):
+            say(f"Python 3.10+ is needed (this is {sys.version.split()[0]}).")
+            sys.exit(1)
+        say("Creating backend/.venv (first run only)...")
+        subprocess.run([sys.executable, "-m", "venv", str(VENV)], check=True)
+    if not _has_packages(str(VENV_PY)):
+        say("Installing backend packages into backend/.venv ...")
+        r = subprocess.run([str(VENV_PY), "-m", "pip", "install", "-q", "-r", str(BACKEND / "requirements.txt")])
+        if r.returncode != 0 or not _has_packages(str(VENV_PY)):
+            say("Installing backend packages failed (see above). Try: "
+                f"{VENV_PY.relative_to(ROOT)} -m pip install -r backend/requirements.txt")
+            sys.exit(1)
+    if Path(sys.executable).resolve() != VENV_PY.resolve():
+        os.execv(str(VENV_PY), [str(VENV_PY), __file__, *sys.argv[1:]])
+    return str(VENV_PY)
 
 
 # ---------------------------------------------------------------------------

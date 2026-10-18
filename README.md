@@ -21,15 +21,9 @@ resident, and starts the web app. Ctrl+C stops it all.
 | `python run.py --build` | Build the web app and serve everything from http://localhost:8000 |
 | `python run.py --api-only` | Just the API (docs at http://localhost:8000/docs) |
 
-First time only:
-
-```bash
-cd backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
-cp .env.example .env    # optional: Supabase URL + keys, GEMINI_API_KEY
-```
-
-`run.py` uses `backend/.venv` automatically and installs the web app's npm packages on first run
-(needs Node.js 20+).
+Needs Python 3.10+ and Node.js 20+. The first run creates `backend/.venv`, installs the Python
+packages (again whenever `requirements.txt` gains one) and the web app's npm packages.
+Optional: `cp backend/.env.example backend/.env` and fill in Supabase URL + keys and `GEMINI_API_KEY`.
 
 ## How it fits together
 

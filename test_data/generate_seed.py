@@ -1,8 +1,8 @@
 """Generate CareSignal seed files: residents, notes, cases, eval scenarios.
 
 Deterministic (fixed random seed). Run: python generate_seed.py
-Cases live in seed_cases.py.
-Writes seed/residents.json, seed/notes.json, seed/cases.json, seed/eval_scenarios.json
+Cases are hand-written in cases.json (loaded by seed_cases.py).
+Writes residents.json, notes.json, cases.json and eval_scenarios.json next to this file.
 All data is fictional.
 """
 import json
@@ -11,7 +11,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 rng = random.Random(42)
-OUT = Path(__file__).parent / "seed"
+OUT = Path(__file__).parent
 
 HISTORY_START = date(2026, 9, 20)
 BASELINE_END = date(2026, 10, 10)
@@ -292,6 +292,9 @@ def build_residents():
 
 
 # ---------------------------------------------------------------- cases
+import sys  # noqa: E402
+
+sys.path.insert(0, str(Path(__file__).parent))
 from seed_cases import CASES, CATEGORIES, SUBCATEGORIES, CHANGES, signal_key  # noqa: E402
 
 # ---------------------------------------------------------------- eval scenarios
