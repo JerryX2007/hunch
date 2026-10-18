@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
-from .routers import health, residents
+from .routers import health, residents, auth
 
 app = FastAPI(title="Hunch API")
 
@@ -17,3 +17,4 @@ app.add_middleware(
 # Every endpoint lives under /api so the frontend can proxy (dev) or share an origin (prod).
 app.include_router(health.router, prefix="/api")
 app.include_router(residents.router, prefix="/api")
+app.include_router(auth.router, prefix="/auth")

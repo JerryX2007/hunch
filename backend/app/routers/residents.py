@@ -1,23 +1,29 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from typing import List
 
-from ..schemas import Resident
+from backend.app.schemas import ResidentRead, ResidentCreate
+from backend.app.repositories.residents_repository import list_all, get_by_id, upsert as upsert_resident
+from backend.app.dependencies import get_supabase
 
-router = APIRouter(prefix="/residents", tags=["residents"])
+router = APIRouter(prefix="/api/residents", tags=["residents"])
 
-# Placeholder data until the database is wired up.
-_RESIDENTS = [
-    Resident(id="r1", first_name="Example", last_name="Resident", age=84, room="201"),
-]
+@router.get("/", response_model=List[ResidentRead])
+def get_residents(supabase=Depends(get_supabase)):
+    """Get all residents."""
+    return list_all()
 
+@router.get("/{resident_id}", response_model=ResidentRead)
+def get_resident(resident_id: str, supabase=Depends(get_supabase)):
+    """Get a resident by ID."""
+    resident = get_by_id(resident_id)
+    if not resident:
+        raise HTTPException(status_code=404, detail="Resident not found")
+    return resident
 
-@router.get("", response_model=list[Resident])
-def list_residents() -> list[Resident]:
-    return _RESIDENTS
-
-
-@router.get("/{resident_id}", response_model=Resident)
-def get_resident(resident_id: str) -> Resident:
-    for r in _RESIDENTS:
-        if r.id == resident_id:
-            return r
-    raise HTTPException(status_code=404, detail="Resident not found")
+@router.post("/", response_model=ResidentRead)
+def create_resident(
+    payload: ResidentCreate,
+    supabase=Depends(get_supabase)
+):
+    """Create a new resident."""
+    return upsert_resident(payload.dict())
