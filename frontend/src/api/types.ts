@@ -143,3 +143,19 @@ export interface RunSummary {
   residents: RunResult[]
   alerts: number
 }
+
+export type StaffRole = 'RN' | 'RPN' | 'NP' | 'PSW' | 'other'
+
+export interface Profile {
+  id: string
+  full_name: string
+  role: StaffRole
+}
+
+export interface Me {
+  signed_in: boolean
+  user: { id: string; email: string | null } | null
+  profile: Profile | null
+  is_nurse: boolean
+  demo_login: { email: string; password: string } | null
+}

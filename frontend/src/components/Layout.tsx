@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Health } from '../api/types'
+import { useAuth } from './authContext'
+import { useToast } from './toastContext'
 
 export default function Layout() {
   const [health, setHealth] = useState<Health | null>(null)
   const [down, setDown] = useState(false)
+  const { me, signOut } = useAuth()
+  const toast = useToast()
+  const navigate = useNavigate()
+
+  async function doSignOut() {
+    await signOut()
+    toast({ tone: 'ok', text: 'Signed out.' })
+    navigate('/login')
+  }
 
   useEffect(() => {
     api
@@ -18,7 +29,7 @@ export default function Layout() {
   }, [])
 
   const tab = ({ isActive }: { isActive: boolean }) =>
-    `rounded-md px-3 py-2 text-base font-bold transition-colors ${isActive ? 'bg-white text-ink' : 'text-white/80 hover:bg-white/10 hover:text-white'}`
+    `whitespace-nowrap rounded-md px-2.5 py-2 text-base font-bold transition-colors sm:px-3 ${isActive ? 'bg-white text-ink' : 'text-white/80 hover:bg-white/10 hover:text-white'}`
 
   const dbProblem = health && health.database !== 'ok'
 
@@ -27,7 +38,7 @@ export default function Layout() {
       <header className="sticky top-0 z-30 bg-ink text-white">
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-2.5 sm:gap-4">
           <Link to="/nurse" className="mr-1 flex items-baseline gap-2 rounded-md">
-            <span className="text-xl font-bold tracking-tight">Hunch</span>
+            <span className="hidden text-xl font-bold tracking-tight min-[420px]:inline">Hunch</span>
             <span className="hidden text-sm text-white/70 sm:inline">2 West</span>
           </Link>
           <nav className="flex gap-1" aria-label="Main">
@@ -38,12 +49,28 @@ export default function Layout() {
               Log a note
             </NavLink>
           </nav>
-          <div className="ml-auto hidden text-right text-sm text-white/70 md:block">
+          <div className="ml-auto flex shrink-0 items-center gap-3 text-sm">
             {health && (
-              <span title={health.database}>
+              <span className="hidden text-white/70 lg:inline" title={health.database}>
                 {health.mode === 'supabase' ? 'Live data' : 'Demo data'}
                 {health.llm ? ', AI summaries on' : ''}
               </span>
+            )}
+            {me?.signed_in ? (
+              <>
+                <span className="hidden text-white sm:inline">
+                  {me.profile ? `${me.profile.full_name}, ${me.profile.role}` : me.user?.email}
+                </span>
+                <button onClick={doSignOut} className="whitespace-nowrap rounded-md border border-white/30 px-3 py-1.5 font-bold text-white hover:bg-white/10">
+                  Sign out
+                </button>
+              </>
+            ) : (
+              me && (
+                <NavLink to="/login" className="whitespace-nowrap rounded-md border border-white/30 px-3 py-1.5 font-bold text-white hover:bg-white/10">
+                  Sign in<span className="hidden sm:inline"> (nurses)</span>
+                </NavLink>
+              )
             )}
           </div>
         </div>

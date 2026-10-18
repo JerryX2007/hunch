@@ -79,6 +79,13 @@ class SupabaseStore:
     def add_note(self, note: Dict[str, Any]) -> Dict[str, Any]:
         return self.db.upsert_care_note(note)
 
+    # staff profiles
+    def profile(self, user_id: str) -> Optional[Dict[str, Any]]:
+        return self.db.get_profile(user_id)
+
+    def save_profile(self, profile: Dict[str, Any]) -> Dict[str, Any]:
+        return self.db.upsert_profile(profile)
+
     # case library
     def cases(self) -> List[Dict[str, Any]]:
         return self.db.get_cases_for_matching()
@@ -139,6 +146,7 @@ class MemoryStore:
         self._observations: Dict[str, Dict[str, Any]] = {}
         self._evidence: Dict[str, List[str]] = {}
         self._runs: Dict[str, Dict[str, Any]] = {}  # alert_id -> {"run": ..., "matches": [...]}
+        self._profiles: Dict[str, Dict[str, Any]] = {}
 
     def ping(self) -> None:
         return None
@@ -163,6 +171,16 @@ class MemoryStore:
         row = {**note, "id": str(uuid.uuid4()), "extraction_status": "pending", "created_at": _now()}
         with self._lock:
             self._notes.append(row)
+        return dict(row)
+
+    def profile(self, user_id: str) -> Optional[Dict[str, Any]]:
+        p = self._profiles.get(user_id)
+        return dict(p) if p else None
+
+    def save_profile(self, profile: Dict[str, Any]) -> Dict[str, Any]:
+        with self._lock:
+            row = {**self._profiles.get(profile["id"], {"created_at": _now()}), **profile}
+            self._profiles[profile["id"]] = row
         return dict(row)
 
     def cases(self) -> List[Dict[str, Any]]:

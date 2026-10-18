@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import secrets
 import shutil
 import signal
 import subprocess
@@ -78,8 +79,8 @@ def ensure_python() -> str:
 # ---------------------------------------------------------------------------
 # helpers
 # ---------------------------------------------------------------------------
-def http(method: str, url: str, timeout: float = 60):
-    req = urllib.request.Request(url, method=method, data=b"" if method == "POST" else None)
+def http(method: str, url: str, timeout: float = 60, headers: dict | None = None):
+    req = urllib.request.Request(url, method=method, data=b"" if method == "POST" else None, headers=headers or {})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read().decode())
 
@@ -145,6 +146,8 @@ def main() -> int:
         env["HUNCH_MODE"] = "demo"
     api = f"http://127.0.0.1:{args.port}"
     env["HUNCH_API"] = api
+    # Lets this script run the startup check without a nurse login; new each launch.
+    env["HUNCH_INTERNAL_TOKEN"] = internal = secrets.token_urlsafe(32)
     procs: list[subprocess.Popen] = []
 
     try:
@@ -199,7 +202,7 @@ def main() -> int:
         if not args.no_analysis and health.get("database") == "ok":
             say("Running the history check for every resident...")
             try:
-                s = http("POST", f"{api}/api/history/run", timeout=300)
+                s = http("POST", f"{api}/api/history/run", timeout=300, headers={"X-Hunch-Internal": internal})
                 for r in s["residents"]:
                     if r.get("alert_id"):
                         state = "dismissed earlier, nothing new" if r.get("suppressed") else r["title"]
@@ -222,7 +225,11 @@ def main() -> int:
 
         print()
         say(f"Ready: open {url}")
-        say("PSW note page: /psw   API docs: /docs on the API port.   Ctrl+C to stop.")
+        if health.get("mode") == "supabase":
+            say("Nurses sign in with their own account (add one: cd backend && python -m scripts.create_nurse).")
+        else:
+            say("Demo nurse sign-in: nurse@demo.hunch / hunch-demo (or HUNCH_DEMO_EMAIL / HUNCH_DEMO_PASSWORD).")
+        say("PSW note page (no sign-in): /psw   API docs: /docs on the API port.   Ctrl+C to stop.")
         print()
         while all(p.poll() is None for p in procs):
             time.sleep(0.5)

@@ -2,12 +2,13 @@
 
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
+from ..auth import require_nurse
 from ..history import service
 from ..schemas import StatusUpdate
 
-router = APIRouter(tags=["history"])
+router = APIRouter(tags=["history"], dependencies=[Depends(require_nurse)])  # nurse sign-in
 
 
 @router.get("/history/check")

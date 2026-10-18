@@ -10,7 +10,7 @@ similar past cases. All data in this repo is fictional.
 python run.py
 ```
 
-Then open http://localhost:5173/nurse. One command starts the API, runs the analysis for every
+Then open http://localhost:5173/nurse and sign in. One command starts the API, runs the analysis for every
 resident, and starts the web app. Ctrl+C stops it all.
 
 | Command | What it does |
@@ -24,6 +24,20 @@ resident, and starts the web app. Ctrl+C stops it all.
 Needs Python 3.10+ and Node.js 20+. The first run creates `backend/.venv`, installs the Python
 packages (again whenever `requirements.txt` gains one) and the web app's npm packages.
 Optional: `cp backend/.env.example backend/.env` and fill in Supabase URL + keys and `GEMINI_API_KEY`.
+
+## Nurse sign-in
+
+Each nurse has their own account. The resident screen needs a signed-in RN, RPN or NP;
+PSWs log notes at `/psw` without signing in.
+
+- **Live data (Supabase):** create accounts from `backend/`:
+  `python -m scripts.create_nurse --email dana@example.com --name "Dana Lee" --role RN`
+  (asks for the password; run it again to change the password or role).
+- **Demo data:** one built-in account, `nurse@demo.hunch` / `hunch-demo`, shown on the
+  sign-in screen. Change it with `HUNCH_DEMO_EMAIL` / `HUNCH_DEMO_PASSWORD`.
+
+Sessions live in HttpOnly cookies; expired Supabase sessions renew automatically.
+Five wrong passwords in five minutes from one address pause sign-in for that address.
 
 ## How it fits together
 
@@ -77,10 +91,14 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 | GET | `/api/alerts`, `/api/alerts/{id}` | alerts (urgent first) |
 | PATCH | `/api/alerts/{id}/status` | nurse review: reviewed / needs_assessment / dismissed / open |
 | GET | `/api/alerts/{id}/similar-cases` | ranked past cases with documented outcomes |
-| POST | `/api/auth/signin` | email (`username` form field) + password → access/refresh token (Supabase only) |
-| GET | `/api/auth/me` | current user from `Authorization: Bearer <token>` |
-| POST | `/api/auth/logout` | revoke the user's sessions (needs the service key) |
-| GET/PUT | `/api/profile/me` | your staff profile (name, role); needs a Bearer token |
+| POST | `/api/auth/signin` | `{email, password}` → sets the session cookies (HttpOnly) |
+| GET | `/api/auth/me` | who is signed in on this browser (never 401) |
+| POST | `/api/auth/logout` | sign out |
+| GET/PUT | `/api/profile/me` | your name and role (RN / RPN / NP / PSW / other) |
+
+Nurse endpoints (resident details, alerts, reviews, history check) need a signed-in
+RN, RPN or NP. Without sign-in, `/api/residents` returns only IDs and names, and
+`POST /api/residents/{id}/notes` still works, so PSWs log notes without an account.
 
 ## Adding things
 
