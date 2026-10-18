@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../api/client'
 import type { ResidentSummary, RunResult } from '../api/types'
 import { TierBadge } from '../components/Badges'
+import { useAuth } from '../components/authContext'
 import { friendlyError } from '../components/format'
 
 // Each tap adds a sentence the note reader recognises (backend/app/history/extract.py).
@@ -22,6 +23,8 @@ const SIGNS: { label: string; text: string; urgent?: boolean }[] = [
 
 export default function Psw() {
   const [params, setParams] = useSearchParams()
+  const { me } = useAuth()
+  const nurseName = me?.is_nurse ? me.profile?.full_name : null
   const [residents, setResidents] = useState<ResidentSummary[]>([])
   const [error, setError] = useState<string | null>(null)
   const rid = params.get('resident') ?? ''
@@ -77,7 +80,7 @@ export default function Psw() {
     return (
       <div className="mx-auto max-w-xl space-y-5 py-4">
         <div className="rounded-xl border border-line bg-paper p-6">
-          <p className="text-2xl font-bold">Saved for {result.name}. Thank you.</p>
+          <p className="text-2xl font-bold">Saved for {result.name}. Thank you{nurseName ? `, ${nurseName.split(' ')[0]}` : ''}.</p>
           <p className="mt-2 text-muted">“{result.text}”</p>
           <p className="mt-4">The nurse sees it now. Every note helps spot changes early.</p>
           {result.run && result.run.tier !== 'quiet' && (
@@ -103,6 +106,7 @@ export default function Psw() {
     <div className="mx-auto max-w-2xl pb-28">
       <h1 className="text-2xl font-bold">Log a note</h1>
       <p className="text-muted">Noticed something different? Tap what you saw. It takes a few seconds.</p>
+      {nurseName && <p className="mt-1 text-sm text-muted">Notes are saved under your name, {nurseName}.</p>}
       {error && <p className="mt-3 rounded-md bg-urgent-soft p-3 text-urgent">{error}</p>}
 
       {/* step: who */}

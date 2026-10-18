@@ -23,6 +23,7 @@ Or just `python run.py --seed` from the repo root.
 | `007_alert_review_statuses.sql` | Lets `alerts.status` take the review values (open / reviewed / needs_assessment / dismissed). **Run this one on the existing project too.** |
 | `008_profile_policies.sql` | Staff can create and edit their own profile (`profiles.id = auth.uid()`). Run on the existing project too. |
 | `009_profile_roles.sql` | Every account is a nurse: `profiles.role` is `nurse` (replaces an older rule on the live project). |
+| `010_note_author.sql` | Notes remember who wrote them (`author_name`, `author_id`). |
 
 **These files were rebuilt from `backend/schema_snapshot.json`** (column names, types and NOT NULLs match
 the live project as of the snapshot). Defaults, CHECK constraints, policies and the two view

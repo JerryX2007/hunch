@@ -29,6 +29,8 @@ create table if not exists public.care_notes (
   note_text          text not null,
   recorded_at        timestamptz not null,
   author_role        text,
+  author_name        text,          -- signed-in nurse's name (see 010)
+  author_id          uuid,
   extraction_status  text not null default 'pending',
   created_at         timestamptz not null default now()
 );

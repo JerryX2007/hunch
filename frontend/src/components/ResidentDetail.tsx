@@ -4,7 +4,7 @@ import { api } from '../api/client'
 import type { AlertStatus, CaseMatch, Finding, ResidentOverview } from '../api/types'
 import { TierBadge } from './Badges'
 import { useToast } from './toastContext'
-import { STATUS_LABEL, TIER_HINT, TIER_STYLE, capitalize, daysBetween, fmtDate, fmtDay, friendlyError, niceLabel, plural } from './format'
+import { STATUS_LABEL, TIER_HINT, TIER_STYLE, authorOf, capitalize, daysBetween, fmtDate, fmtDay, friendlyError, niceLabel, plural } from './format'
 
 const REVIEW_OPTIONS: { status: AlertStatus; label: string; done: string }[] = [
   { status: 'reviewed', label: 'Reviewed', done: 'Marked as reviewed' },
@@ -193,7 +193,7 @@ function FindingBlock({ f, days, baselineDays }: { f: Finding; days: string[]; b
             <li key={`${e.note_id}-${i}`} title={e.note_text}>
               <span className="text-ink">“{e.phrase}”</span>{' '}
               <span className="whitespace-nowrap text-sm text-muted">
-                {e.author_role ?? 'Staff'}, {fmtDate(e.recorded_at)}
+                {authorOf(e)}, {fmtDate(e.recorded_at)}
               </span>
             </li>
           ))}
@@ -322,7 +322,7 @@ function NotesSection({
     try {
       await api.addNote(residentId, text, 'Nurse')
       setText('')
-      toast({ tone: 'ok', text: `Note saved for ${name}. Re-checked.` })
+      toast({ tone: 'ok', text: `Note saved for ${name} under your name. Re-checked.` })
       onSaved()
     } catch (e) {
       toast({ tone: 'error', text: friendlyError((e as Error).message) })
@@ -359,7 +359,7 @@ function NotesSection({
           <li key={n.id} className="grid gap-x-4 py-2.5 sm:grid-cols-[11rem_1fr]">
             <span className="text-sm text-muted">
               {fmtDate(n.recorded_at)}
-              <br className="hidden sm:block" /> {n.author_role ?? 'Staff'}
+              <br className="hidden sm:block" /> {authorOf(n)}
             </span>
             <span>{n.note_text}</span>
           </li>

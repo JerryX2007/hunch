@@ -29,13 +29,14 @@ export interface ResidentSummary extends Resident {
   days: number | null
   alert: AlertSummary | null
   last_note_at: string | null
-  last_note: { note_text: string; recorded_at: string; author_role: string | null } | null
+  last_note: { note_text: string; recorded_at: string; author_role: string | null; author_name?: string | null } | null
 }
 
 export interface Evidence {
   note_id: string | null
   recorded_at: string
   author_role: string | null
+  author_name?: string | null
   note_text: string
   phrase: string
 }
@@ -111,6 +112,7 @@ export interface CareNote {
   note_text: string
   recorded_at: string
   author_role: string | null
+  author_name?: string | null
 }
 
 export interface ResidentOverview {

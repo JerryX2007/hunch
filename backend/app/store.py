@@ -77,7 +77,19 @@ class SupabaseStore:
         return self.db.get_care_notes(resident_id)  # newest first
 
     def add_note(self, note: Dict[str, Any]) -> Dict[str, Any]:
-        return self.db.upsert_care_note(note)
+        try:
+            return self.db.upsert_care_note(note)
+        except Exception as e:  # noqa: BLE001
+            # db/migrations/010_note_author.sql not run yet: keep the name in author_role.
+            if "author_name" not in str(e) and "author_id" not in str(e):
+                raise
+            import logging
+            logging.getLogger(__name__).warning(
+                "care_notes has no author_name column yet; run db/migrations/010_note_author.sql")
+            fallback = {k: v for k, v in note.items() if k not in ("author_name", "author_id")}
+            if note.get("author_name"):
+                fallback["author_role"] = note["author_name"]
+            return self.db.upsert_care_note(fallback)
 
     # staff profiles
     def profile(self, user_id: str) -> Optional[Dict[str, Any]]:

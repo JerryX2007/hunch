@@ -57,8 +57,11 @@ def add_note(resident_id: str, body: NewNote, request: Request,
     if not get_store().resident(resident_id):
         raise HTTPException(status_code=404, detail="Resident not found")
     nurse = nurse_profile(request, user)
-    role = "Nurse" if nurse else body.author_role
-    out = service.add_note(resident_id, body.note_text, role)
+    if nurse and user:  # signed-in nurse: the note carries her name
+        out = service.add_note(resident_id, body.note_text, "Nurse",
+                               author_name=nurse.get("full_name"), author_id=user.id)
+    else:
+        out = service.add_note(resident_id, body.note_text, body.author_role)
     if not nurse and out.get("result"):
         r = out["result"]
         out["result"] = {"resident_id": r["resident_id"], "tier": r["tier"], "title": r.get("title")}

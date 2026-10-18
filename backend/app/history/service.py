@@ -200,7 +200,7 @@ def resident_list(q: Optional[str] = None) -> List[Dict[str, Any]]:
                     "days": c.duration_days if c and (c.alert or c.tier == "watch") else None,
                     "alert": latest.get(r["id"]),
                     "last_note_at": str(n["recorded_at"]) if n else None,
-                    "last_note": {k: n.get(k) for k in ("note_text", "recorded_at", "author_role")} if n else None})
+                    "last_note": {k: n.get(k) for k in ("note_text", "recorded_at", "author_role", "author_name")} if n else None})
     return sorted(out, key=lambda r: (TIER_ORDER.get(r["tier"], 9), r["id"]))
 
 
@@ -254,15 +254,19 @@ def add_resident(resident: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def add_note(resident_id: str, note_text: str, author_role: str = "PSW",
-             recorded_at: Optional[str] = None) -> Dict[str, Any]:
+             recorded_at: Optional[str] = None, author_name: Optional[str] = None,
+             author_id: Optional[str] = None) -> Dict[str, Any]:
     """Save a care note, then re-run the check for that resident. Returns the note and the new result."""
     s = get_store()
-    note = s.add_note({
+    row = {
         "resident_id": resident_id,
         "note_text": note_text.strip(),
         "author_role": author_role,
         # Local wall-clock time, no offset: matches how test_data/ timestamps are written.
         "recorded_at": recorded_at or datetime.now().replace(microsecond=0).isoformat(),
-    })
+    }
+    if author_name:  # signed-in nurse
+        row.update(author_name=author_name, author_id=author_id)
+    note = s.add_note(row)
     result = run(resident_id)
     return {"note": note, "result": result["residents"][0] if result["residents"] else None}

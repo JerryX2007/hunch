@@ -5,7 +5,7 @@ import type { ResidentSummary } from '../api/types'
 import { StatusBadge, TierBadge } from '../components/Badges'
 import ResidentDetail from '../components/ResidentDetail'
 import { useToast } from '../components/toastContext'
-import { NEEDS_ATTENTION, TIER_LABEL, TIER_ORDER, TIER_STYLE, fmtDate, friendlyError, niceLabel, plural } from '../components/format'
+import { NEEDS_ATTENTION, TIER_LABEL, TIER_ORDER, TIER_STYLE, authorOf, fmtDate, friendlyError, niceLabel, plural } from '../components/format'
 
 const REFRESH_MS = 30_000
 
@@ -213,7 +213,7 @@ function ResidentRow({ r, selected, compact = false }: { r: ResidentSummary; sel
         )}
         {!compact && r.last_note && (
           <p className="mt-1 truncate text-sm text-muted">
-            <span className="text-ink/80">“{r.last_note.note_text}”</span> {r.last_note.author_role ?? 'Staff'},{' '}
+            <span className="text-ink/80">“{r.last_note.note_text}”</span> {authorOf(r.last_note)},{' '}
             {fmtDate(r.last_note.recorded_at)}
           </p>
         )}

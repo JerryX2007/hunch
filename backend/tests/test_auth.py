@@ -69,10 +69,47 @@ def test_signed_in_nurse_sees_everything_and_can_act(client):
     assert created.status_code == 201
 
 
-def test_nurse_note_is_tagged_nurse(client):
+def test_nurse_note_carries_her_name(client):
     sign_in(client)
     client.post("/api/residents/DEMO-013/notes", json={"note_text": "Temp 37.2, resting.", "author_role": "PSW"})
-    assert client.get("/api/residents/DEMO-013/notes?limit=1").json()[0]["author_role"] == "Nurse"
+    note = client.get("/api/residents/DEMO-013/notes?limit=1").json()[0]
+    assert note["author_name"] == "Demo Nurse" and note["author_role"] == "Nurse"
+    assert note["author_id"] == auth.DEMO_USER_ID
+    row = {r["id"]: r for r in client.get("/api/residents").json()}["DEMO-013"]
+    assert row["last_note"]["author_name"] == "Demo Nurse"
+
+
+def test_name_shows_on_evidence(client):
+    sign_in(client)
+    client.post("/api/residents/DEMO-012/notes", json={"note_text": "Found on floor beside bed."})
+    check = client.get("/api/residents/DEMO-012").json()["check"]
+    urgent = [f for f in check["findings"] if f["urgent"]]
+    assert urgent and urgent[0]["evidence"][0]["author_name"] == "Demo Nurse"
+
+
+def test_psw_note_has_no_name(client):
+    client.post("/api/residents/DEMO-013/notes", json={"note_text": "Ate all of lunch.", "author_role": "PSW"})
+    sign_in(client)
+    note = client.get("/api/residents/DEMO-013/notes?limit=1").json()[0]
+    assert note["author_role"] == "PSW" and not note.get("author_name")
+
+
+def test_name_kept_before_migration_010(monkeypatch):
+    """Live database without the author_name column: the name goes into author_role instead."""
+    from app.store import SupabaseStore
+    saved = []
+
+    def upsert(note):
+        if "author_name" in note:
+            raise RuntimeError("Could not find the 'author_name' column of 'care_notes' in the schema cache")
+        saved.append(note)
+        return note
+
+    store = SupabaseStore.__new__(SupabaseStore)
+    store.db = type("DB", (), {"upsert_care_note": staticmethod(upsert)})()
+    out = store.add_note({"resident_id": "DEMO-1", "note_text": "x", "author_role": "Nurse",
+                          "author_name": "Dana Lee", "author_id": "u1"})
+    assert out["author_role"] == "Dana Lee" and "author_name" not in saved[0]
 
 
 def test_logout_ends_the_session(client):

@@ -76,6 +76,11 @@ export function capitalize(text: string) {
   return text ? text[0].toUpperCase() + text.slice(1) : text
 }
 
+/** Who wrote a note: the nurse's name when she was signed in, else the role (e.g. PSW). */
+export function authorOf(n: { author_name?: string | null; author_role?: string | null }) {
+  return n.author_name || n.author_role || 'Staff'
+}
+
 export function plural(n: number, one: string, many = `${one}s`) {
   return `${n} ${n === 1 ? one : many}`
 }
