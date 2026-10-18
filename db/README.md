@@ -1,5 +1,7 @@
 # Database (Supabase / Postgres)
 
+**Existing live project:** paste `apply_to_live.sql` into the SQL Editor once (it is 005-008 combined, safe to re-run).
+
 Run the files in `migrations/` in order (Supabase dashboard → SQL Editor, or `psql -f`) on a new project,
 then load the demo data from `backend/`:
 
