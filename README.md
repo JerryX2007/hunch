@@ -56,8 +56,13 @@ backend/            FastAPI (Python)
     models/         Gemini note parser (optional; python -m app.models.test_parser)
     routers/        health, residents (+ notes), history (check, run, alerts, similar cases)
     database.py     Supabase client + table helpers
+    repositories/   per-table CRUD wrappers (residents, care_notes, observations, alerts, ...)
+    auth.py         Supabase email/password sign-in, token check, logout
+    utils/          error formatting + DB operation logging
   scripts/          seed_db, check_db, run_history_check (--eval), dump_schema
-  tests/            pytest (offline): python -m pytest -q
+  tests/            pytest (offline, fake Supabase in conftest.py): python -m pytest -q
+  policies.sql      draft per-user RLS policies (not runnable yet: tables have no user_id);
+                    the working RLS setup is db/migrations/006
 db/migrations/      SQL to create the Supabase schema (see db/README.md)
 frontend/           Vite + React + TypeScript + Tailwind
   src/pages/        Nurse (dashboard), ResidentProfile, Psw (log a note), Join
@@ -78,6 +83,9 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 | GET | `/api/alerts`, `/api/alerts/{id}` | alerts (urgent first) |
 | PATCH | `/api/alerts/{id}/status` | nurse review: reviewed / needs_assessment / dismissed / open |
 | GET | `/api/alerts/{id}/similar-cases` | ranked past cases with documented outcomes |
+| POST | `/api/auth/signin` | email (`username` form field) + password → access/refresh token (Supabase only) |
+| GET | `/api/auth/me` | current user from `Authorization: Bearer <token>` |
+| POST | `/api/auth/logout` | revoke the user's sessions (needs the service key) |
 
 ## Adding things
 

@@ -1,5 +1,8 @@
 """Backend database access for Supabase.
 
+Small per-table wrappers (CRUD with logging and error formatting) live in
+app/repositories/; the pipeline uses this module through app/store.py.
+
 One place for the Supabase client plus small helpers for each table:
 
 - profiles

@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .config import settings
-from .routers import health, history, residents
+from .routers import auth, health, history, residents
 
 log = logging.getLogger("hunch")
 
@@ -33,6 +33,7 @@ async def unexpected_error(request: Request, exc: Exception) -> JSONResponse:
 app.include_router(health.router, prefix="/api")
 app.include_router(residents.router, prefix="/api")
 app.include_router(history.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")  # /api/auth/signin, /me, /logout
 
 # Serve the built web app (frontend/dist, made by `python run.py --build`) from the same origin.
 DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
