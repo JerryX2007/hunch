@@ -86,7 +86,8 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 |---|---|---|
 | GET | `/api/health` | mode (demo/supabase), database status, whether Gemini is on |
 | GET | `/api/residents?q=` | residents with today's tier and latest alert, most concerning first |
-| POST | `/api/residents` | add a resident (`id`, `display_name`, optional baseline dates) |
+| POST | `/api/residents` | add a resident: `display_name`, optional `id` (default: next free 2W-NNN) and `first_note` |
+| GET | `/api/residents/next-id` | the ID a new resident gets by default |
 | GET | `/api/residents/{id}` | profile, live check with evidence, alert + summary, similar cases, last 10 notes |
 | GET/POST | `/api/residents/{id}/notes` | last notes / log a note (re-runs that resident) |
 | POST | `/api/history/run` | run the check for everyone and save alerts + similar cases |

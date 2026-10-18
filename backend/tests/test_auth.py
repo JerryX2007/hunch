@@ -228,3 +228,35 @@ def test_residents_have_names_and_unit_ids(client):
     assert all(not rid.startswith("DEMO") for rid in rows)
     notes = client.get("/api/residents/2W-014/notes?limit=10").json()
     assert {n["author_name"] for n in notes} <= {n["name"] for n in auth.DEMO_NURSES}
+
+
+# --------------------------------------------------------------------------- adding patients
+def test_add_patient_gets_next_unit_id_and_admission_note(client):
+    sign_in(client)
+    nxt = client.get("/api/residents/next-id").json()["id"]
+    r = client.post("/api/residents", json={"display_name": "  Eleanor Park  ",
+                                            "first_note": "Admitted from hospital. Walks with a cane."})
+    assert r.status_code == 201, r.text
+    new = r.json()
+    assert new["id"] == nxt and new["display_name"] == "Eleanor Park"
+    assert client.get("/api/residents/next-id").json()["id"] != nxt  # the next one moves on
+    rows = {x["id"]: x for x in client.get("/api/residents").json()}
+    assert rows[nxt]["tier"] == "baseline_limited"   # no usual pattern yet
+    note = client.get(f"/api/residents/{nxt}/notes").json()[0]
+    assert note["note_text"].startswith("Admitted") and note["author_name"] == "Priya Raman"
+
+
+def test_add_patient_with_chosen_id_and_errors(client):
+    sign_in(client)
+    assert client.post("/api/residents", json={"id": "2w-090", "display_name": "Tom Reyes"}).json()["id"] == "2W-090"
+    dup = client.post("/api/residents", json={"id": "2W-090", "display_name": "Someone Else"})
+    assert dup.status_code == 409 and "already used" in dup.json()["detail"]
+    assert client.post("/api/residents", json={"display_name": "   "}).status_code == 422
+    assert client.post("/api/residents", json={"id": "bad id!", "display_name": "x"}).status_code == 422
+    highest = max(int(r["id"][3:]) for r in client.get("/api/residents").json() if r["id"][3:].isdigit())
+    assert client.get("/api/residents/next-id").json()["id"] == f"2W-{highest + 1:03d}"  # after the highest in use
+
+
+def test_add_patient_needs_sign_in(client):
+    assert client.post("/api/residents", json={"display_name": "Nobody"}).status_code == 401
+    assert client.get("/api/residents/next-id").status_code == 401

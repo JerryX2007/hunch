@@ -25,11 +25,31 @@ def list_residents(request: Request, q: Optional[str] = None,
 
 
 @router.post("", status_code=201, dependencies=[Depends(require_nurse)])
-def create_resident(body: ResidentCreate) -> Dict[str, Any]:
-    """Add a resident (e.g. a new admission). 409 if the ID is taken."""
-    if get_store().resident(body.id):
-        raise HTTPException(status_code=409, detail=f"Resident {body.id} already exists")
-    return service.add_resident(body.model_dump())
+def create_resident(body: ResidentCreate, request: Request,
+                    user: Optional[User] = Depends(optional_user)) -> Dict[str, Any]:
+    """Add a resident (a new admission). Without ``id`` the next free unit ID is used.
+    ``first_note`` is saved as their first care note, under the signed-in nurse's name.
+    409 if the ID is taken."""
+    name = body.display_name.strip()
+    if not name:
+        raise HTTPException(status_code=422, detail="Enter the resident's name.")
+    rid = (body.id or service.next_resident_id()).strip().upper()
+    if get_store().resident(rid):
+        raise HTTPException(status_code=409, detail=f"{rid} is already used by another resident. Pick another ID.")
+    row = {"id": rid, "display_name": name, "baseline_start": body.baseline_start, "baseline_end": body.baseline_end}
+    resident = service.add_resident(row)
+    if body.first_note and body.first_note.strip():
+        nurse = nurse_profile(request, user)
+        service.add_note(rid, body.first_note, "Nurse",
+                         author_name=nurse.get("full_name") if nurse and user else None,
+                         author_id=user.id if nurse and user else None)
+    return resident
+
+
+@router.get("/next-id", dependencies=[Depends(require_nurse)])
+def next_id() -> Dict[str, str]:
+    """The ID a new resident gets by default (e.g. 2W-023)."""
+    return {"id": service.next_resident_id()}
 
 
 @router.get("/{resident_id}", dependencies=[Depends(require_nurse)])

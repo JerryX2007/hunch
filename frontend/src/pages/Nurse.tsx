@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import type { ResidentSummary } from '../api/types'
 import { StatusBadge, TierBadge } from '../components/Badges'
+import AddPatient from '../components/AddPatient'
 import ResidentDetail from '../components/ResidentDetail'
 import { useToast } from '../components/toastContext'
 import { NEEDS_ATTENTION, TIER_LABEL, TIER_ORDER, TIER_STYLE, authorOf, fmtDate, friendlyError, niceLabel, plural, residentLabel } from '../components/format'
@@ -13,7 +14,7 @@ function needsReview(r: ResidentSummary) {
   return NEEDS_ATTENTION.includes(r.tier) && (!r.alert || r.alert.status === 'open' || r.alert.status === 'needs_assessment')
 }
 
-export default function Nurse() {
+export default function Nurse({ adding = false }: { adding?: boolean }) {
   const { residentId } = useParams()
   const navigate = useNavigate()
   const toast = useToast()
@@ -81,26 +82,35 @@ export default function Nurse() {
   const handled = filtered.filter((r) => NEEDS_ATTENTION.includes(r.tier) && !needsReview(r))
   const others = filtered.filter((r) => !NEEDS_ATTENTION.includes(r.tier))
 
-  const showDetailOnly = Boolean(residentId) // on small screens the detail replaces the list
+  const showDetailOnly = Boolean(residentId) || adding // on small screens the detail replaces the list
 
   return (
     <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)]">
       {/* ------------------------------------------------ list */}
       <section className={`min-w-0 ${showDetailOnly ? 'hidden lg:block' : ''}`} aria-label="Residents">
-        <div className="flex items-end gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div>
             <h1 className="text-2xl font-bold">Who needs you</h1>
             <p className="text-muted">
               {rows ? `${plural(toReview.length, 'resident')} to review` : 'Loading residents…'}
             </p>
           </div>
-          <button
-            onClick={checkAgain}
-            disabled={checking}
-            className="ml-auto rounded-md border border-line bg-paper px-3 py-2 text-sm font-bold text-ink hover:border-care hover:text-care disabled:opacity-50"
-          >
-            {checking ? 'Checking…' : 'Check again'}
-          </button>
+          <div className="flex flex-wrap gap-2 sm:ml-auto sm:justify-end">
+            <button
+              onClick={checkAgain}
+              disabled={checking}
+              className="rounded-md border border-line bg-paper px-3 py-2 text-sm font-bold text-ink hover:border-care hover:text-care disabled:opacity-50"
+            >
+              {checking ? 'Checking…' : 'Check again'}
+            </button>
+            <Link
+              to="/nurse/new"
+              aria-current={adding ? 'page' : undefined}
+              className="rounded-md bg-care px-3 py-2 text-sm font-bold text-white hover:bg-care-dark"
+            >
+              + Add patient
+            </Link>
+          </div>
         </div>
 
         <label className="mt-4 block">
@@ -176,7 +186,14 @@ export default function Nurse() {
 
       {/* ------------------------------------------------ detail */}
       <section className={`min-w-0 ${showDetailOnly ? '' : 'hidden lg:block'}`} aria-label="Selected resident">
-        {residentId ? (
+        {adding ? (
+          <>
+            <button onClick={() => navigate('/nurse')} className="mb-3 rounded-md py-1 font-bold text-care lg:hidden">
+              ‹ All residents
+            </button>
+            <AddPatient onAdded={load} />
+          </>
+        ) : residentId ? (
           <>
             <button onClick={() => navigate('/nurse')} className="mb-3 rounded-md py-1 font-bold text-care lg:hidden">
               ‹ All residents

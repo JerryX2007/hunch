@@ -18,6 +18,7 @@ export default function App() {
         {/* No sign-in for PSWs: the note screen only sees resident names. */}
         <Route path="/psw" element={<Psw />} />
         <Route path="/nurse" element={<RequireNurse><Nurse /></RequireNurse>} />
+        <Route path="/nurse/new" element={<RequireNurse><Nurse adding /></RequireNurse>} />
         {/* Same screen with a resident open, so links and the back button work. */}
         <Route path="/nurse/residents/:residentId" element={<RequireNurse><Nurse /></RequireNurse>} />
         <Route path="*" element={<NotFound />} />

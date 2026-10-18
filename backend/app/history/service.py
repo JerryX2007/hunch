@@ -245,6 +245,16 @@ def set_alert_status(alert_id: str, status: str) -> Optional[Dict[str, Any]]:
     return get_store().set_alert_status(alert_id, status)
 
 
+UNIT_PREFIX = "2W-"
+
+
+def next_resident_id(prefix: str = UNIT_PREFIX) -> str:
+    """The next free unit ID: one more than the highest 2W-NNN in use."""
+    nums = [int(r["id"][len(prefix):]) for r in get_store().residents()
+            if r["id"].startswith(prefix) and r["id"][len(prefix):].isdigit()]
+    return f"{prefix}{(max(nums) + 1 if nums else 1):03d}"
+
+
 def add_resident(resident: Dict[str, Any]) -> Dict[str, Any]:
     """Create a resident. They show as "not enough history" until notes build a baseline."""
     row = get_store().add_resident({k: (str(v) if v is not None and k.startswith("baseline_") else v)
