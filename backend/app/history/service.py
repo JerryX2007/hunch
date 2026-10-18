@@ -3,7 +3,8 @@
     preview(resident_id)   compute only, writes nothing (cached until notes change)
     run(resident_id)       compute and save: alerts, evidence, plain-language summary,
                            similar historical cases
-    add_note(...)          store a care note, then re-run that resident
+    add_note(...)          store a care note, have Gemini read it, then re-run that resident
+    read_all_notes()       have Gemini read every note that has no reading yet (catch-up)
 
 Where data lives is decided by app.store: Supabase when backend/.env is filled in,
 otherwise an in-memory copy of test_data/ (demo mode).
@@ -19,12 +20,14 @@ import hashlib
 import json
 import threading
 import uuid
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import TimeoutError as FutureTimeout
 from dataclasses import asdict
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from ..store import get_store
-from . import narrative
+from . import ai_read, narrative
 from .check import LABELS, HistoryCheck, check_unit
 from .match import SCORER_VERSION, build_run, match_cases, outcome_spread
 
@@ -93,7 +96,8 @@ def _observation_rows(c: HistoryCheck) -> List[Dict[str, Any]]:
                 "observation_text": f.reason[:500],
                 "evidence_span": ev.phrase,
                 "assertion": ASSERTION_PRESENT,
-                "confidence": 1.0,  # rule-based extraction: matched or not
+                # rules: matched or not. Gemini-only finding: quote verified, meaning not.
+                "confidence": 0.9 if ev.read_by == "ai" else 1.0,
                 "recorded_at": ev.recorded_at,
                 "created_at": _now(),
             }
@@ -196,8 +200,9 @@ def resident_list(q: Optional[str] = None) -> List[Dict[str, Any]]:
                     "title": c.title if c and c.alert else None,
                     "urgent": bool(c and c.urgent), "reasons": c.reasons if c else [],
                     # plain labels of what changed (persisting or urgent), for the dashboard row
-                    "changes": [LABELS.get(f.key, f.key) for f in c.findings if f.persisting or f.urgent] if c else [],
-                    "days": c.duration_days if c and (c.alert or c.tier == "watch") else None,
+                    "changes": ([LABELS.get(f.key, f.key) for f in c.findings if f.persisting or f.urgent]
+                                + (["Unread note"] if c.unread_notes else [])) if c else [],
+                    "days": c.duration_days if c and (c.alert or any(f.persisting for f in c.findings)) else None,
                     "alert": latest.get(r["id"]),
                     "last_note_at": str(n["recorded_at"]) if n else None,
                     "last_note": {k: n.get(k) for k in ("note_text", "recorded_at", "author_role", "author_name")} if n else None})
@@ -278,5 +283,42 @@ def add_note(resident_id: str, note_text: str, author_role: str = "PSW",
     if author_name:  # signed-in nurse
         row.update(author_name=author_name, author_id=author_id)
     note = s.add_note(row)
+    note["ai_reading"] = _read_new_note(note)
     result = run(resident_id)
     return {"note": note, "result": result["residents"][0] if result["residents"] else None}
+
+
+# ---------------------------------------------------------------------------
+# Gemini note reading
+# ---------------------------------------------------------------------------
+NEW_NOTE_WAIT_S = 20  # how long saving a note waits for Gemini before carrying on with the rules
+_reader_pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="note-reader")
+
+
+def _read_new_note(note: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Have Gemini read a note that was just saved. Saving never fails because of Gemini:
+    on an error or a slow answer the rules read the note, and a later catch-up reads it."""
+    future = _reader_pool.submit(ai_read.ensure_read, [note], get_store())
+    try:
+        future.result(timeout=NEW_NOTE_WAIT_S)
+    except FutureTimeout:
+        pass
+    except Exception:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).exception("Reading the new note failed; the rules read it.")
+    return note.get("ai_reading")
+
+
+def read_all_notes(force: bool = False, progress: Any = None) -> Dict[str, Any]:
+    """Catch-up: Gemini reads every note without a current reading, then alerts are refreshed.
+    The whole history gets the same reader, so a resident's normal and recent days compare fairly."""
+    s = get_store()
+    counts = ai_read.ensure_read(s.notes(), s, force=force, progress=progress)
+    invalidate()
+    if counts.get("read") or counts.get("from_cache"):
+        run()
+    return counts
+
+
+def reading_status() -> Dict[str, Any]:
+    return ai_read.coverage(get_store().notes())

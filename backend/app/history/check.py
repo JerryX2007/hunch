@@ -26,7 +26,8 @@ from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, Iterable, List, Optional
 
-from .extract import NoteFacts, Signal, extract, parse_time
+from .ai_read import read_note
+from .extract import NoteFacts, Signal, parse_time
 
 THRESHOLDS = {
     "recent_days": 4,           # recent window: the last N calendar days
@@ -54,12 +55,15 @@ class Evidence:
     note_text: str
     phrase: str
     author_name: Optional[str] = None  # signed-in nurse who wrote the note
+    read_by: str = "rules"             # "ai": found only by Gemini's (checked) reading
+    language: Optional[str] = None     # note language, when Gemini read it
+    translation: Optional[str] = None  # English translation of a non-English note
 
     @classmethod
-    def from_facts(cls, f: NoteFacts, phrase: str) -> "Evidence":
+    def from_facts(cls, f: NoteFacts, phrase: str, source: str = "rules") -> "Evidence":
         n = f.note
         return cls(n.get("id"), f.time.isoformat(), n.get("author_role"), n.get("note_text", ""), phrase,
-                   n.get("author_name"))
+                   n.get("author_name"), source, f.language, f.translation)
 
 
 @dataclass
@@ -89,6 +93,8 @@ class HistoryCheck:
     findings: List[Finding]
     reasons: List[str]
     ruled_out: List[str]          # negated mentions, e.g. "pain (denied)"
+    unread_notes: List[Dict[str, Any]] = field(default_factory=list)  # recent notes nobody could read
+    reading: Dict[str, int] = field(default_factory=dict)            # how the notes were read
 
     @property
     def categories(self) -> List[str]:
@@ -128,6 +134,8 @@ class HistoryCheck:
             extra = " (hospital transfer)" if any(f.key == "event" for f in urgent) else ""
             return f"Urgent: {what} event{extra}"
         keys = [LABELS.get(f.key, f.key).lower() for f in self.findings if f.persisting]
+        if not keys and self.unread_notes:
+            return "A recent note needs reading"
         return "Change from usual: " + ", ".join(keys)
 
 
@@ -149,7 +157,7 @@ def check_resident(
     ``as_of`` defaults to the newest note's time, so the result doesn't drift with the clock.
     """
     t = {**THRESHOLDS, **(thresholds or {})}
-    facts = sorted((extract(n) for n in notes), key=lambda f: f.time)
+    facts = sorted((read_note(n) for n in notes), key=lambda f: f.time)
     rid = resident["id"]
     if not facts:
         return HistoryCheck(rid, (as_of or datetime.now()).isoformat(), "baseline_limited", False, False,
@@ -206,7 +214,7 @@ def check_resident(
         findings.append(Finding(
             key=s0.key, match_key=mkey, persisting=persisting, recent_days=days,
             baseline_rate=round(b_rate, 2), recent_rate=round(r_rate, 2), reason=reason, urgent=urgent,
-            signals=[s for _, s in hits], evidence=[Evidence.from_facts(f, s.phrase) for f, s in hits],
+            signals=[s for _, s in hits], evidence=[Evidence.from_facts(f, s.phrase, s.source) for f, s in hits],
         ))
 
     # --- meals, against the resident's own usual intake ----------------------
@@ -238,19 +246,23 @@ def check_resident(
             findings.append(Finding(
                 key="nutrition", match_key="nutrition", persisting=persisting, recent_days=days,
                 baseline_rate=round(b_rate, 2), recent_rate=round(r_rate, 2), reason=reason,
-                evidence=[Evidence.from_facts(f, m.phrase) for f, m in low],
+                evidence=[Evidence.from_facts(f, m.phrase, m.source) for f, m in low],
             ))
 
     # --- decision -------------------------------------------------------------
     urgent = any(f.urgent for f in findings)
     persisting = [f for f in findings if f.persisting]
+    # Recent notes that neither Gemini nor the rules could read (e.g. not in English, no key):
+    # never let them pass as "nothing to report".
+    unread = [{"note_id": f.note.get("id"), "recorded_at": f.time.isoformat(),
+               "note_text": f.note.get("note_text", "")} for f in recent if f.unreadable]
     if urgent:
         tier = "urgent"
     elif limited:
         tier = "baseline_limited"
     elif len(persisting) >= t["alert_categories"]:
         tier = "alert"
-    elif persisting:
+    elif persisting or unread:
         tier = "watch"
     else:
         tier = "quiet"
@@ -259,6 +271,9 @@ def check_resident(
     findings.sort(key=lambda f: (not f.urgent, not f.persisting, -len(f.recent_days), f.key))
     reasons = [f.reason for f in findings if f.urgent or f.persisting]
     context = [f.reason for f in findings if not (f.urgent or f.persisting)]
+    if unread:
+        reasons.insert(0, f"{len(unread)} recent note(s) may not be in English and couldn't be read "
+                          "automatically. Please read them yourself.")
     if limited:
         reasons.insert(0, f"Only {n_base} day(s) of history before the recent window "
                           f"(need {t['min_baseline_days']}); can't tell what's usual yet.")
@@ -277,7 +292,8 @@ def check_resident(
         window={"baseline_start": (baseline_dates[0].isoformat() if baseline_dates else None),
                 "baseline_end": (baseline_dates[-1].isoformat() if baseline_dates else None),
                 "recent_start": recent_start.isoformat(), "recent_end": _day(as_of).isoformat()},
-        findings=findings, reasons=reasons, ruled_out=ruled_out,
+        findings=findings, reasons=reasons, ruled_out=ruled_out, unread_notes=unread,
+        reading={"notes": len(facts), "read_by_ai": sum(1 for f in facts if f.read_by == "ai")},
     )
 
 

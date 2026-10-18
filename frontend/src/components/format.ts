@@ -72,6 +72,16 @@ export function niceLabel(label: string) {
   return label === 'Event' ? 'Serious event' : label
 }
 
+/** "tl" -> "Tagalog", "pa" -> "Punjabi"; the code itself if the browser doesn't know it. */
+export function languageName(code: string | null | undefined) {
+  if (!code) return 'another language'
+  try {
+    return new Intl.DisplayNames(['en'], { type: 'language' }).of(code) ?? code
+  } catch {
+    return code
+  }
+}
+
 export function capitalize(text: string) {
   return text ? text[0].toUpperCase() + text.slice(1) : text
 }

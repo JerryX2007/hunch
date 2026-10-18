@@ -1,4 +1,7 @@
-"""Turn free-text care notes into structured signals.
+"""Turn free-text care notes into structured signals (the rules half of note reading).
+
+Gemini's reading of a note is merged in by ai_read.py; this module is the part that
+always works, with or without it.
 
 Rule-based on purpose: every signal keeps the exact phrase it came from, so
 the nurse can see *why* something was flagged, and the same note always gives
@@ -28,6 +31,7 @@ class Signal:
     urgent: bool = False               # serious on its own, don't wait for a pattern
     comparative: bool = False          # note itself says "than usual", "unusual", ...
     stated_days: Optional[int] = None  # e.g. "No BM for 5 days"
+    source: str = "rules"              # "rules", or "ai" when only Gemini's reading found it
 
     @property
     def key(self) -> str:
@@ -45,6 +49,7 @@ class Meal:
     pct: Optional[float]   # None when the note only says "less than usual"
     phrase: str
     said_less: bool = False
+    source: str = "rules"
 
 
 @dataclass
@@ -54,6 +59,10 @@ class NoteFacts:
     signals: List[Signal] = field(default_factory=list)
     negated: List[Signal] = field(default_factory=list)  # mentioned, but ruled out
     meals: List[Meal] = field(default_factory=list)
+    read_by: str = "rules"              # "ai" when a checked Gemini reading was used (ai_read.py)
+    language: Optional[str] = None      # from Gemini's reading
+    translation: Optional[str] = None   # English translation, when the note isn't English
+    unreadable: bool = False            # no reading, nothing the rules know, not English
 
 
 # ---------------------------------------------------------------------------

@@ -26,6 +26,7 @@ os.environ.setdefault("SUPABASE_URL", "http://localhost:54321")
 os.environ.setdefault("SUPABASE_ANON_KEY", "test-anon-key")
 os.environ.setdefault("HUNCH_MODE", "demo")      # the pipeline uses in-memory data in tests
 os.environ.setdefault("HUNCH_LLM_EXPLAIN", "0")  # never call Gemini from tests
+os.environ["HUNCH_AI_READ"] = "0"                # ...not even with a key in backend/.env
 
 
 class FakeQuery:

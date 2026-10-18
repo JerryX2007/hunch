@@ -1,4 +1,7 @@
 import logging
+import os
+import threading
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -11,7 +14,28 @@ from .routers import auth, health, history, profile, residents
 
 log = logging.getLogger("hunch")
 
-app = FastAPI(title="Hunch API")
+def _catch_up_note_reading() -> None:
+    """Have Gemini read notes that don't have a reading yet (run.py turns this on)."""
+    from .history import service
+    from .models.note_reader import ai_enabled
+    if not ai_enabled():
+        return
+    try:
+        counts = service.read_all_notes(progress=lambda c: log.info(
+            "Gemini note reading: %d read, %d from cache, %d failed", c["read"], c["from_cache"], c["failed"]))
+        log.info("Gemini note reading done: %s", counts)
+    except Exception:  # noqa: BLE001 - the rules keep working without it
+        log.exception("Gemini note reading catch-up failed; notes are read by the rules.")
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    if os.getenv("HUNCH_AI_BACKFILL") == "1":
+        threading.Thread(target=_catch_up_note_reading, name="note-reading-catch-up", daemon=True).start()
+    yield
+
+
+app = FastAPI(title="Hunch API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
