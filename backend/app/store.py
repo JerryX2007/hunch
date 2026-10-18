@@ -77,7 +77,26 @@ class SupabaseStore:
         return self.db.get_care_notes(resident_id)  # newest first
 
     def add_note(self, note: Dict[str, Any]) -> Dict[str, Any]:
-        return self.db.upsert_care_note(note)
+        try:
+            return self.db.upsert_care_note(note)
+        except Exception as e:  # noqa: BLE001
+            # db/migrations/010_note_author.sql not run yet: keep the name in author_role.
+            if "author_name" not in str(e) and "author_id" not in str(e):
+                raise
+            import logging
+            logging.getLogger(__name__).warning(
+                "care_notes has no author_name column yet; run db/migrations/010_note_author.sql")
+            fallback = {k: v for k, v in note.items() if k not in ("author_name", "author_id")}
+            if note.get("author_name"):
+                fallback["author_role"] = note["author_name"]
+            return self.db.upsert_care_note(fallback)
+
+    # staff profiles
+    def profile(self, user_id: str) -> Optional[Dict[str, Any]]:
+        return self.db.get_profile(user_id)
+
+    def save_profile(self, profile: Dict[str, Any]) -> Dict[str, Any]:
+        return self.db.upsert_profile(profile)
 
     # case library
     def cases(self) -> List[Dict[str, Any]]:
@@ -139,6 +158,7 @@ class MemoryStore:
         self._observations: Dict[str, Dict[str, Any]] = {}
         self._evidence: Dict[str, List[str]] = {}
         self._runs: Dict[str, Dict[str, Any]] = {}  # alert_id -> {"run": ..., "matches": [...]}
+        self._profiles: Dict[str, Dict[str, Any]] = {}
 
     def ping(self) -> None:
         return None
@@ -163,6 +183,16 @@ class MemoryStore:
         row = {**note, "id": str(uuid.uuid4()), "extraction_status": "pending", "created_at": _now()}
         with self._lock:
             self._notes.append(row)
+        return dict(row)
+
+    def profile(self, user_id: str) -> Optional[Dict[str, Any]]:
+        p = self._profiles.get(user_id)
+        return dict(p) if p else None
+
+    def save_profile(self, profile: Dict[str, Any]) -> Dict[str, Any]:
+        with self._lock:
+            row = {**self._profiles.get(profile["id"], {"created_at": _now()}), **profile}
+            self._profiles[profile["id"]] = row
         return dict(row)
 
     def cases(self) -> List[Dict[str, Any]]:

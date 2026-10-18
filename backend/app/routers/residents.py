@@ -2,8 +2,9 @@
 
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 
+from ..auth import User, nurse_profile, optional_user, require_nurse
 from ..history import service
 from ..schemas import NewNote, ResidentCreate
 from ..store import get_store
@@ -12,21 +13,46 @@ router = APIRouter(prefix="/residents", tags=["residents"])
 
 
 @router.get("")
-def list_residents(q: Optional[str] = None) -> List[Dict[str, Any]]:
-    """Every resident with today's tier and their latest alert, most concerning first.
+def list_residents(request: Request, q: Optional[str] = None,
+                   user: Optional[User] = Depends(optional_user)) -> List[Dict[str, Any]]:
+    """Every resident with today's tier and their latest alert, most concerning first
+    (signed-in nurses). Without sign-in, only IDs and names (for the PSW note screen).
     ``q`` filters by ID or name."""
-    return service.resident_list(q)
+    rows = service.resident_list(q)
+    if nurse_profile(request, user):
+        return rows
+    return sorted(({"id": r["id"], "display_name": r["display_name"]} for r in rows), key=lambda r: r["display_name"])
 
 
-@router.post("", status_code=201)
-def create_resident(body: ResidentCreate) -> Dict[str, Any]:
-    """Add a resident (e.g. a new admission). 409 if the ID is taken."""
-    if get_store().resident(body.id):
-        raise HTTPException(status_code=409, detail=f"Resident {body.id} already exists")
-    return service.add_resident(body.model_dump())
+@router.post("", status_code=201, dependencies=[Depends(require_nurse)])
+def create_resident(body: ResidentCreate, request: Request,
+                    user: Optional[User] = Depends(optional_user)) -> Dict[str, Any]:
+    """Add a resident (a new admission). Without ``id`` the next free unit ID is used.
+    ``first_note`` is saved as their first care note, under the signed-in nurse's name.
+    409 if the ID is taken."""
+    name = body.display_name.strip()
+    if not name:
+        raise HTTPException(status_code=422, detail="Enter the resident's name.")
+    rid = (body.id or service.next_resident_id()).strip().upper()
+    if get_store().resident(rid):
+        raise HTTPException(status_code=409, detail=f"{rid} is already used by another resident. Pick another ID.")
+    row = {"id": rid, "display_name": name, "baseline_start": body.baseline_start, "baseline_end": body.baseline_end}
+    resident = service.add_resident(row)
+    if body.first_note and body.first_note.strip():
+        nurse = nurse_profile(request, user)
+        service.add_note(rid, body.first_note, "Nurse",
+                         author_name=nurse.get("full_name") if nurse and user else None,
+                         author_id=user.id if nurse and user else None)
+    return resident
 
 
-@router.get("/{resident_id}")
+@router.get("/next-id", dependencies=[Depends(require_nurse)])
+def next_id() -> Dict[str, str]:
+    """The ID a new resident gets by default (e.g. 2W-023)."""
+    return {"id": service.next_resident_id()}
+
+
+@router.get("/{resident_id}", dependencies=[Depends(require_nurse)])
 def resident_overview(resident_id: str) -> Dict[str, Any]:
     """Everything the resident page needs: profile, live check with evidence,
     latest alert (with its summary and review status), similar cases, last 10 notes."""
@@ -36,7 +62,7 @@ def resident_overview(resident_id: str) -> Dict[str, Any]:
     return data
 
 
-@router.get("/{resident_id}/notes")
+@router.get("/{resident_id}/notes", dependencies=[Depends(require_nurse)])
 def resident_notes(resident_id: str, limit: int = 10) -> List[Dict[str, Any]]:
     if not get_store().resident(resident_id):
         raise HTTPException(status_code=404, detail="Resident not found")
@@ -44,8 +70,19 @@ def resident_notes(resident_id: str, limit: int = 10) -> List[Dict[str, Any]]:
 
 
 @router.post("/{resident_id}/notes", status_code=201)
-def add_note(resident_id: str, body: NewNote) -> Dict[str, Any]:
-    """Log a care note (e.g. from the PSW page), then re-run the check for this resident."""
+def add_note(resident_id: str, body: NewNote, request: Request,
+             user: Optional[User] = Depends(optional_user)) -> Dict[str, Any]:
+    """Log a care note (no sign-in needed: PSWs use this), then re-run the check for this
+    resident. Without sign-in the reply says only whether the resident is flagged."""
     if not get_store().resident(resident_id):
         raise HTTPException(status_code=404, detail="Resident not found")
-    return service.add_note(resident_id, body.note_text, body.author_role)
+    nurse = nurse_profile(request, user)
+    if nurse and user:  # signed-in nurse: the note carries her name
+        out = service.add_note(resident_id, body.note_text, "Nurse",
+                               author_name=nurse.get("full_name"), author_id=user.id)
+    else:
+        out = service.add_note(resident_id, body.note_text, body.author_role)
+    if not nurse and out.get("result"):
+        r = out["result"]
+        out["result"] = {"resident_id": r["resident_id"], "tier": r["tier"], "title": r.get("title")}
+    return out

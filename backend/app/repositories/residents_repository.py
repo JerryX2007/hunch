@@ -15,7 +15,7 @@ def list_all() -> List[Dict[str, Any]]:
 
 
 def get_by_id(resident_id: str) -> Optional[Dict[str, Any]]:
-    """Fetch a single resident by its text ID (e.g. DEMO-014)."""
+    """Fetch a single resident by its text ID (e.g. 2W-014)."""
     try:
         resp = _db.supabase.table("residents").select("*").eq("id", resident_id).maybe_single().execute()
         return resp.data if resp else None

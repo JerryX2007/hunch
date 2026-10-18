@@ -1,52 +1,96 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Health } from '../api/types'
+import { useAuth } from './authContext'
+import { useToast } from './toastContext'
 
 export default function Layout() {
   const [health, setHealth] = useState<Health | null>(null)
   const [down, setDown] = useState(false)
+  const { me, signOut } = useAuth()
+  const toast = useToast()
+  const navigate = useNavigate()
+
+  async function doSignOut() {
+    await signOut()
+    toast({ tone: 'ok', text: 'Signed out.' })
+    navigate('/login')
+  }
 
   useEffect(() => {
-    api.health().then(setHealth).catch(() => setDown(true))
+    api
+      .health()
+      .then((h) => {
+        setHealth(h)
+        setDown(false)
+      })
+      .catch(() => setDown(true))
   }, [])
 
-  const nav = ({ isActive }: { isActive: boolean }) =>
-    `rounded-md px-3 py-1.5 text-sm font-medium ${isActive ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'}`
+  const tab = ({ isActive }: { isActive: boolean }) =>
+    `whitespace-nowrap rounded-md px-2.5 py-2 text-base font-bold transition-colors sm:px-3 ${isActive ? 'bg-white text-ink' : 'text-white/80 hover:bg-white/10 hover:text-white'}`
+
+  const dbProblem = health && health.database !== 'ok'
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="bg-slate-800 px-4 py-1 text-center text-xs text-slate-200">
-        Prototype for clinical review support. All residents and notes are fictional.
-      </div>
-      <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
-          <Link to="/" className="mr-2 text-lg font-bold tracking-tight">
-            Hunch
+    <div className="flex min-h-screen flex-col">
+      <header className="sticky top-0 z-30 bg-ink text-white">
+        <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-2.5 sm:gap-4">
+          <Link to="/nurse" className="mr-1 flex items-baseline gap-2 rounded-md">
+            <span className="hidden text-xl font-bold tracking-tight min-[420px]:inline">Hunch</span>
+            <span className="hidden text-sm text-white/70 sm:inline">2 West</span>
           </Link>
-          <nav className="flex gap-1">
-            <NavLink to="/nurse" className={nav}>
-              Nurse dashboard
+          <nav className="flex gap-1" aria-label="Main">
+            <NavLink to="/nurse" className={tab}>
+              Residents
             </NavLink>
-            <NavLink to="/psw" className={nav}>
+            <NavLink to="/psw" className={tab}>
               Log a note
             </NavLink>
           </nav>
-          <div className="ml-auto text-xs text-slate-500">
-            {down && <span className="font-medium text-red-600">Backend not reachable. Is run.py running?</span>}
+          <div className="ml-auto flex shrink-0 items-center gap-3 text-sm">
             {health && (
-              <span title={health.database}>
-                Data: {health.mode === 'supabase' ? 'Supabase' : 'demo (in memory)'}
-                {health.database !== 'ok' && <span className="ml-1 font-medium text-red-600">· database error</span>}
-                {' · '}Summaries: {health.llm ? 'Gemini, checked' : 'template'}
+              <span className="hidden text-white/70 lg:inline" title={health.database}>
+                {health.mode === 'supabase' ? 'Live data' : 'Demo data'}
+                {health.llm ? ', AI summaries on' : ''}
               </span>
+            )}
+            {me?.signed_in ? (
+              <>
+                <span className="hidden text-white sm:inline">
+                  {me.profile?.full_name ?? me.user?.email}
+                </span>
+                <button onClick={doSignOut} className="whitespace-nowrap rounded-md border border-white/30 px-3 py-1.5 font-bold text-white hover:bg-white/10">
+                  Sign out
+                </button>
+              </>
+            ) : (
+              me && (
+                <NavLink to="/login" className="whitespace-nowrap rounded-md border border-white/30 px-3 py-1.5 font-bold text-white hover:bg-white/10">
+                  Sign in<span className="hidden sm:inline"> (nurses)</span>
+                </NavLink>
+              )
             )}
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl p-4">
+
+      {(down || dbProblem) && (
+        <div className="bg-urgent px-4 py-2 text-center text-sm text-white" role="alert">
+          {down
+            ? 'Can’t reach the Hunch server. Start it with python run.py, then reload.'
+            : `The database isn’t answering (${health?.database}). To present without it: python run.py --demo`}
+        </div>
+      )}
+
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-5">
         <Outlet />
       </main>
+
+      <footer className="px-4 pb-5 text-center text-sm text-muted">
+        Prototype for clinical review support. All residents and notes are fictional. Decisions stay with qualified staff.
+      </footer>
     </div>
   )
 }

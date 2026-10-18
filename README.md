@@ -10,7 +10,7 @@ similar past cases. All data in this repo is fictional.
 python run.py
 ```
 
-Then open http://localhost:5173/nurse. One command starts the API, runs the analysis for every
+Then open http://localhost:5173/nurse and sign in. One command starts the API, runs the analysis for every
 resident, and starts the web app. Ctrl+C stops it all.
 
 | Command | What it does |
@@ -24,6 +24,36 @@ resident, and starts the web app. Ctrl+C stops it all.
 Needs Python 3.10+ and Node.js 20+. The first run creates `backend/.venv`, installs the Python
 packages (again whenever `requirements.txt` gains one) and the web app's npm packages.
 Optional: `cp backend/.env.example backend/.env` and fill in Supabase URL + keys and `GEMINI_API_KEY`.
+
+## Nurse sign-in
+
+Each nurse has their own account, and every account is a nurse. The resident screen
+needs a signed-in nurse; PSWs log notes at `/psw` without signing in.
+
+- **Live data (Supabase):** create accounts from `backend/`:
+  `python -m scripts.create_nurse --email dana@example.com --name "Dana Lee"`
+  (asks for the password; run it again to change the name or password).
+- **Demo data:** the four fictional nurses in `test_data/people.json` (e.g.
+  `priya.raman@hunch.test`) sign in with password `hunch-demo` (`HUNCH_DEMO_PASSWORD`).
+  The sign-in screen lists them.
+- **The same four nurses on live data:** `python -m scripts.create_demo_nurses` creates their
+  accounts and links them to the notes they wrote (after `db/migrations/011`).
+
+Sessions live in HttpOnly cookies; expired Supabase sessions renew automatically.
+Five wrong passwords in five minutes from one address pause sign-in for that address.
+
+## Voice notes
+
+Every note box (PSW note, resident note, admission note) has a **Speak** button. Tap it,
+talk, and the words appear in the box as you go. It uses the browser's built-in speech
+recognition, asks for English, and needs `https` or `localhost` plus an internet connection.
+
+- **Chrome / Edge:** keeps listening until you tap again (audio goes to Google's speech service).
+- **Safari and every iPhone browser:** listens for one phrase per tap and stops by itself
+  after a pause (Safari's continuous mode keeps switching the microphone off and on).
+  Needs Dictation turned on in the device's keyboard settings.
+- **Brave, Firefox, browsers inside desktop apps:** no speech service, so the button is
+  replaced by a note to use Chrome, Edge or Safari, or the keyboard's own dictation key.
 
 ## How it fits together
 
@@ -57,7 +87,8 @@ backend/            FastAPI (Python)
   tests/            pytest (offline, fake Supabase in conftest.py): python -m pytest -q
 db/migrations/      SQL to create the Supabase schema (see db/README.md)
 frontend/           Vite + React + TypeScript + Tailwind
-  src/pages/        Nurse (dashboard), ResidentProfile, Psw (log a note), Join
+  src/pages/        Nurse (list + resident detail), Psw (log a note), Join
+  src/components/   ResidentDetail, Badges, Toast, format (labels, dates)
 test_data/          fictional residents, notes, case library, eval scenarios
 ML/                 separate prototype: PSW icon "hunch" scoring engine (not wired in)
 ```
@@ -68,7 +99,8 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 |---|---|---|
 | GET | `/api/health` | mode (demo/supabase), database status, whether Gemini is on |
 | GET | `/api/residents?q=` | residents with today's tier and latest alert, most concerning first |
-| POST | `/api/residents` | add a resident (`id`, `display_name`, optional baseline dates) |
+| POST | `/api/residents` | add a resident: `display_name`, optional `id` (default: next free 2W-NNN) and `first_note` |
+| GET | `/api/residents/next-id` | the ID a new resident gets by default |
 | GET | `/api/residents/{id}` | profile, live check with evidence, alert + summary, similar cases, last 10 notes |
 | GET/POST | `/api/residents/{id}/notes` | last notes / log a note (re-runs that resident) |
 | POST | `/api/history/run` | run the check for everyone and save alerts + similar cases |
@@ -76,10 +108,13 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 | GET | `/api/alerts`, `/api/alerts/{id}` | alerts (urgent first) |
 | PATCH | `/api/alerts/{id}/status` | nurse review: reviewed / needs_assessment / dismissed / open |
 | GET | `/api/alerts/{id}/similar-cases` | ranked past cases with documented outcomes |
-| POST | `/api/auth/signin` | email (`username` form field) + password → access/refresh token (Supabase only) |
-| GET | `/api/auth/me` | current user from `Authorization: Bearer <token>` |
-| POST | `/api/auth/logout` | revoke the user's sessions (needs the service key) |
-| GET/PUT | `/api/profile/me` | your staff profile (name, role); needs a Bearer token |
+| POST | `/api/auth/signin` | `{email, password}` → sets the session cookies (HttpOnly) |
+| GET | `/api/auth/me` | who is signed in on this browser (never 401) |
+| POST | `/api/auth/logout` | sign out |
+| GET/PUT | `/api/profile/me` | your name |
+
+Nurse endpoints (resident details, alerts, reviews, history check) need a signed-in nurse. Without sign-in, `/api/residents` returns only IDs and names, and
+`POST /api/residents/{id}/notes` still works, so PSWs log notes without an account.
 
 ## Adding things
 

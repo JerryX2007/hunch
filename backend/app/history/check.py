@@ -53,11 +53,13 @@ class Evidence:
     author_role: Optional[str]
     note_text: str
     phrase: str
+    author_name: Optional[str] = None  # signed-in nurse who wrote the note
 
     @classmethod
     def from_facts(cls, f: NoteFacts, phrase: str) -> "Evidence":
         n = f.note
-        return cls(n.get("id"), f.time.isoformat(), n.get("author_role"), n.get("note_text", ""), phrase)
+        return cls(n.get("id"), f.time.isoformat(), n.get("author_role"), n.get("note_text", ""), phrase,
+                   n.get("author_name"))
 
 
 @dataclass

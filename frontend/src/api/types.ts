@@ -25,14 +25,18 @@ export interface ResidentSummary extends Resident {
   title: string | null
   urgent: boolean
   reasons: string[]
+  changes: string[]
+  days: number | null
   alert: AlertSummary | null
   last_note_at: string | null
+  last_note: { note_text: string; recorded_at: string; author_role: string | null; author_name?: string | null } | null
 }
 
 export interface Evidence {
   note_id: string | null
   recorded_at: string
   author_role: string | null
+  author_name?: string | null
   note_text: string
   phrase: string
 }
@@ -108,6 +112,7 @@ export interface CareNote {
   note_text: string
   recorded_at: string
   author_role: string | null
+  author_name?: string | null
 }
 
 export interface ResidentOverview {
@@ -139,4 +144,20 @@ export interface RunSummary {
   as_of: string | null
   residents: RunResult[]
   alerts: number
+}
+
+export type StaffRole = 'nurse'
+
+export interface Profile {
+  id: string
+  full_name: string
+  role: StaffRole
+}
+
+export interface Me {
+  signed_in: boolean
+  user: { id: string; email: string | null } | null
+  profile: Profile | null
+  is_nurse: boolean
+  demo_login: { nurses: { name: string; email: string }[]; password: string } | null
 }

@@ -108,6 +108,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--results", action="store_true", help="also run the history check and save alerts")
 args = parser.parse_args()
 
+# The live project still has the old DEMO-0xx residents: rename them first, or seeding
+# would add the 2W-0xx residents and their notes a second time.
+old = db.supabase.table("residents").select("id").like("id", "DEMO-%").limit(1).execute().data
+if old:
+    raise SystemExit("This database still has DEMO-0xx residents. Run "
+                     "db/migrations/011_named_residents_and_nurses.sql in the Supabase SQL Editor first.")
+
 ok = step("residents", seed_residents)
 ok = (step("care_notes", seed_notes) if ok else False) and ok  # notes need residents first
 ok = step("historical_cases", seed_cases) and ok

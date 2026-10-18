@@ -13,7 +13,7 @@ create table if not exists public.profiles (
   created_at  timestamptz not null default now()
 );
 
--- Fictional residents. id is a readable demo ID such as DEMO-014.
+-- Fictional residents. id is a readable unit ID such as 2W-014; display_name is the name.
 create table if not exists public.residents (
   id              text primary key,
   display_name    text not null,
@@ -29,6 +29,8 @@ create table if not exists public.care_notes (
   note_text          text not null,
   recorded_at        timestamptz not null,
   author_role        text,
+  author_name        text,          -- signed-in nurse's name (see 010)
+  author_id          uuid,
   extraction_status  text not null default 'pending',
   created_at         timestamptz not null default now()
 );

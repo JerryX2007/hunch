@@ -25,7 +25,7 @@ from typing import Any, Dict, List, Optional
 
 from ..store import get_store
 from . import narrative
-from .check import HistoryCheck, check_unit
+from .check import LABELS, HistoryCheck, check_unit
 from .match import SCORER_VERSION, build_run, match_cases, outcome_spread
 
 # Text values written to constrained columns (see db/migrations).
@@ -183,18 +183,24 @@ def resident_list(q: Optional[str] = None) -> List[Dict[str, Any]]:
     latest: Dict[str, Dict[str, Any]] = {}
     for a in s.alerts():  # newest first
         latest.setdefault(a["resident_id"], a)
-    last_note: Dict[str, str] = {}
+    last_note: Dict[str, Dict[str, Any]] = {}
     for n in s.notes():  # newest first
-        last_note.setdefault(n["resident_id"], str(n["recorded_at"]))
+        last_note.setdefault(n["resident_id"], n)
     out = []
     for r in s.residents():
         if q and q.lower() not in f"{r['id']} {r.get('display_name', '')}".lower():
             continue
         c = checks.get(r["id"])
+        n = last_note.get(r["id"])
         out.append({**r, "tier": c.tier if c else "baseline_limited",
                     "title": c.title if c and c.alert else None,
                     "urgent": bool(c and c.urgent), "reasons": c.reasons if c else [],
-                    "alert": latest.get(r["id"]), "last_note_at": last_note.get(r["id"])})
+                    # plain labels of what changed (persisting or urgent), for the dashboard row
+                    "changes": [LABELS.get(f.key, f.key) for f in c.findings if f.persisting or f.urgent] if c else [],
+                    "days": c.duration_days if c and (c.alert or c.tier == "watch") else None,
+                    "alert": latest.get(r["id"]),
+                    "last_note_at": str(n["recorded_at"]) if n else None,
+                    "last_note": {k: n.get(k) for k in ("note_text", "recorded_at", "author_role", "author_name")} if n else None})
     return sorted(out, key=lambda r: (TIER_ORDER.get(r["tier"], 9), r["id"]))
 
 
@@ -239,6 +245,16 @@ def set_alert_status(alert_id: str, status: str) -> Optional[Dict[str, Any]]:
     return get_store().set_alert_status(alert_id, status)
 
 
+UNIT_PREFIX = "2W-"
+
+
+def next_resident_id(prefix: str = UNIT_PREFIX) -> str:
+    """The next free unit ID: one more than the highest 2W-NNN in use."""
+    nums = [int(r["id"][len(prefix):]) for r in get_store().residents()
+            if r["id"].startswith(prefix) and r["id"][len(prefix):].isdigit()]
+    return f"{prefix}{(max(nums) + 1 if nums else 1):03d}"
+
+
 def add_resident(resident: Dict[str, Any]) -> Dict[str, Any]:
     """Create a resident. They show as "not enough history" until notes build a baseline."""
     row = get_store().add_resident({k: (str(v) if v is not None and k.startswith("baseline_") else v)
@@ -248,15 +264,19 @@ def add_resident(resident: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def add_note(resident_id: str, note_text: str, author_role: str = "PSW",
-             recorded_at: Optional[str] = None) -> Dict[str, Any]:
+             recorded_at: Optional[str] = None, author_name: Optional[str] = None,
+             author_id: Optional[str] = None) -> Dict[str, Any]:
     """Save a care note, then re-run the check for that resident. Returns the note and the new result."""
     s = get_store()
-    note = s.add_note({
+    row = {
         "resident_id": resident_id,
         "note_text": note_text.strip(),
         "author_role": author_role,
         # Local wall-clock time, no offset: matches how test_data/ timestamps are written.
         "recorded_at": recorded_at or datetime.now().replace(microsecond=0).isoformat(),
-    })
+    }
+    if author_name:  # signed-in nurse
+        row.update(author_name=author_name, author_id=author_id)
+    note = s.add_note(row)
     result = run(resident_id)
     return {"note": note, "result": result["residents"][0] if result["residents"] else None}

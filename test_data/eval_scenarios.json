@@ -1,6 +1,6 @@
 [
   {
-    "resident_id": "DEMO-011",
+    "resident_id": "2W-011",
     "scenario": "stable",
     "expected": {
       "alert_created": false,
@@ -8,7 +8,7 @@
     }
   },
   {
-    "resident_id": "DEMO-012",
+    "resident_id": "2W-012",
     "scenario": "stable",
     "expected": {
       "alert_created": false,
@@ -16,7 +16,7 @@
     }
   },
   {
-    "resident_id": "DEMO-013",
+    "resident_id": "2W-013",
     "scenario": "stable",
     "expected": {
       "alert_created": false,
@@ -24,7 +24,7 @@
     }
   },
   {
-    "resident_id": "DEMO-014",
+    "resident_id": "2W-014",
     "scenario": "planted_decline",
     "expected": {
       "alert_created": true,
@@ -39,7 +39,7 @@
     }
   },
   {
-    "resident_id": "DEMO-015",
+    "resident_id": "2W-015",
     "scenario": "negation_test",
     "expected": {
       "alert_created": false,
@@ -70,7 +70,7 @@
     }
   },
   {
-    "resident_id": "DEMO-016",
+    "resident_id": "2W-016",
     "scenario": "short_history",
     "expected": {
       "alert_created": false,
@@ -79,7 +79,7 @@
     }
   },
   {
-    "resident_id": "DEMO-017",
+    "resident_id": "2W-017",
     "scenario": "urgent_symptom",
     "expected": {
       "alert_created": true,
@@ -91,7 +91,7 @@
     }
   },
   {
-    "resident_id": "DEMO-018",
+    "resident_id": "2W-018",
     "scenario": "isolated_dip",
     "expected": {
       "alert_created": false,
@@ -99,7 +99,7 @@
     }
   },
   {
-    "resident_id": "DEMO-019",
+    "resident_id": "2W-019",
     "scenario": "planted_decline",
     "expected": {
       "alert_created": true,
@@ -111,7 +111,7 @@
     }
   },
   {
-    "resident_id": "DEMO-020",
+    "resident_id": "2W-020",
     "scenario": "stable",
     "expected": {
       "alert_created": false,
@@ -119,7 +119,7 @@
     }
   },
   {
-    "resident_id": "DEMO-021",
+    "resident_id": "2W-021",
     "scenario": "isolated_dip",
     "expected": {
       "alert_created": false,
@@ -127,7 +127,7 @@
     }
   },
   {
-    "resident_id": "DEMO-022",
+    "resident_id": "2W-022",
     "scenario": "constipation_pattern",
     "expected": {
       "alert_created": true,
