@@ -13,6 +13,7 @@ note text is never sent twice.
 """
 
 import argparse
+import logging
 import sys
 
 from app.history import service
@@ -23,6 +24,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--all", action="store_true", help="read every note again")
     args = ap.parse_args()
+    logging.basicConfig(level=logging.WARNING, format="  %(message)s")  # shows rate-limit waits
     if not ai_enabled():
         print("GEMINI_API_KEY is not set in backend/.env (or HUNCH_AI_READ=0). Nothing to do.")
         return 1

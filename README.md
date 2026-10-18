@@ -92,6 +92,9 @@ each with the note's own words. Python then has the last word (`backend/app/hist
   nothing could read, and that doesn't look like English, puts the resident on **Keep an eye
   on** with "A recent note needs reading", never quiet.
 
+On Gemini's free tier (15 requests a minute) the reader paces itself (`GEMINI_RPM`, default
+12), sends 25 notes per request and waits when Gemini asks it to, so reading all 1,347 seed
+notes takes about 5 minutes. If the daily limit runs out it stops; run it again the next day.
 `/api/health` shows how many notes Gemini has read. Model: `gemini-3.5-flash-lite`, falling
 back to `gemini-3.1-flash-lite` (set `GEMINI_NOTE_MODEL` to change it).
 

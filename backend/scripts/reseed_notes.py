@@ -124,7 +124,9 @@ def main(argv=None, sb=None, ask=input) -> int:
     from app.models.note_reader import ai_enabled
     service.invalidate()
     if ai_enabled():
-        print("  Gemini is reading the new notes...")
+        import logging
+        logging.basicConfig(level=logging.WARNING, format="    %(message)s")
+        print("  Gemini is reading the new notes (Ctrl+C to skip; run scripts.read_notes later)...")
         counts = service.read_all_notes()
         print(f"  Gemini read {counts['read']} notes ({counts['failed']} failed: run scripts.read_notes again for those)")
     summary = service.run()

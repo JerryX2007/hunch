@@ -8,13 +8,22 @@ is used, and the history check (Python) decides what it means for the resident.
 
 Several notes go in one request (one reading per note, matched by index). Needs
 GEMINI_API_KEY; HUNCH_AI_READ=0 turns it off. GEMINI_NOTE_MODEL (or GEMINI_MODEL) picks
-the model; if it fails, the fallback model is tried once.
+the model; the fallback model is tried when it fails.
+
+Rate limits: requests are paced to GEMINI_RPM a minute (default 12, under the free tier's
+15). When Gemini answers 429 ("retry in 56s") that model rests for as long as it asks while
+the other model is tried; a model the account can't use (404) is skipped from then on. A wait
+longer than MAX_WAIT_S (a daily limit) stops the reading; run it again later.
 """
 
 from __future__ import annotations
 
 import json
+import logging
 import os
+import re
+import threading
+import time
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional
@@ -27,6 +36,9 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 DEFAULT_MODEL = "gemini-3.5-flash-lite"
 FALLBACK_MODEL = "gemini-3.1-flash-lite"
 TIMEOUT_MS = 45_000
+MAX_WAIT_S = 180  # a rate-limit wait longer than this is a daily limit: give up for now
+
+log = logging.getLogger(__name__)
 
 Category = Literal["nutrition", "fluids", "energy", "mobility", "confusion", "pain",
                    "sleep", "social", "toileting", "breathing"]
@@ -139,18 +151,82 @@ def _call(model: str, notes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         return [r for r in data.get("readings", []) if isinstance(r, dict) and isinstance(r.get("index"), int)]
 
 
-def read_notes(texts: List[str]) -> Dict[str, Any]:
+class _Pacer:
+    """Spaces requests evenly so a burst never trips the per-minute limit."""
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._next = 0.0
+
+    def wait(self) -> None:
+        rpm = max(1.0, float(os.getenv("GEMINI_RPM", "12")))
+        with self._lock:
+            now = time.monotonic()
+            at = max(now, self._next)
+            self._next = at + 60.0 / rpm
+        if at > now:
+            time.sleep(at - now)
+
+
+_pacer = _Pacer()
+_state_lock = threading.Lock()
+_unusable: set = set()                # models this key can't use (404): skipped from now on
+_resting: Dict[str, float] = {}       # model -> monotonic time it may be tried again
+
+
+def _retry_after(message: str) -> Optional[float]:
+    """Seconds Gemini asks us to wait on a rate limit, or None if this isn't one."""
+    if "429" not in message and "RESOURCE_EXHAUSTED" not in message:
+        return None
+    m = re.search(r"retry in ([\d.]+)\s*s", message) or re.search(r"retryDelay'?\"?:\s*'?\"?(\d+)s", message)
+    return float(m.group(1)) + 1 if m else 30.0
+
+
+def _not_available(message: str) -> bool:
+    return "404" in message or "NOT_FOUND" in message or "is not supported" in message
+
+
+class GeminiBusy(RuntimeError):
+    """Rate limited for longer than we're willing to wait (often the daily limit)."""
+
+
+def read_notes(texts: List[str], max_wait: Optional[float] = None) -> Dict[str, Any]:
     """Read several notes in one request.
 
     Returns {"model": ..., "readings": [reading or None, ...]} in the same order as ``texts``
-    (None when Gemini skipped a note). Raises when every model fails.
+    (None when Gemini skipped a note). Waits out rate limits (up to ``max_wait`` seconds in all,
+    MAX_WAIT_S per wait); raises when no model can read them.
     """
     notes = [{"index": i, "text": t} for i, t in enumerate(texts)]
+    started = time.monotonic()
     last: Optional[Exception] = None
-    for model in models():
-        try:
-            by_index = {r["index"]: r for r in _call(model, notes)}
-            return {"model": model, "readings": [by_index.get(i) for i in range(len(texts))]}
-        except Exception as e:  # noqa: BLE001 - try the fallback model, then give up
-            last = e
-    raise RuntimeError(f"Gemini could not read the notes: {type(last).__name__}: {last}") from last
+    while True:
+        for model in models():
+            with _state_lock:
+                if model in _unusable or _resting.get(model, 0) > time.monotonic():
+                    continue
+            _pacer.wait()
+            try:
+                by_index = {r["index"]: r for r in _call(model, notes)}
+                return {"model": model, "readings": [by_index.get(i) for i in range(len(texts))]}
+            except Exception as e:  # noqa: BLE001 - try the other model, or wait
+                last, msg = e, str(e)
+                delay = _retry_after(msg)
+                with _state_lock:
+                    if delay is not None:
+                        _resting[model] = time.monotonic() + delay
+                    elif _not_available(msg):
+                        _unusable.add(model)
+                        log.warning("Gemini model %s isn't available to this key; using the others.", model)
+        with _state_lock:
+            usable = [m for m in models() if m not in _unusable]
+            wake = min((_resting.get(m, 0) for m in usable), default=None)
+        if not usable:
+            raise RuntimeError(f"Gemini could not read the notes: {type(last).__name__}: {last}") from last
+        wait = max(0.0, (wake or 0) - time.monotonic())
+        if wait == 0:  # failed for another reason (bad answer, network): give up on this batch
+            raise RuntimeError(f"Gemini could not read the notes: {type(last).__name__}: {last}") from last
+        if wait > MAX_WAIT_S or (max_wait is not None and time.monotonic() - started + wait > max_wait):
+            raise GeminiBusy(f"Gemini's rate limit needs a {wait:.0f} s wait; try again later. ({last})") from last
+        log.warning("Gemini rate limit: waiting %.0f s, then carrying on.", wait)
+        time.sleep(wait)
