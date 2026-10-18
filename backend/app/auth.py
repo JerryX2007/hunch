@@ -227,7 +227,9 @@ def sign_out(token: Optional[str]) -> None:
 # Cookies
 # ---------------------------------------------------------------------------
 def set_session_cookies(response: Response, request: Request, session: Dict[str, Any]) -> None:
-    secure = request.url.scheme == "https"
+    # Behind a host like Vercel the app may see plain http; the proxy says what the browser used.
+    forwarded = request.headers.get("x-forwarded-proto", "").split(",")[0].strip()
+    secure = request.url.scheme == "https" or forwarded == "https"
     response.set_cookie(ACCESS_COOKIE, session["access_token"], max_age=int(session["expires_in"]),
                         httponly=True, samesite="lax", secure=secure, path="/")
     if session.get("refresh_token"):

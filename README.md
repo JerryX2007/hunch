@@ -55,6 +55,23 @@ recognition, asks for English, and needs `https` or `localhost` plus an internet
 - **Brave, Firefox, browsers inside desktop apps:** no speech service, so the button is
   replaced by a note to use Chrome, Edge or Safari, or the keyboard's own dictation key.
 
+## Deploy on Vercel
+
+One Vercel project runs everything: `server.py` loads the FastAPI app, which serves the
+API under `/api` and the built web app (Vercel runs `npm run build` in `frontend/`, set in
+`vercel.json`). Python packages come from the root `pyproject.toml`.
+
+1. On vercel.com: **Add New › Project**, import this GitHub repo. Leave the root
+   directory as `./`; the framework should show **FastAPI**.
+2. Add these **Environment Variables** (same values as `backend/.env`):
+   `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and
+   `HUNCH_MODE=supabase`. Optional: `GEMINI_API_KEY` for AI-written explanations.
+3. **Deploy**, then open `https://<your-project>.vercel.app/api/health`: it should say
+   `"mode": "supabase"` and `"database": "ok"`.
+
+Use Supabase mode on Vercel: demo mode keeps notes in memory, and Vercel's functions don't
+keep memory between requests. Every push to `main` redeploys.
+
 ## How it fits together
 
 ```

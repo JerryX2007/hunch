@@ -1,0 +1,19 @@
+# For deploying on Vercel. Local development uses backend/requirements.txt via `python run.py`.
+[project]
+name = "hunch"
+version = "0.1.0"
+requires-python = ">=3.12"
+# Only what the API needs at runtime (no test or dev-server packages).
+dependencies = [
+    "fastapi==0.143.3",
+    "pydantic==2.14.1",
+    "pydantic-settings==2.15.0",
+    "python-dotenv==1.2.4",
+    "python-multipart==0.0.32",
+    "httpx==0.28.1",
+    "supabase==2.33.0",
+    "google-genai==2.31.0",
+]
+
+[tool.vercel]
+entrypoint = "server:app"
