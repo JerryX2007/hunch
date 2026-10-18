@@ -41,5 +41,11 @@ else:
     user_id = res.user.id
     print(f"Created {email}.")
 
-db.upsert_profile({"id": user_id, "full_name": args.name, "role": args.role})
+try:
+    db.upsert_profile({"id": user_id, "full_name": args.name, "role": args.role})
+except Exception as e:  # noqa: BLE001
+    if "profiles_role_check" in str(e):
+        sys.exit("The account exists, but the database rejected the role. Run "
+                 "db/migrations/009_profile_roles.sql in the Supabase SQL Editor, then run this again.")
+    raise
 print(f"{args.name} ({args.role}) can now sign in to the nurse screen.")

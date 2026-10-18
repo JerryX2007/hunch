@@ -22,6 +22,7 @@ Or just `python run.py --seed` from the repo root.
 | `006_row_level_security.sql` | RLS on every table: signed-in users read, backend writes with the service key |
 | `007_alert_review_statuses.sql` | Lets `alerts.status` take the review values (open / reviewed / needs_assessment / dismissed). **Run this one on the existing project too.** |
 | `008_profile_policies.sql` | Staff can create and edit their own profile (`profiles.id = auth.uid()`). Run on the existing project too. |
+| `009_profile_roles.sql` | Lets `profiles.role` be RN / RPN / NP / PSW / other (replaces an older rule on the live project). |
 
 **These files were rebuilt from `backend/schema_snapshot.json`** (column names, types and NOT NULLs match
 the live project as of the snapshot). Defaults, CHECK constraints, policies and the two view
