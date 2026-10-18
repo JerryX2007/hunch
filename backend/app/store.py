@@ -70,6 +70,9 @@ class SupabaseStore:
     def resident(self, resident_id: str) -> Optional[Dict[str, Any]]:
         return self.db.get_resident(resident_id)
 
+    def add_resident(self, resident: Dict[str, Any]) -> Dict[str, Any]:
+        return self.db.upsert_resident(resident)
+
     def notes(self, resident_id: Optional[str] = None) -> List[Dict[str, Any]]:
         return self.db.get_care_notes(resident_id)  # newest first
 
@@ -145,6 +148,12 @@ class MemoryStore:
 
     def resident(self, resident_id: str) -> Optional[Dict[str, Any]]:
         return next((dict(r) for r in self._residents if r["id"] == resident_id), None)
+
+    def add_resident(self, resident: Dict[str, Any]) -> Dict[str, Any]:
+        row = {**resident, "created_at": _now()}
+        with self._lock:
+            self._residents.append(row)
+        return dict(row)
 
     def notes(self, resident_id: Optional[str] = None) -> List[Dict[str, Any]]:
         rows = [n for n in self._notes if resident_id is None or n["resident_id"] == resident_id]

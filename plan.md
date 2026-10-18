@@ -1,5 +1,11 @@
 # Plan: Tasks #1‑#3 – Repository import check, package init, and router wiring
 
+> **Status (merged into `integrate-pipeline`): done.**
+> - #1: all repositories import, from the repo root (`backend.app.repositories…`) or from `backend/` (`app.repositories…`); they use relative imports.
+> - #2: `repositories/` is a package with `__all__` (now including `residents_repository`).
+> - #3: `/api/residents` reads the database through `app/store.py` (Supabase or demo data); `POST /api/residents` creates a resident. There is no `dependencies.get_supabase`; the store picks the client.
+> - Also: auth routes at `/api/auth/{signin,me,logout}`, profile routes at `/api/profile/me`, per-user profile RLS in `db/migrations/008_profile_policies.sql` (replaces the two `policies.sql` drafts). Tests: `cd backend && python -m pytest -q` (48 pass, no Supabase needed).
+
 ## Goal
 Validate that the newly‑moved repository modules import correctly, ensure the `repositories` folder is a proper Python package, and wire at least one FastAPI router (`residents`) to use its repository instead of the old inline functions.
 

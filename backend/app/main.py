@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .config import settings
-from .routers import auth, health, history, residents
+from .routers import auth, health, history, profile, residents
 
 log = logging.getLogger("hunch")
 
@@ -34,6 +34,7 @@ app.include_router(health.router, prefix="/api")
 app.include_router(residents.router, prefix="/api")
 app.include_router(history.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")  # /api/auth/signin, /me, /logout
+app.include_router(profile.router, prefix="/api")  # /api/profile/me
 
 # Serve the built web app (frontend/dist, made by `python run.py --build`) from the same origin.
 DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"

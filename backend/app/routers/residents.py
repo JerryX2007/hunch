@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, HTTPException
 
 from ..history import service
-from ..schemas import NewNote
+from ..schemas import NewNote, ResidentCreate
 from ..store import get_store
 
 router = APIRouter(prefix="/residents", tags=["residents"])
@@ -16,6 +16,14 @@ def list_residents(q: Optional[str] = None) -> List[Dict[str, Any]]:
     """Every resident with today's tier and their latest alert, most concerning first.
     ``q`` filters by ID or name."""
     return service.resident_list(q)
+
+
+@router.post("", status_code=201)
+def create_resident(body: ResidentCreate) -> Dict[str, Any]:
+    """Add a resident (e.g. a new admission). 409 if the ID is taken."""
+    if get_store().resident(body.id):
+        raise HTTPException(status_code=409, detail=f"Resident {body.id} already exists")
+    return service.add_resident(body.model_dump())
 
 
 @router.get("/{resident_id}")

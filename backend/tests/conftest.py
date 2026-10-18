@@ -68,7 +68,14 @@ class FakeSupabase:
 
 @pytest.fixture
 def fake_supabase():
-    from backend.app import database
+    # The app is importable as `app.*` (from backend/) and `backend.app.*` (from the
+    # repo root); each has its own database module and client, so patch both.
+    from contextlib import ExitStack
+
+    from app import database as db_a
+    from backend.app import database as db_b
     fake = FakeSupabase()
-    with patch.object(database.supabase, "table", side_effect=fake.table):
+    with ExitStack() as stack:
+        for db in {id(db_a): db_a, id(db_b): db_b}.values():
+            stack.enter_context(patch.object(db.supabase, "table", side_effect=fake.table))
         yield fake

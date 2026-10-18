@@ -239,6 +239,14 @@ def set_alert_status(alert_id: str, status: str) -> Optional[Dict[str, Any]]:
     return get_store().set_alert_status(alert_id, status)
 
 
+def add_resident(resident: Dict[str, Any]) -> Dict[str, Any]:
+    """Create a resident. They show as "not enough history" until notes build a baseline."""
+    row = get_store().add_resident({k: (str(v) if v is not None and k.startswith("baseline_") else v)
+                                    for k, v in resident.items()})
+    invalidate()
+    return row
+
+
 def add_note(resident_id: str, note_text: str, author_role: str = "PSW",
              recorded_at: Optional[str] = None) -> Dict[str, Any]:
     """Save a care note, then re-run the check for that resident. Returns the note and the new result."""

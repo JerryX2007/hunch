@@ -61,8 +61,6 @@ backend/            FastAPI (Python)
     utils/          error formatting + DB operation logging
   scripts/          seed_db, check_db, run_history_check (--eval), dump_schema
   tests/            pytest (offline, fake Supabase in conftest.py): python -m pytest -q
-  policies.sql      draft per-user RLS policies (not runnable yet: tables have no user_id);
-                    the working RLS setup is db/migrations/006
 db/migrations/      SQL to create the Supabase schema (see db/README.md)
 frontend/           Vite + React + TypeScript + Tailwind
   src/pages/        Nurse (dashboard), ResidentProfile, Psw (log a note), Join
@@ -76,6 +74,7 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 |---|---|---|
 | GET | `/api/health` | mode (demo/supabase), database status, whether Gemini is on |
 | GET | `/api/residents?q=` | residents with today's tier and latest alert, most concerning first |
+| POST | `/api/residents` | add a resident (`id`, `display_name`, optional baseline dates) |
 | GET | `/api/residents/{id}` | profile, live check with evidence, alert + summary, similar cases, last 10 notes |
 | GET/POST | `/api/residents/{id}/notes` | last notes / log a note (re-runs that resident) |
 | POST | `/api/history/run` | run the check for everyone and save alerts + similar cases |
@@ -86,6 +85,7 @@ ML/                 separate prototype: PSW icon "hunch" scoring engine (not wir
 | POST | `/api/auth/signin` | email (`username` form field) + password → access/refresh token (Supabase only) |
 | GET | `/api/auth/me` | current user from `Authorization: Bearer <token>` |
 | POST | `/api/auth/logout` | revoke the user's sessions (needs the service key) |
+| GET/PUT | `/api/profile/me` | your staff profile (name, role); needs a Bearer token |
 
 ## Adding things
 
