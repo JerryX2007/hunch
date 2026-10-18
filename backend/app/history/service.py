@@ -327,7 +327,7 @@ _reader_pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="note-reader
 def _read_new_note(note: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """Have Gemini read a note that was just saved. Saving never fails because of Gemini:
     on an error or a slow answer the rules read the note, and a later catch-up reads it."""
-    future = _reader_pool.submit(ai_read.ensure_read, [note], get_store())
+    future = _reader_pool.submit(ai_read.ensure_read, [note], get_store(), max_wait=NEW_NOTE_WAIT_S)
     try:
         future.result(timeout=NEW_NOTE_WAIT_S)
     except FutureTimeout:

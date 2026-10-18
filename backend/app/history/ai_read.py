@@ -38,8 +38,8 @@ from .vitals import from_text
 log = logging.getLogger(__name__)
 
 VERSION = 1  # bump when the prompt or the checks change, so notes are read again
-BATCH = 12   # notes per Gemini request
-WORKERS = 4  # requests in flight at once
+BATCH = 25   # notes per Gemini request (fewer requests: the free tier allows 15 a minute)
+WORKERS = 2  # requests in flight at once (note_reader paces them)
 
 CATEGORIES = {"nutrition", "fluids", "energy", "mobility", "confusion", "pain",
               "sleep", "social", "toileting", "breathing"}
@@ -233,7 +233,7 @@ def _save_cache() -> None:
 
 
 def ensure_read(notes: Iterable[Dict[str, Any]], store: Any = None, force: bool = False,
-                progress: Any = None) -> Dict[str, int]:
+                progress: Any = None, max_wait: Optional[float] = None) -> Dict[str, int]:
     """Have Gemini read every note in ``notes`` that has no current reading.
 
     Each reading is put on the note dict, saved with the note (``store.save_note_reading``)
@@ -268,7 +268,7 @@ def ensure_read(notes: Iterable[Dict[str, Any]], store: Any = None, force: bool 
 
     def run_batch(batch: List[Dict[str, Any]]) -> None:
         try:
-            result = note_reader.read_notes([n["note_text"] for n in batch])
+            result = note_reader.read_notes([n["note_text"] for n in batch], max_wait=max_wait)
         except Exception as e:  # noqa: BLE001 - leave these notes to the rules for now
             log.warning("Gemini note reading failed for %d note(s): %s", len(batch), e)
             with count_lock:

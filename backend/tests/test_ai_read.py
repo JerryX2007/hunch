@@ -162,7 +162,7 @@ class FakeGemini:
     def __init__(self, answers=None, fail=False):
         self.answers, self.fail, self.calls = answers or {}, fail, []
 
-    def __call__(self, texts):
+    def __call__(self, texts, max_wait=None):
         self.calls.append(list(texts))
         if self.fail:
             raise RuntimeError("429 rate limited")
@@ -193,12 +193,12 @@ def test_ensure_read_saves_caches_and_never_sends_a_note_twice(gemini):
     notes = [note(f"Ate {p}% of breakfast.", nid=f"n{p}") for p in range(0, 30)] + [note(TAGALOG, nid="tl")]
     out = ai_read.ensure_read(notes, store)
     assert out["read"] == 31 and out["failed"] == 0
-    assert len(gemini.calls) == 3  # batches of 12
+    assert len(gemini.calls) == 2  # batches of 25
     assert store.saved["tl"]["translation_en"] == TAGALOG_EN
-    assert ai_read.ensure_read(notes, store)["already_read"] == 31 and len(gemini.calls) == 3
+    assert ai_read.ensure_read(notes, store)["already_read"] == 31 and len(gemini.calls) == 2
     fresh = [note(n["note_text"], nid=n["id"] + "-copy") for n in notes]  # same text, new rows
     out = ai_read.ensure_read(fresh, store)
-    assert out["from_cache"] == 31 and len(gemini.calls) == 3
+    assert out["from_cache"] == 31 and len(gemini.calls) == 2
     assert json.loads(ai_read.CACHE_FILE.read_text())  # cache written
 
 
