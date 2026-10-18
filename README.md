@@ -33,8 +33,11 @@ needs a signed-in nurse; PSWs log notes at `/psw` without signing in.
 - **Live data (Supabase):** create accounts from `backend/`:
   `python -m scripts.create_nurse --email dana@example.com --name "Dana Lee"`
   (asks for the password; run it again to change the name or password).
-- **Demo data:** one built-in account, `nurse@demo.hunch` / `hunch-demo`, shown on the
-  sign-in screen. Change it with `HUNCH_DEMO_EMAIL` / `HUNCH_DEMO_PASSWORD`.
+- **Demo data:** the four fictional nurses in `test_data/people.json` (e.g.
+  `priya.raman@hunch.test`) sign in with password `hunch-demo` (`HUNCH_DEMO_PASSWORD`).
+  The sign-in screen lists them.
+- **The same four nurses on live data:** `python -m scripts.create_demo_nurses` creates their
+  accounts and links them to the notes they wrote (after `db/migrations/011`).
 
 Sessions live in HttpOnly cookies; expired Supabase sessions renew automatically.
 Five wrong passwords in five minutes from one address pause sign-in for that address.

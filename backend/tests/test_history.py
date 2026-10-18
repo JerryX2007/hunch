@@ -57,10 +57,10 @@ def test_extract_phrases(text, expected):
 
 
 def test_low_eater_is_judged_against_own_baseline():
-    assert not CHECKS["DEMO-020"].alert
+    assert not CHECKS["2W-020"].alert
 
 
 def test_alert_explains_itself():
-    c = CHECKS["DEMO-014"]
+    c = CHECKS["2W-014"]
     assert c.reasons and all(f.evidence for f in c.findings)
     assert any("usual" in r for r in c.reasons)

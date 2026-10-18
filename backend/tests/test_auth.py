@@ -28,15 +28,15 @@ def sign_in(c, **kw):
 def test_without_sign_in_only_names_are_visible(client):
     rows = client.get("/api/residents").json()
     assert rows and set(rows[0]) == {"id", "display_name"}  # no tiers, reasons or notes
-    for path in ["/api/residents/DEMO-014", "/api/residents/DEMO-014/notes", "/api/alerts", "/api/history/check"]:
+    for path in ["/api/residents/2W-014", "/api/residents/2W-014/notes", "/api/alerts", "/api/history/check"]:
         assert client.get(path).status_code == 401, path
     assert client.post("/api/history/run").status_code == 401
     assert client.patch("/api/alerts/x/status", json={"status": "reviewed"}).status_code == 401
-    assert client.post("/api/residents", json={"id": "DEMO-098", "display_name": "x"}).status_code == 401
+    assert client.post("/api/residents", json={"id": "2W-098", "display_name": "x"}).status_code == 401
 
 
 def test_psw_can_log_a_note_without_sign_in(client):
-    r = client.post("/api/residents/DEMO-012/notes", json={"note_text": "Ate all of lunch.", "author_role": "PSW"})
+    r = client.post("/api/residents/2W-012/notes", json={"note_text": "Ate all of lunch.", "author_role": "PSW"})
     assert r.status_code == 201
     assert set(r.json()["result"]) == {"resident_id", "tier", "title"}  # no clinical reasons
 
@@ -44,7 +44,9 @@ def test_psw_can_log_a_note_without_sign_in(client):
 def test_me_never_401(client):
     me = client.get("/api/auth/me").json()
     assert me["signed_in"] is False and me["is_nurse"] is False
-    assert me["demo_login"] == DEMO  # demo mode shows the demo account on the sign-in screen
+    # demo mode lists the four nurses and the shared demo password on the sign-in screen
+    assert me["demo_login"]["password"] == auth.DEMO_PASSWORD
+    assert [n["name"] for n in me["demo_login"]["nurses"]] == ["Priya Raman", "Daniel Osei", "Grace Liu", "Mateo Alvarez"]
 
 
 # --------------------------------------------------------------------------- signing in
@@ -60,37 +62,37 @@ def test_wrong_password_then_right(client):
 def test_signed_in_nurse_sees_everything_and_can_act(client):
     sign_in(client)
     rows = {r["id"]: r for r in client.get("/api/residents").json()}
-    assert rows["DEMO-014"]["tier"] in {"alert", "urgent", "watch", "quiet", "baseline_limited"}
-    assert client.get("/api/residents/DEMO-014").status_code == 200
+    assert rows["2W-014"]["tier"] in {"alert", "urgent", "watch", "quiet", "baseline_limited"}
+    assert client.get("/api/residents/2W-014").status_code == 200
     assert client.post("/api/history/run").status_code == 200
-    alert = client.get("/api/residents/DEMO-014").json()["alert"]
+    alert = client.get("/api/residents/2W-014").json()["alert"]
     assert client.patch(f"/api/alerts/{alert['id']}/status", json={"status": "reviewed"}).json()["status"] == "reviewed"
-    created = client.post("/api/residents", json={"id": "DEMO-097", "display_name": "New Admission"})
+    created = client.post("/api/residents", json={"id": "2W-097", "display_name": "New Admission"})
     assert created.status_code == 201
 
 
 def test_nurse_note_carries_her_name(client):
     sign_in(client)
-    client.post("/api/residents/DEMO-013/notes", json={"note_text": "Temp 37.2, resting.", "author_role": "PSW"})
-    note = client.get("/api/residents/DEMO-013/notes?limit=1").json()[0]
-    assert note["author_name"] == "Demo Nurse" and note["author_role"] == "Nurse"
+    client.post("/api/residents/2W-013/notes", json={"note_text": "Temp 37.2, resting.", "author_role": "PSW"})
+    note = client.get("/api/residents/2W-013/notes?limit=1").json()[0]
+    assert note["author_name"] == "Priya Raman" and note["author_role"] == "Nurse"
     assert note["author_id"] == auth.DEMO_USER_ID
-    row = {r["id"]: r for r in client.get("/api/residents").json()}["DEMO-013"]
-    assert row["last_note"]["author_name"] == "Demo Nurse"
+    row = {r["id"]: r for r in client.get("/api/residents").json()}["2W-013"]
+    assert row["last_note"]["author_name"] == "Priya Raman"
 
 
 def test_name_shows_on_evidence(client):
     sign_in(client)
-    client.post("/api/residents/DEMO-012/notes", json={"note_text": "Found on floor beside bed."})
-    check = client.get("/api/residents/DEMO-012").json()["check"]
+    client.post("/api/residents/2W-012/notes", json={"note_text": "Found on floor beside bed."})
+    check = client.get("/api/residents/2W-012").json()["check"]
     urgent = [f for f in check["findings"] if f["urgent"]]
-    assert urgent and urgent[0]["evidence"][0]["author_name"] == "Demo Nurse"
+    assert urgent and urgent[0]["evidence"][0]["author_name"] == "Priya Raman"
 
 
 def test_psw_note_has_no_name(client):
-    client.post("/api/residents/DEMO-013/notes", json={"note_text": "Ate all of lunch.", "author_role": "PSW"})
+    client.post("/api/residents/2W-013/notes", json={"note_text": "Ate all of lunch.", "author_role": "PSW"})
     sign_in(client)
-    note = client.get("/api/residents/DEMO-013/notes?limit=1").json()[0]
+    note = client.get("/api/residents/2W-013/notes?limit=1").json()[0]
     assert note["author_role"] == "PSW" and not note.get("author_name")
 
 
@@ -208,3 +210,20 @@ def test_supabase_account_signs_in_and_renews(client, supabase_mode):
     r = client.get("/api/alerts")
     assert r.status_code == 200
     assert "access-user-dana" in r.headers.get("set-cookie", "")  # new access cookie issued
+
+
+def test_each_demo_nurse_signs_in_as_herself(client):
+    for nurse in auth.DEMO_NURSES:
+        r = client.post("/api/auth/signin", json={"email": nurse["email"].upper(), "password": auth.DEMO_PASSWORD})
+        assert r.status_code == 200 and r.json()["profile"]["full_name"] == nurse["name"]
+        client.post("/api/auth/logout")
+    assert client.post("/api/auth/signin", json={"email": "nobody@hunch.test", "password": auth.DEMO_PASSWORD}).status_code == 401
+
+
+def test_residents_have_names_and_unit_ids(client):
+    sign_in(client)
+    rows = {r["id"]: r for r in client.get("/api/residents").json()}
+    assert rows["2W-014"]["display_name"] == "Evelyn Brooks"
+    assert all(not rid.startswith("DEMO") for rid in rows)
+    notes = client.get("/api/residents/2W-014/notes?limit=10").json()
+    assert {n["author_name"] for n in notes} <= {n["name"] for n in auth.DEMO_NURSES}

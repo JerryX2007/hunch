@@ -114,7 +114,10 @@ export default function Psw() {
         <h2 className="text-lg font-bold">Who is it about?</h2>
         {resident ? (
           <div className="mt-2 flex items-center gap-3 rounded-xl border-2 border-care bg-paper px-4 py-3">
-            <span className="text-2xl font-bold">{resident.display_name}</span>
+            <span className="text-2xl font-bold">
+              {resident.display_name}
+              {resident.display_name !== resident.id && <span className="ml-2 text-base font-normal text-muted">{resident.id}</span>}
+            </span>
             <button onClick={() => choose('')} className="ml-auto rounded-md px-3 py-2 font-bold text-care hover:bg-care-soft">
               Change
             </button>
@@ -134,9 +137,10 @@ export default function Psw() {
                 <button
                   key={r.id}
                   onClick={() => choose(r.id)}
-                  className="min-h-16 rounded-xl border border-line bg-paper px-3 py-4 text-lg font-bold hover:border-care active:bg-care-soft"
+                  className="min-h-16 rounded-xl border border-line bg-paper px-3 py-3 text-lg font-bold leading-tight hover:border-care active:bg-care-soft"
                 >
                   {r.display_name}
+                  {r.display_name !== r.id && <span className="mt-0.5 block text-sm font-normal text-muted">{r.id}</span>}
                 </button>
               ))}
             </div>

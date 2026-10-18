@@ -81,6 +81,11 @@ export function authorOf(n: { author_name?: string | null; author_role?: string 
   return n.author_name || n.author_role || 'Staff'
 }
 
+/** "Evelyn Brooks – 2W-014", or just the ID when the resident has no separate name. */
+export function residentLabel(r: { id: string; display_name: string }) {
+  return r.display_name && r.display_name !== r.id ? `${r.display_name} – ${r.id}` : r.id
+}
+
 export function plural(n: number, one: string, many = `${one}s`) {
   return `${n} ${n === 1 ? one : many}`
 }

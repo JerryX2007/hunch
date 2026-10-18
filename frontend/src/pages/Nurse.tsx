@@ -5,7 +5,7 @@ import type { ResidentSummary } from '../api/types'
 import { StatusBadge, TierBadge } from '../components/Badges'
 import ResidentDetail from '../components/ResidentDetail'
 import { useToast } from '../components/toastContext'
-import { NEEDS_ATTENTION, TIER_LABEL, TIER_ORDER, TIER_STYLE, authorOf, fmtDate, friendlyError, niceLabel, plural } from '../components/format'
+import { NEEDS_ATTENTION, TIER_LABEL, TIER_ORDER, TIER_STYLE, authorOf, fmtDate, friendlyError, niceLabel, plural, residentLabel } from '../components/format'
 
 const REFRESH_MS = 30_000
 
@@ -156,7 +156,7 @@ export default function Nurse() {
                       >
                         <span className={`h-2.5 w-2.5 rounded-full ${TIER_STYLE[r.tier].bar}`} aria-hidden />
                         <span className="font-bold">{r.display_name}</span>
-                        <span className="text-muted">{TIER_LABEL[r.tier].toLowerCase()}</span>
+                        <span className="text-muted">{r.display_name !== r.id ? `${r.id}, ` : ''}{TIER_LABEL[r.tier].toLowerCase()}</span>
                       </Link>
                     </li>
                   ))}
@@ -202,6 +202,7 @@ function ResidentRow({ r, selected, compact = false }: { r: ResidentSummary; sel
         <span className={`absolute inset-y-0 left-0 w-1.5 ${TIER_STYLE[r.tier].bar}`} aria-hidden />
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="text-lg font-bold">{r.display_name}</span>
+          {r.display_name !== r.id && <span className="text-sm text-muted">{r.id}</span>}
           <TierBadge tier={r.tier} />
           {r.alert && r.alert.status !== 'open' && <StatusBadge status={r.alert.status} />}
         </div>
@@ -234,7 +235,7 @@ function EmptyDetail({ first }: { first?: ResidentSummary }) {
           to={`/nurse/residents/${first.id}`}
           className="mt-5 rounded-md bg-care px-4 py-2.5 font-bold text-white hover:bg-care-dark"
         >
-          Start with {first.display_name}
+          Start with {residentLabel(first)}
         </Link>
       )}
     </div>

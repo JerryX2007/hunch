@@ -159,5 +159,5 @@ export interface Me {
   user: { id: string; email: string | null } | null
   profile: Profile | null
   is_nurse: boolean
-  demo_login: { email: string; password: string } | null
+  demo_login: { nurses: { name: string; email: string }[]; password: string } | null
 }

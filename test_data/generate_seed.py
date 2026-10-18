@@ -369,11 +369,28 @@ def check(residents, notes, cases):
                 and any(b in x["note_text"] for b in ("BM this", "bowel movement, normal", "formed BM"))]
 
 
+# ---------------------------------------------------------------- people (people.json)
+PEOPLE = json.loads((Path(__file__).parent / "people.json").read_text(encoding="utf-8"))
+
+
+def name_people(residents, notes, evals):
+    """Swap the internal DEMO-0xx keys for unit IDs + names, and give each note one of
+    the unit's nurses (random, but the same every run). Note text is unchanged."""
+    ids = {r["old_id"]: r for r in PEOPLE["residents"]}
+    nurses = [n["name"] for n in PEOPLE["nurses"]]
+    pick = random.Random(2026)
+    residents = [{**r, "id": ids[r["id"]]["id"], "display_name": ids[r["id"]]["name"]} for r in residents]
+    notes = [{**n, "resident_id": ids[n["resident_id"]]["id"], "author_name": pick.choice(nurses)} for n in notes]
+    evals = [{**e, "resident_id": ids[e["resident_id"]]["id"]} for e in evals]
+    return residents, notes, evals
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     residents, notes = build_residents(), build_notes()
     check(residents, notes, CASES)
-    for name, data in [("residents", residents), ("notes", notes), ("cases", CASES), ("eval_scenarios", EVAL)]:
+    residents, notes, evals = name_people(residents, notes, EVAL)
+    for name, data in [("residents", residents), ("notes", notes), ("cases", CASES), ("eval_scenarios", evals)]:
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
     print(f"{len(residents)} residents, {len(notes)} notes, {len(CASES)} cases, {len(EVAL)} eval scenarios")
 

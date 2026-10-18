@@ -5,8 +5,9 @@ Two back ends, picked like the data store (app/store.py):
 * Supabase mode: Supabase Auth, email + password. Accounts are created by whoever
   runs the system (no public sign-up):
       python -m scripts.create_nurse --email dana@example.com --name "Dana Lee"
-* Demo mode: one built-in demo nurse (HUNCH_DEMO_EMAIL / HUNCH_DEMO_PASSWORD,
-  default nurse@demo.hunch / hunch-demo). Demo sessions are signed by this server.
+* Demo mode: the unit's four fictional nurses (test_data/people.json) can sign in
+  with password HUNCH_DEMO_PASSWORD (default hunch-demo). Demo sessions are signed
+  by this server.
 
 The browser never handles a token: sign-in sets HttpOnly, SameSite=Lax cookies, and
 an expired Supabase session is renewed from the refresh cookie. API clients may send
@@ -31,7 +32,7 @@ from typing import Any, Deque, Dict, Optional
 
 from fastapi import Depends, HTTPException, Request, Response, status
 
-from .store import get_store
+from .store import DATA_DIR, get_store
 
 ACCESS_COOKIE = "hunch_access"
 REFRESH_COOKIE = "hunch_refresh"
@@ -41,9 +42,17 @@ REFRESH_SECONDS = 30 * 24 * 60 * 60
 MAX_FAILURES = 5          # wrong passwords allowed per address...
 FAILURE_WINDOW = 5 * 60   # ...in this many seconds
 
-DEMO_EMAIL = os.getenv("HUNCH_DEMO_EMAIL", "nurse@demo.hunch").strip().lower()
 DEMO_PASSWORD = os.getenv("HUNCH_DEMO_PASSWORD", "hunch-demo")
-DEMO_USER_ID = str(uuid.uuid5(uuid.NAMESPACE_URL, f"hunch-demo:{DEMO_EMAIL}"))
+DEMO_NURSES = [{"name": n["name"], "email": n["email"].lower()}
+               for n in json.loads((DATA_DIR / "people.json").read_text(encoding="utf-8"))["nurses"]]
+
+
+def demo_user_id(email: str) -> str:
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, f"hunch-demo:{email.lower()}"))
+
+
+DEMO_EMAIL = DEMO_NURSES[0]["email"]          # used in tests
+DEMO_USER_ID = demo_user_id(DEMO_EMAIL)
 
 
 @dataclass
@@ -151,13 +160,13 @@ def sign_in(email: str, password: str, client: str = "unknown") -> Dict[str, Any
     email = (email or "").strip().lower()
     try:
         if mode() == "demo":
-            ok = hmac.compare_digest(email.encode(), DEMO_EMAIL.encode()) & \
-                 hmac.compare_digest((password or "").encode(), DEMO_PASSWORD.encode())
-            if not ok:
+            nurse = next((n for n in DEMO_NURSES if hmac.compare_digest(email.encode(), n["email"].encode())), None)
+            ok = hmac.compare_digest((password or "").encode(), DEMO_PASSWORD.encode())
+            if not (nurse and ok):
                 raise _unauthorized("That email and password don’t match an account.")
-            user = User(DEMO_USER_ID, DEMO_EMAIL)
+            user = User(demo_user_id(nurse["email"]), nurse["email"])
             if not get_store().profile(user.id):
-                get_store().save_profile({"id": user.id, "full_name": "Demo Nurse", "role": NURSE_ROLE})
+                get_store().save_profile({"id": user.id, "full_name": nurse["name"], "role": NURSE_ROLE})
             session = {"access_token": _demo_token(user), "refresh_token": None,
                        "expires_in": DEMO_SESSION_SECONDS, "user": user}
         else:

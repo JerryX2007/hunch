@@ -93,19 +93,22 @@ export default function Login() {
         {me?.demo_login && (
           <div className="mt-6 rounded-lg bg-ward p-4">
             <p className="font-bold">Running on demo data</p>
-            <p className="mt-1 text-sm text-muted">
-              Demo account: {me.demo_login.email}, password {me.demo_login.password}
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail(me.demo_login!.email)
-                setPassword(me.demo_login!.password)
-              }}
-              className="mt-2 rounded-md border border-line bg-paper px-3 py-1.5 text-sm font-bold hover:border-care hover:text-care"
-            >
-              Use the demo account
-            </button>
+            <p className="mt-1 text-sm text-muted">Pick a nurse to fill in her or his details (password {me.demo_login.password}).</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {me.demo_login.nurses.map((n) => (
+                <button
+                  key={n.email}
+                  type="button"
+                  onClick={() => {
+                    setEmail(n.email)
+                    setPassword(me.demo_login!.password)
+                  }}
+                  className={`rounded-md border bg-paper px-3 py-1.5 text-sm font-bold hover:border-care hover:text-care ${email === n.email ? 'border-care text-care' : 'border-line'}`}
+                >
+                  {n.name}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

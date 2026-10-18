@@ -25,7 +25,7 @@ def _me(request: Request, user: Optional[auth.User]) -> Dict[str, Any]:
         "profile": profile,
         "is_nurse": bool(auth.nurse_profile(request, user)),
         # Shown on the sign-in screen only when running on demo data.
-        "demo_login": {"email": auth.DEMO_EMAIL, "password": auth.DEMO_PASSWORD} if demo else None,
+        "demo_login": {"nurses": auth.DEMO_NURSES, "password": auth.DEMO_PASSWORD} if demo else None,
     }
 
 

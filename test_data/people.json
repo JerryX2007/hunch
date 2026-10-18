@@ -1,0 +1,23 @@
+{
+  "_note": "Fictional people for the demo unit (2 West). Used by generate_seed.py, the demo sign-in (backend/app/auth.py), scripts/create_demo_nurses.py and db/migrations/011_named_residents_and_nurses.sql. Keep them in sync.",
+  "residents": [
+    {"old_id": "DEMO-011", "id": "2W-011", "name": "Margaret Chen"},
+    {"old_id": "DEMO-012", "id": "2W-012", "name": "Harold Okafor"},
+    {"old_id": "DEMO-013", "id": "2W-013", "name": "Rosa Marchetti"},
+    {"old_id": "DEMO-014", "id": "2W-014", "name": "Evelyn Brooks"},
+    {"old_id": "DEMO-015", "id": "2W-015", "name": "Arjun Mehta"},
+    {"old_id": "DEMO-016", "id": "2W-016", "name": "Dorothy Kowalski"},
+    {"old_id": "DEMO-017", "id": "2W-017", "name": "Walter Nguyen"},
+    {"old_id": "DEMO-018", "id": "2W-018", "name": "Lillian Haddad"},
+    {"old_id": "DEMO-019", "id": "2W-019", "name": "George Fitzgerald"},
+    {"old_id": "DEMO-020", "id": "2W-020", "name": "Agnes Tremblay"},
+    {"old_id": "DEMO-021", "id": "2W-021", "name": "Frank Adeyemi"},
+    {"old_id": "DEMO-022", "id": "2W-022", "name": "Irene Santos"}
+  ],
+  "nurses": [
+    {"name": "Priya Raman", "email": "priya.raman@hunch.test"},
+    {"name": "Daniel Osei", "email": "daniel.osei@hunch.test"},
+    {"name": "Grace Liu", "email": "grace.liu@hunch.test"},
+    {"name": "Mateo Alvarez", "email": "mateo.alvarez@hunch.test"}
+  ]
+}

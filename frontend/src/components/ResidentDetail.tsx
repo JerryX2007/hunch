@@ -67,7 +67,12 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
       <header className="relative border-b border-line px-5 pb-4 pt-5 sm:px-6">
         {check && <span className={`absolute inset-x-0 top-0 h-1.5 ${TIER_STYLE[check.tier].bar}`} aria-hidden />}
         <div className="flex flex-wrap items-center gap-3">
-          <h2 className="text-3xl font-bold tracking-tight">{resident.display_name}</h2>
+          <h2 className="text-3xl font-bold tracking-tight">
+            {resident.display_name}
+            {resident.display_name !== resident.id && (
+              <span className="ml-3 align-middle text-lg font-normal text-muted">{resident.id}</span>
+            )}
+          </h2>
           {check && <TierBadge tier={check.tier} className="text-base" />}
         </div>
         {check && <p className="mt-1 text-muted">{TIER_HINT[check.tier]}</p>}
@@ -113,7 +118,7 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
               </p>
             ) : triggers.length > 0 ? (
               <p className="mt-2 max-w-prose text-lg">
-                Different from {resident.display_name}’s usual for {plural(check.duration_days, 'day')}:{' '}
+                Different from {resident.display_name === resident.id ? resident.id : resident.display_name.split(' ')[0]}’s usual for {plural(check.duration_days, 'day')}:{' '}
                 {triggers.map((f) => label(f).toLowerCase()).join(', ')}.
               </p>
             ) : (
