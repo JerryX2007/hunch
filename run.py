@@ -108,9 +108,16 @@ def npm() -> str | None:
 
 
 def npm_install_if_needed(npm_cmd: str, env: dict) -> None:
-    if not (FRONTEND / "node_modules").is_dir():
+    """Install when node_modules is missing or package-lock.json changed since the last install."""
+    installed = FRONTEND / "node_modules" / ".package-lock.json"  # written by npm on every install
+    lock = FRONTEND / "package-lock.json"
+    if not installed.exists():
         say("Installing web app packages (first run only)...")
-        subprocess.run([npm_cmd, "install", "--no-audit", "--no-fund"], cwd=FRONTEND, env=env, check=True)
+    elif lock.exists() and lock.stat().st_mtime > installed.stat().st_mtime:
+        say("Web app packages changed; updating...")
+    else:
+        return
+    subprocess.run([npm_cmd, "install", "--no-audit", "--no-fund"], cwd=FRONTEND, env=env, check=True)
 
 
 # ---------------------------------------------------------------------------

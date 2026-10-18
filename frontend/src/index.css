@@ -1,10 +1,72 @@
 @import "tailwindcss";
 
-/* Tailwind v4 borders default to the text colour; use a light grey instead. */
+/* Hunch: a calm ward palette. Status colours carry meaning; nothing else is coloured. */
+@theme {
+  --font-sans: "Atkinson Hyperlegible", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-ink: #17263a;        /* text, header */
+  --color-muted: #586777;      /* secondary text */
+  --color-line: #d9e0e6;       /* borders */
+  --color-ward: #eef2f4;       /* page background */
+  --color-paper: #ffffff;      /* panels */
+
+  --color-care: #0d6b62;       /* actions */
+  --color-care-dark: #0a564f;
+  --color-care-soft: #e2f0ed;
+
+  --color-urgent: #b42318;     /* act now */
+  --color-urgent-soft: #fdebe9;
+  --color-change: #9a4a06;     /* changed from usual */
+  --color-change-bar: #d97a14;
+  --color-change-soft: #fcefdc;
+  --color-watch: #7a6510;      /* keep an eye on */
+  --color-watch-soft: #f8f1d2;
+  --color-calm: #3c6a52;       /* as usual */
+  --color-calm-soft: #e5f0e9;
+  --color-new: #55626f;        /* not enough history */
+  --color-new-soft: #e7ebef;
+}
+
 @layer base {
   *,
   ::before,
   ::after {
-    border-color: var(--color-slate-200);
+    border-color: var(--color-line);
   }
+  html {
+    font-size: 17px; /* Atkinson reads best a touch larger */
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-ward);
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-care);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.toast-in {
+  animation: toast-in 180ms ease-out;
 }

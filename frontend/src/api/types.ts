@@ -25,8 +25,11 @@ export interface ResidentSummary extends Resident {
   title: string | null
   urgent: boolean
   reasons: string[]
+  changes: string[]
+  days: number | null
   alert: AlertSummary | null
   last_note_at: string | null
+  last_note: { note_text: string; recorded_at: string; author_role: string | null } | null
 }
 
 export interface Evidence {

@@ -25,7 +25,7 @@ from typing import Any, Dict, List, Optional
 
 from ..store import get_store
 from . import narrative
-from .check import HistoryCheck, check_unit
+from .check import LABELS, HistoryCheck, check_unit
 from .match import SCORER_VERSION, build_run, match_cases, outcome_spread
 
 # Text values written to constrained columns (see db/migrations).
@@ -183,18 +183,24 @@ def resident_list(q: Optional[str] = None) -> List[Dict[str, Any]]:
     latest: Dict[str, Dict[str, Any]] = {}
     for a in s.alerts():  # newest first
         latest.setdefault(a["resident_id"], a)
-    last_note: Dict[str, str] = {}
+    last_note: Dict[str, Dict[str, Any]] = {}
     for n in s.notes():  # newest first
-        last_note.setdefault(n["resident_id"], str(n["recorded_at"]))
+        last_note.setdefault(n["resident_id"], n)
     out = []
     for r in s.residents():
         if q and q.lower() not in f"{r['id']} {r.get('display_name', '')}".lower():
             continue
         c = checks.get(r["id"])
+        n = last_note.get(r["id"])
         out.append({**r, "tier": c.tier if c else "baseline_limited",
                     "title": c.title if c and c.alert else None,
                     "urgent": bool(c and c.urgent), "reasons": c.reasons if c else [],
-                    "alert": latest.get(r["id"]), "last_note_at": last_note.get(r["id"])})
+                    # plain labels of what changed (persisting or urgent), for the dashboard row
+                    "changes": [LABELS.get(f.key, f.key) for f in c.findings if f.persisting or f.urgent] if c else [],
+                    "days": c.duration_days if c and (c.alert or c.tier == "watch") else None,
+                    "alert": latest.get(r["id"]),
+                    "last_note_at": str(n["recorded_at"]) if n else None,
+                    "last_note": {k: n.get(k) for k in ("note_text", "recorded_at", "author_role")} if n else None})
     return sorted(out, key=lambda r: (TIER_ORDER.get(r["tier"], 9), r["id"]))
 
 

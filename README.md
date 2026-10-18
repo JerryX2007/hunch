@@ -57,7 +57,8 @@ backend/            FastAPI (Python)
   tests/            pytest (offline, fake Supabase in conftest.py): python -m pytest -q
 db/migrations/      SQL to create the Supabase schema (see db/README.md)
 frontend/           Vite + React + TypeScript + Tailwind
-  src/pages/        Nurse (dashboard), ResidentProfile, Psw (log a note), Join
+  src/pages/        Nurse (list + resident detail), Psw (log a note), Join
+  src/components/   ResidentDetail, Badges, Toast, format (labels, dates)
 test_data/          fictional residents, notes, case library, eval scenarios
 ML/                 separate prototype: PSW icon "hunch" scoring engine (not wired in)
 ```

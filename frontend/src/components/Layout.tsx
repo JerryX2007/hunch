@@ -8,45 +8,62 @@ export default function Layout() {
   const [down, setDown] = useState(false)
 
   useEffect(() => {
-    api.health().then(setHealth).catch(() => setDown(true))
+    api
+      .health()
+      .then((h) => {
+        setHealth(h)
+        setDown(false)
+      })
+      .catch(() => setDown(true))
   }, [])
 
-  const nav = ({ isActive }: { isActive: boolean }) =>
-    `rounded-md px-3 py-1.5 text-sm font-medium ${isActive ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'}`
+  const tab = ({ isActive }: { isActive: boolean }) =>
+    `rounded-md px-3 py-2 text-base font-bold transition-colors ${isActive ? 'bg-white text-ink' : 'text-white/80 hover:bg-white/10 hover:text-white'}`
+
+  const dbProblem = health && health.database !== 'ok'
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="bg-slate-800 px-4 py-1 text-center text-xs text-slate-200">
-        Prototype for clinical review support. All residents and notes are fictional.
-      </div>
-      <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
-          <Link to="/" className="mr-2 text-lg font-bold tracking-tight">
-            Hunch
+    <div className="flex min-h-screen flex-col">
+      <header className="sticky top-0 z-30 bg-ink text-white">
+        <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-2.5 sm:gap-4">
+          <Link to="/nurse" className="mr-1 flex items-baseline gap-2 rounded-md">
+            <span className="text-xl font-bold tracking-tight">Hunch</span>
+            <span className="hidden text-sm text-white/70 sm:inline">2 West</span>
           </Link>
-          <nav className="flex gap-1">
-            <NavLink to="/nurse" className={nav}>
-              Nurse dashboard
+          <nav className="flex gap-1" aria-label="Main">
+            <NavLink to="/nurse" className={tab}>
+              Residents
             </NavLink>
-            <NavLink to="/psw" className={nav}>
+            <NavLink to="/psw" className={tab}>
               Log a note
             </NavLink>
           </nav>
-          <div className="ml-auto text-xs text-slate-500">
-            {down && <span className="font-medium text-red-600">Backend not reachable. Is run.py running?</span>}
+          <div className="ml-auto hidden text-right text-sm text-white/70 md:block">
             {health && (
               <span title={health.database}>
-                Data: {health.mode === 'supabase' ? 'Supabase' : 'demo (in memory)'}
-                {health.database !== 'ok' && <span className="ml-1 font-medium text-red-600">· database error</span>}
-                {' · '}Summaries: {health.llm ? 'Gemini, checked' : 'template'}
+                {health.mode === 'supabase' ? 'Live data' : 'Demo data'}
+                {health.llm ? ', AI summaries on' : ''}
               </span>
             )}
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl p-4">
+
+      {(down || dbProblem) && (
+        <div className="bg-urgent px-4 py-2 text-center text-sm text-white" role="alert">
+          {down
+            ? 'Can’t reach the Hunch server. Start it with python run.py, then reload.'
+            : `The database isn’t answering (${health?.database}). To present without it: python run.py --demo`}
+        </div>
+      )}
+
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-5">
         <Outlet />
       </main>
+
+      <footer className="px-4 pb-5 text-center text-sm text-muted">
+        Prototype for clinical review support. All residents and notes are fictional. Decisions stay with qualified staff.
+      </footer>
     </div>
   )
 }
