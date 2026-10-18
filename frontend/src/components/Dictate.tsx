@@ -30,12 +30,35 @@ function recognizerCtor(): RecognizerCtor | null {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null
 }
 
+/**
+ * Some Chrome-based browsers (Brave, browsers inside desktop apps) have the speech API but
+ * not Google's speech service behind it, so every attempt fails with a "network" error.
+ */
+function lacksSpeechService() {
+  const n = navigator as Navigator & { brave?: unknown }
+  return Boolean(n.brave) || /\bElectron\//.test(navigator.userAgent)
+}
+
+/**
+ * Safari, and every browser on iPhone/iPad (they all use Safari's engine). Its "continuous"
+ * mode switches the microphone off and on between phrases, and it sometimes ends without
+ * marking the last words final, so there we listen for one phrase per tap.
+ */
+function isSafariEngine() {
+  const ua = navigator.userAgent
+  return /AppleWebKit/.test(ua) && !/(Chrome|Chromium|Edg)\//.test(ua)
+}
+
+const USE_OTHER =
+  'Open Hunch in Google Chrome, Edge or Safari, or use your keyboard’s own dictation (the microphone key).'
+
 const ERRORS: Record<string, string> = {
   'not-allowed': 'The microphone is blocked. Allow it in the browser’s address bar, then try again.',
-  'service-not-allowed': 'The microphone is blocked. Allow it in the browser’s address bar, then try again.',
+  'service-not-allowed':
+    'Voice input is turned off on this device. Turn on Dictation in the keyboard settings (System Settings › Keyboard on a Mac, Settings › General › Keyboard on iPhone), then try again.',
   'no-speech': 'Didn’t hear anything. Tap Speak and try again.',
   'audio-capture': 'No microphone found.',
-  network: 'Speech-to-text needs an internet connection.',
+  network: `This browser can’t reach a speech service. ${USE_OTHER}`,
 }
 
 /** "ate less than usual" -> "Ate less than usual." so the note reads (and is read) as a sentence. */
@@ -47,9 +70,10 @@ function asSentence(text: string) {
 }
 
 /**
- * A "Speak" button: tap to start, talk, tap to stop. Each finished phrase is passed to
- * onText; words still being recognised show live underneath. Uses the browser's own speech
- * recognition (Chrome, Edge, Safari); in other browsers it says so instead.
+ * A "Speak" button: tap to start, talk, tap to stop (Safari stops by itself after a pause).
+ * Each finished phrase is passed to onText; words still being recognised show live
+ * underneath. Uses the browser's own speech recognition (Chrome, Edge, Safari); in other
+ * browsers it says so instead.
  */
 export default function Dictate({ onText, large = false }: { onText: (sentence: string) => void; large?: boolean }) {
   const [listening, setListening] = useState(false)
@@ -60,53 +84,74 @@ export default function Dictate({ onText, large = false }: { onText: (sentence: 
   useEffect(() => {
     sink.current = onText
   }, [onText])
-  useEffect(() => () => rec.current?.abort(), [])
+  useEffect(
+    () => () => {
+      const r = rec.current
+      rec.current = null // tells onend not to hand over leftover words after we've gone
+      r?.abort()
+    },
+    [],
+  )
 
   const Ctor = recognizerCtor()
-  if (!Ctor || !window.isSecureContext) {
+  if (!Ctor || !window.isSecureContext || lacksSpeechService()) {
     return (
       <p className="text-sm text-muted">
-        {Ctor
-          ? 'Voice input needs a secure (https) page.'
-          : 'Voice input works in Chrome, Edge and Safari.'}
+        {!Ctor || lacksSpeechService()
+          ? `Voice input isn’t available in this browser. ${USE_OTHER}`
+          : 'Voice input needs a secure (https) page.'}
       </p>
     )
   }
 
   function start() {
-    if (!Ctor) return
+    if (!Ctor || rec.current) return
+    if (!navigator.onLine) {
+      setError('You’re offline. Voice input needs the internet; you can still type.')
+      return
+    }
     setError(null)
     const r = new Ctor()
     // The note reader understands English, so ask for English regardless of browser locale.
     r.lang = 'en-CA'
-    r.continuous = true
+    r.continuous = !isSafariEngine()
     r.interimResults = true
+    let used = 0 // results already handed to onText (some browsers repeat final results)
+    let pending = '' // words heard but not yet marked final
     r.onresult = (e) => {
       let live = ''
       for (let i = e.resultIndex; i < e.results.length; i++) {
         const res = e.results[i]
         if (res.isFinal) {
+          if (i < used) continue
+          used = i + 1
           const s = asSentence(res[0].transcript)
           if (s) sink.current(s)
         } else {
           live += res[0].transcript
         }
       }
+      pending = live
       setInterim(live)
     }
     r.onerror = (e) => {
       if (e.error !== 'aborted') setError(ERRORS[e.error] ?? 'Voice input stopped. Try again.')
     }
     r.onend = () => {
+      // Safari can stop without marking the last words final; keep them rather than lose them.
+      const left = asSentence(pending)
+      if (left && rec.current === r) sink.current(left)
+      pending = ''
+      if (rec.current === r) rec.current = null
       setListening(false)
       setInterim('')
-      rec.current = null
     }
     rec.current = r
     try {
       r.start()
       setListening(true)
     } catch {
+      rec.current = null
       setError('Voice input couldn’t start. Try again.')
     }
   }
@@ -122,7 +167,7 @@ export default function Dictate({ onText, large = false }: { onText: (sentence: 
         type="button"
         onClick={listening ? stop : start}
         aria-pressed={listening}
-        title="Your browser turns speech into text (in Chrome, using Google’s speech service)."
+        title="Your browser turns speech into text (Chrome uses Google’s speech service, Safari uses Apple’s)."
         className={`inline-flex items-center gap-2 rounded-lg border-2 font-bold transition-colors ${size} ${
           listening ? 'border-urgent bg-urgent text-white' : 'border-care bg-paper text-care hover:bg-care-soft'
         }`}

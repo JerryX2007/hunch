@@ -45,10 +45,15 @@ Five wrong passwords in five minutes from one address pause sign-in for that add
 ## Voice notes
 
 Every note box (PSW note, resident note, admission note) has a **Speak** button. Tap it,
-talk, and the words appear in the box as you go; tap again to stop, then check and save.
-It uses the browser's built-in speech recognition (Chrome, Edge, Safari; Chrome sends the
-audio to Google's speech service), asks for English, and needs `https` or `localhost`.
-Firefox shows a short "use Chrome, Edge or Safari" note instead of the button.
+talk, and the words appear in the box as you go. It uses the browser's built-in speech
+recognition, asks for English, and needs `https` or `localhost` plus an internet connection.
+
+- **Chrome / Edge:** keeps listening until you tap again (audio goes to Google's speech service).
+- **Safari and every iPhone browser:** listens for one phrase per tap and stops by itself
+  after a pause (Safari's continuous mode keeps switching the microphone off and on).
+  Needs Dictation turned on in the device's keyboard settings.
+- **Brave, Firefox, browsers inside desktop apps:** no speech service, so the button is
+  replaced by a note to use Chrome, Edge or Safari, or the keyboard's own dictation key.
 
 ## How it fits together
 
