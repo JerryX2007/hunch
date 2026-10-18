@@ -63,6 +63,7 @@ class SupabaseStore:
         # (db/migrations/012_note_ai_reading.sql not run).
         self._readings: Dict[str, Dict[str, Any]] = {}
         self._no_reading_column = False
+        self._no_vitals_table = False  # db/migrations/013_vitals.sql not run yet
 
     def ping(self) -> None:
         self.db.ping()
@@ -116,6 +117,35 @@ class SupabaseStore:
             if note.get("author_name"):
                 fallback["author_role"] = note["author_name"]
             return self.db.upsert_care_note(fallback)
+
+    # vitals
+    def vitals(self, resident_id: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Charted vitals, newest first. Empty (with a warning) until 013_vitals.sql is run."""
+        if self._no_vitals_table:
+            return []
+
+        def q():
+            b = self.sb.table("vitals").select("*")
+            if resident_id:
+                b = b.eq("resident_id", resident_id)
+            return b.order("recorded_at", desc=True).order("id")
+        try:
+            return self.db._fetch_all(q)
+        except Exception as e:  # noqa: BLE001
+            if "vitals" not in str(e):
+                raise
+            import logging
+            logging.getLogger(__name__).warning("No vitals table yet; run db/migrations/013_vitals.sql.")
+            self._no_vitals_table = True
+            return []
+
+    def add_vital(self, row: Dict[str, Any]) -> Dict[str, Any]:
+        try:
+            return self.sb.table("vitals").insert(row).execute().data[0]
+        except Exception as e:  # noqa: BLE001
+            if "vitals" in str(e) and ("exist" in str(e) or "schema cache" in str(e)):
+                raise RuntimeError("Vitals can't be saved yet: run db/migrations/013_vitals.sql in Supabase.") from e
+            raise
 
     # staff profiles
     def profile(self, user_id: str) -> Optional[Dict[str, Any]]:
@@ -178,6 +208,11 @@ class MemoryStore:
         for n in load("notes.json"):
             nid = str(uuid.uuid5(_NOTE_NS, f"{n['resident_id']}|{n['recorded_at']}|{n['note_text']}"))
             self._notes.append({**n, "id": nid, "extraction_status": "pending", "created_at": _now()})
+        self._vitals: List[Dict[str, Any]] = []
+        if (DATA_DIR / "vitals.json").exists():
+            for v in load("vitals.json"):
+                vid = str(uuid.uuid5(_NOTE_NS, f"vitals|{v['resident_id']}|{v['recorded_at']}"))
+                self._vitals.append({**v, "id": vid, "source": "entered", "created_at": _now()})
         self._cases = load("cases.json")
         self._case_by_id = {c["id"]: c for c in self._cases}
         self._alerts: Dict[str, Dict[str, Any]] = {}
@@ -209,6 +244,16 @@ class MemoryStore:
         row = {**note, "id": str(uuid.uuid4()), "extraction_status": "pending", "created_at": _now()}
         with self._lock:
             self._notes.append(row)
+        return dict(row)
+
+    def vitals(self, resident_id: Optional[str] = None) -> List[Dict[str, Any]]:
+        rows = [v for v in self._vitals if resident_id is None or v["resident_id"] == resident_id]
+        return sorted((dict(v) for v in rows), key=lambda v: (v["recorded_at"], v["id"]), reverse=True)
+
+    def add_vital(self, row: Dict[str, Any]) -> Dict[str, Any]:
+        row = {**row, "id": str(uuid.uuid4()), "source": "entered", "created_at": _now()}
+        with self._lock:
+            self._vitals.append(row)
         return dict(row)
 
     def save_note_reading(self, note_id: str, reading: Dict[str, Any]) -> None:

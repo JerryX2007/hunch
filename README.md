@@ -33,14 +33,42 @@ needs a signed-in nurse; PSWs log notes at `/psw` without signing in.
 - **Live data (Supabase):** create accounts from `backend/`:
   `python -m scripts.create_nurse --email dana@example.com --name "Dana Lee"`
   (asks for the password; run it again to change the name or password).
-- **Demo data:** the four fictional nurses in `test_data/people.json` (e.g.
+- **Demo data:** the seven fictional nurses in `test_data/people.json` (e.g.
   `priya.raman@hunch.test`) sign in with password `hunch-demo` (`HUNCH_DEMO_PASSWORD`).
   The sign-in screen lists them.
-- **The same four nurses on live data:** `python -m scripts.create_demo_nurses` creates their
+- **The same seven nurses on live data:** `python -m scripts.create_demo_nurses` creates their
   accounts and links them to the notes they wrote (after `db/migrations/011`).
 
 Sessions live in HttpOnly cookies; expired Supabase sessions renew automatically.
 Five wrong passwords in five minutes from one address pause sign-in for that address.
+
+## The demo unit and vitals
+
+2 West has 20 fictional residents (2W-011 to 2W-030), each with a short medical history, about
+seven weeks of notes in staff shorthand, and vitals (temperature, SpO2, pulse, breathing rate,
+blood pressure) taken about every other day around the resident's own usual, more often once
+someone is worried. Seven fictional nurses wrote them. Each resident has a story the check must
+get right (`test_data/eval_scenarios.json`, `python -m scripts.run_history_check --eval`): steady
+residents, slow declines, a fall, a constipation pattern, only-ruled-out symptoms, a resident who
+always eats little, a COPD resident whose usual SpO2 is 90-92%, one whose usual blood pressure is
+low, a fever that is only a fever against her own 36.2 °C, oxygen falling to 88%, fever with new
+confusion, one warm reading that was normal on recheck, and two new admissions.
+
+Vitals are checked in `backend/app/history/vitals.py` against the limits care homes use for
+infection surveillance, measured against the resident's own usual (median of earlier readings):
+
+| Measure | Out of line when | Source |
+|---|---|---|
+| Temperature | above 37.8 °C, or more than 1.1 °C above usual (either counts alone); or above 37.2 °C twice | IDSA |
+| SpO2 | below 94%, or more than 3 below usual (only the drop, if usual is already below 94%) | McGeer |
+| Breathing rate | 25 or more a minute | McGeer |
+| Pulse | above 100 | Loeb |
+| Blood pressure | systolic below 90, or 20 or more below usual | proposed |
+
+One out-of-line reading is context; two (or one that counts alone) is a change. Red flags are
+urgent at once (temperature 39 °C+, SpO2 below 88% or below 90% and dropping, breathing 30+,
+pulse 130+, systolic below 80; proposed). Vitals written in notes ("T 37.9, SpO2 88% RA") count
+too, unless the same reading was charted. Nurses chart vitals on the resident page.
 
 ## Gemini reads the notes
 

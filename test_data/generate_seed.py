@@ -1,8 +1,8 @@
-"""Generate CareSignal seed files: residents, notes, cases, eval scenarios.
+"""Generate CareSignal seed files: residents, notes, vitals, cases, eval scenarios.
 
 Deterministic (fixed random seed). Run: python generate_seed.py
 Cases are hand-written in cases.json (loaded by seed_cases.py).
-Writes residents.json, notes.json, cases.json and eval_scenarios.json next to this file.
+Writes residents.json, notes.json, vitals.json, cases.json and eval_scenarios.json next to this file.
 All data is fictional.
 """
 import json
@@ -19,21 +19,73 @@ RECENT_START = date(2026, 10, 14)
 LAST_DAY = date(2026, 10, 17)
 
 # ---------------------------------------------------------------- residents
+# v = the resident's usual vitals: temp (C), SpO2 (%), pulse, breathing rate, BP (sys, dia).
+# conditions = medical history shown on the profile (context only; Hunch never diagnoses).
 PROFILES = {
-    "DEMO-011": dict(scenario="stable", sex="F", meal=(80, 100), mob="a walker", activity="the music program"),
-    "DEMO-012": dict(scenario="stable", sex="M", meal=(75, 100), mob="a cane", activity="chair exercises"),
-    "DEMO-013": dict(scenario="stable", sex="F", meal=(80, 100), mob="standby assist", activity="bingo"),
-    "DEMO-014": dict(scenario="planted_decline", sex="F", meal=(80, 100), mob="standby assist", activity="bingo"),
-    "DEMO-015": dict(scenario="negation_test", sex="M", meal=(75, 100), mob="a walker", activity="exercise class"),
+    "DEMO-011": dict(scenario="stable", sex="F", meal=(80, 100), mob="a walker", activity="the music program",
+                     conditions=["Alzheimer's dementia (moderate)", "Osteoarthritis", "Hypertension"],
+                     v=dict(t=36.6, o2=96, p=74, rr=18, bp=(132, 78))),
+    "DEMO-012": dict(scenario="stable", sex="M", meal=(75, 100), mob="a cane", activity="chair exercises",
+                     conditions=["Type 2 diabetes", "Hypertension", "Hearing loss"],
+                     v=dict(t=36.5, o2=96, p=70, rr=16, bp=(138, 80))),
+    "DEMO-013": dict(scenario="stable", sex="F", meal=(80, 100), mob="standby assist", activity="bingo",
+                     conditions=["Vascular dementia", "Atrial fibrillation"],
+                     v=dict(t=36.7, o2=97, p=80, rr=18, bp=(124, 72))),
+    "DEMO-014": dict(scenario="planted_decline", sex="F", meal=(80, 100), mob="standby assist", activity="bingo",
+                     conditions=["Alzheimer's dementia (mild)", "Osteoporosis", "Hypothyroidism"],
+                     v=dict(t=36.2, o2=96, p=72, rr=18, bp=(126, 74))),
+    "DEMO-015": dict(scenario="negation_test", sex="M", meal=(75, 100), mob="a walker", activity="exercise class",
+                     conditions=["Parkinson's disease", "Benign prostatic hyperplasia"],
+                     v=dict(t=36.6, o2=97, p=68, rr=16, bp=(130, 76))),
     "DEMO-016": dict(scenario="short_history", sex="F", meal=(70, 100), mob="a walker", activity="the music program",
-                     start=date(2026, 10, 12), baseline=(date(2026, 10, 12), date(2026, 10, 13))),
-    "DEMO-017": dict(scenario="urgent_symptom", sex="M", meal=(75, 100), mob="a walker", activity="the coffee group"),
-    "DEMO-018": dict(scenario="isolated_dip", sex="F", meal=(80, 100), mob="a cane", activity="chair exercises"),
-    "DEMO-019": dict(scenario="planted_decline", sex="M", meal=(80, 100), mob="standby assist", activity="bingo"),
-    "DEMO-020": dict(scenario="stable", sex="F", meal=(50, 70), mob="a walker", activity="the music program", low_eater=True),
-    "DEMO-021": dict(scenario="isolated_dip", sex="M", meal=(80, 100), mob="a cane", activity="bingo"),
+                     start=date(2026, 10, 12), baseline=(date(2026, 10, 12), date(2026, 10, 13)),
+                     conditions=["Mixed dementia", "Hip fracture (2025, healed)"],
+                     v=dict(t=36.6, o2=96, p=76, rr=18, bp=(134, 78))),
+    "DEMO-017": dict(scenario="urgent_symptom", sex="M", meal=(75, 100), mob="a walker", activity="the coffee group",
+                     conditions=["Osteoporosis", "Hypertension", "History of falls"],
+                     v=dict(t=36.5, o2=96, p=72, rr=18, bp=(142, 82))),
+    "DEMO-018": dict(scenario="isolated_dip", sex="F", meal=(80, 100), mob="a cane", activity="chair exercises",
+                     conditions=["Heart failure", "Macular degeneration"],
+                     v=dict(t=36.6, o2=95, p=78, rr=18, bp=(118, 70))),
+    "DEMO-019": dict(scenario="planted_decline", sex="M", meal=(80, 100), mob="standby assist", activity="bingo",
+                     conditions=["Type 2 diabetes", "Chronic kidney disease (stage 3)"],
+                     v=dict(t=36.5, o2=96, p=74, rr=18, bp=(136, 80))),
+    "DEMO-020": dict(scenario="stable", sex="F", meal=(50, 70), mob="a walker", activity="the music program", low_eater=True,
+                     conditions=["Alzheimer's dementia (advanced)", "Dysphagia (minced diet)"],
+                     v=dict(t=36.4, o2=96, p=76, rr=18, bp=(118, 68))),
+    "DEMO-021": dict(scenario="isolated_dip", sex="M", meal=(80, 100), mob="a cane", activity="bingo",
+                     conditions=["COPD (mild)", "Hypertension"],
+                     v=dict(t=36.6, o2=95, p=76, rr=18, bp=(140, 82))),
     "DEMO-022": dict(scenario="constipation_pattern", sex="F", meal=(80, 100), mob="a walker", activity="the coffee group",
-                     no_bm_from=date(2026, 10, 12)),
+                     no_bm_from=date(2026, 10, 12),
+                     conditions=["Parkinson's disease", "Chronic constipation"],
+                     v=dict(t=36.6, o2=97, p=72, rr=16, bp=(128, 74))),
+    # ---- added with vitals
+    "DEMO-023": dict(scenario="stable", sex="M", meal=(75, 100), mob="a walker", activity="chair exercises",
+                     conditions=["Stroke (2023), left-sided weakness", "Hypertension", "Atrial fibrillation"],
+                     v=dict(t=36.5, o2=96, p=78, rr=18, bp=(136, 80))),
+    "DEMO-024": dict(scenario="stable_copd", sex="M", meal=(75, 100), mob="a walker", activity="the coffee group", copd=True,
+                     conditions=["COPD (severe), oxygen at night", "Heart failure", "Osteoarthritis"],
+                     v=dict(t=36.6, o2=91, p=84, rr=20, bp=(124, 72))),
+    "DEMO-025": dict(scenario="fever_decline", sex="F", meal=(80, 100), mob="a walker", activity="the music program",
+                     conditions=["Alzheimer's dementia (moderate)", "Hypertension", "Recurrent UTIs"],
+                     v=dict(t=36.2, o2=96, p=72, rr=18, bp=(128, 76))),
+    "DEMO-026": dict(scenario="respiratory_urgent", sex="M", meal=(80, 100), mob="a cane", activity="bingo",
+                     conditions=["Hypertension", "Former smoker", "Osteoarthritis"],
+                     v=dict(t=36.6, o2=96, p=76, rr=18, bp=(134, 78))),
+    "DEMO-027": dict(scenario="isolated_vital", sex="F", meal=(80, 100), mob="a cane", activity="the music program",
+                     conditions=["Osteoarthritis", "Generalized anxiety", "Hypertension"],
+                     v=dict(t=36.6, o2=97, p=74, rr=16, bp=(132, 76))),
+    "DEMO-028": dict(scenario="stable_low_bp", sex="F", meal=(75, 100), mob="standby assist", activity="bingo",
+                     conditions=["Orthostatic hypotension", "Depression", "Osteoporosis"],
+                     v=dict(t=36.5, o2=97, p=70, rr=16, bp=(102, 62))),
+    "DEMO-029": dict(scenario="short_history", sex="M", meal=(75, 100), mob="a walker", activity="chair exercises",
+                     start=date(2026, 10, 13), baseline=(date(2026, 10, 13), date(2026, 10, 13)),
+                     conditions=["Lewy body dementia", "Hypertension"],
+                     v=dict(t=36.6, o2=96, p=72, rr=18, bp=(138, 82))),
+    "DEMO-030": dict(scenario="confusion_fever", sex="M", meal=(80, 100), mob="standby assist", activity="the coffee group",
+                     conditions=["Type 2 diabetes", "Benign prostatic hyperplasia", "Hypertension"],
+                     v=dict(t=36.5, o2=96, p=70, rr=16, bp=(136, 78))),
 }
 
 # ---------------------------------------------------------------- phrasing
@@ -109,6 +161,9 @@ ORIENTED_OK = [
     "oriented, knew day of week",
     "A&Ox3",
     "following conversation well",
+]
+COPD_USUAL = [  # a chronic cough that is this resident's normal
+    "productive cough, usual for him", "on O2 2L overnight per order", "occasional cough, at his baseline",
 ]
 NURSE_EXTRA = [  # what registered staff tack on
     "VSS.", "No acute distress.", "Will cont to monitor.", "Meds taken w/o difficulty.", "Skin intact.",
@@ -201,6 +256,8 @@ def normal_day(rid, p, d):
         parts.append(rng.choice(ORIENTED_OK))
     if rng.random() < 0.35:
         parts.append(mob_ok(p["mob"]))
+    if p.get("copd") and rng.random() < 0.35:
+        parts.append(rng.choice(COPD_USUAL))
     add(stamp(d, 7, 9), parts)
 
     extra = rng.sample(["lunch", "dinner", "night"], k=rng.choice([1, 2, 2]))
@@ -300,9 +357,48 @@ SCRIPTED = {
     "DEMO-016": [  # new admission
         n("DEMO-016", "2026-10-16T12:30:00", "PSW", "ate ~60% lunch. still settling in, asking for her daughter"),
     ],
+    "DEMO-025": [  # the pitch example: sleepier, eating and drinking less, 37.5 against her usual 36.2
+        n("DEMO-025", "2026-10-14T08:20:00", "PSW", "B/F 75%. alert + chatty during am care"),
+        n("DEMO-025", "2026-10-14T12:40:00", "PSW", "lunch ~3/4, amb to DR w/ walker"),
+        n("DEMO-025", "2026-10-15T08:35:00", "PSW", "ate ~1/2 bkfst. seemed more tired than usual"),
+        n("DEMO-025", "2026-10-15T18:10:00", "PSW", "supper 50%, asked to go to bed early"),
+        n("DEMO-025", "2026-10-16T08:30:00", "nurse", "Sleepier than usual this am, dozing in w/c. B/F ~40%. T 37.5 (usual 36.2), "
+                                                      "encouraged fluids. Will recheck."),
+        n("DEMO-025", "2026-10-16T12:35:00", "PSW", "poor intake @ lunch. drinking less than usual, left most of her tea"),
+        n("DEMO-025", "2026-10-17T08:25:00", "nurse", "Drowsy, needed prompting w/ am care. ate ~1/4 b/f, drank ~1/3 of am fluids. "
+                                                      "T 37.6, P 94. NP notified."),
+    ],
+    "DEMO-026": [  # oxygen falling over three days: urgent on the vitals alone
+        n("DEMO-026", "2026-10-14T08:30:00", "PSW", "ate all bkfst, amb to DR w/ cane"),
+        n("DEMO-026", "2026-10-14T18:20:00", "PSW", "supper 90%. coughing a bit after supper"),
+        n("DEMO-026", "2026-10-15T08:45:00", "PSW", "B/F 75%. coughing more this am"),
+        n("DEMO-026", "2026-10-15T13:00:00", "nurse", "Productive cough, sputum yellow. SpO2 93% RA, RR 22. Chest sounds coarse per RN. "
+                                                      "Will monitor, encourage fluids."),
+        n("DEMO-026", "2026-10-16T08:40:00", "PSW", "ate ~1/2 bkfst, coughing, breathing faster w/ am care"),
+        n("DEMO-026", "2026-10-16T15:30:00", "nurse", "SpO2 91% RA, RR 25. Tired after walking to DR. NP aware, vitals q4h."),
+        n("DEMO-026", "2026-10-17T07:55:00", "nurse", "SpO2 88% RA, RR 28, P 104, T 37.6. Using accessory muscles. "
+                                                      "NP notified, O2 2L applied per order."),
+    ],
+    "DEMO-027": [  # one warm reading, normal on recheck
+        n("DEMO-027", "2026-10-15T15:10:00", "nurse", "Felt warm after sitting by the heater, T 37.6. Rechecked 1h later T 36.7. "
+                                                      "No other concerns, ate well @ lunch."),
+    ],
+    "DEMO-029": [  # new admission
+        n("DEMO-029", "2026-10-16T12:20:00", "PSW", "lunch ~3/4. new admission, settling in well, wife visited"),
+    ],
+    "DEMO-030": [  # fever with new confusion
+        n("DEMO-030", "2026-10-14T08:15:00", "PSW", "B/F 90%. pleasant, A&Ox3"),
+        n("DEMO-030", "2026-10-14T18:40:00", "PSW", "supper ~3/4. joined coffee group"),
+        n("DEMO-030", "2026-10-15T08:30:00", "PSW", "ate ~2/3 bkfst. seemed confused this am, asked what day it was x2"),
+        n("DEMO-030", "2026-10-15T19:10:00", "PSW", "supper 50%. agitated in the evening, trying to leave the unit"),
+        n("DEMO-030", "2026-10-16T08:40:00", "nurse", "New confusion - not oriented to place. T 37.9, P 104. Drinking less. "
+                                                      "NP notified."),
+        n("DEMO-030", "2026-10-16T15:10:00", "PSW", "disoriented, looking for his wife. drank 1 cup only"),
+        n("DEMO-030", "2026-10-17T08:20:00", "nurse", "Remains confused, T 37.4, P 98. ate ~1/2 b/f. Encouraging fluids."),
+    ],
 }
 # Residents whose whole recent window is scripted (others get generated notes plus their scripted ones).
-FULLY_SCRIPTED = {"DEMO-014", "DEMO-019", "DEMO-015", "DEMO-017", "DEMO-022"}
+FULLY_SCRIPTED = {"DEMO-014", "DEMO-019", "DEMO-015", "DEMO-017", "DEMO-022", "DEMO-025", "DEMO-026", "DEMO-030"}
 FIXED_BASELINE = [  # the example note from the spec, kept verbatim
     n("DEMO-014", "2026-09-22T08:30:00", "PSW",
       "Ate all of breakfast. Alert and chatty during morning activities. Walked to dining room with standby assist."),
@@ -343,8 +439,75 @@ def build_residents():
     for rid, p in PROFILES.items():
         b0, b1 = p.get("baseline", (HISTORY_START, BASELINE_END))
         rows.append(dict(id=rid, display_name=rid, baseline_start=b0.isoformat(),
-                         baseline_end=b1.isoformat(), scenario=p["scenario"]))
+                         baseline_end=b1.isoformat(), conditions=p["conditions"], scenario=p["scenario"]))
     return rows
+
+
+# ---------------------------------------------------------------- vitals
+# Taken by registered staff about every other day (sparse, like the notes: not every shift),
+# more often once someone is worried. Each resident varies a little around their own usual.
+# A separate random stream, so adding vitals doesn't change any note.
+vrng = random.Random(1914)
+VITALS_DAILY = 0.5
+SCRIPTED_VITALS = {
+    "DEMO-014": [("2026-10-14T09:10:00", dict(t=36.4, o2=96, p=74)),
+                 ("2026-10-15T09:00:00", dict(t=36.9, o2=96, p=84, rr=18, bp=(124, 72))),
+                 ("2026-10-16T09:20:00", dict(t=37.4, o2=95, p=88, rr=20, bp=(118, 70))),
+                 ("2026-10-17T09:05:00", dict(t=37.5, o2=95, p=92, rr=20, bp=(116, 68)))],
+    "DEMO-017": [("2026-10-16T03:20:00", dict(t=36.8, o2=96, p=106, rr=20, bp=(154, 88))),   # after the fall
+                 ("2026-10-16T08:45:00", dict(t=36.7, o2=96, p=98, bp=(146, 84)))],
+    "DEMO-025": [("2026-10-14T09:15:00", dict(t=36.4, o2=96, p=74, rr=18, bp=(126, 74))),
+                 ("2026-10-15T09:00:00", dict(t=36.9, o2=96, p=80)),
+                 ("2026-10-16T08:25:00", dict(t=37.5, o2=95, p=90, rr=20, bp=(122, 72))),
+                 ("2026-10-16T16:00:00", dict(t=37.4, o2=95, p=88)),
+                 ("2026-10-17T08:20:00", dict(t=37.6, o2=95, p=94, rr=20, bp=(118, 70)))],
+    "DEMO-026": [("2026-10-14T09:00:00", dict(t=36.6, o2=95, p=78, rr=20, bp=(132, 78))),
+                 ("2026-10-15T12:55:00", dict(t=37.0, o2=93, p=84, rr=22, bp=(130, 76))),
+                 ("2026-10-16T08:35:00", dict(t=37.1, o2=92, p=92, rr=24)),
+                 ("2026-10-16T15:25:00", dict(t=37.3, o2=91, p=96, rr=25, bp=(128, 76))),
+                 ("2026-10-17T07:50:00", dict(t=37.6, o2=88, p=104, rr=28, bp=(126, 74)))],
+    "DEMO-027": [("2026-10-15T14:05:00", dict(t=37.6)),                                     # by the heater
+                 ("2026-10-15T15:05:00", dict(t=36.7, o2=97, p=76))],                       # recheck
+    "DEMO-030": [("2026-10-14T09:10:00", dict(t=36.6, o2=96, p=72, rr=16, bp=(134, 78))),
+                 ("2026-10-15T09:00:00", dict(t=37.1, o2=96, p=84)),
+                 ("2026-10-16T08:35:00", dict(t=37.9, o2=95, p=104, rr=20, bp=(128, 74))),
+                 ("2026-10-16T15:00:00", dict(t=37.6, p=96)),
+                 ("2026-10-17T08:15:00", dict(t=37.4, o2=96, p=98, rr=18, bp=(130, 76)))],
+}
+VITALS_SCRIPTED_RECENT = {"DEMO-014", "DEMO-025", "DEMO-026", "DEMO-030"}  # whole recent window scripted
+
+
+def vital_row(rid, ts, v):
+    bp = v.get("bp") or (None, None)
+    return dict(resident_id=rid, recorded_at=ts, temp_c=v.get("t"), spo2=v.get("o2"), pulse=v.get("p"),
+                resp_rate=v.get("rr"), bp_systolic=bp[0], bp_diastolic=bp[1], author_role="nurse")
+
+
+def usual_reading(u):
+    """One routine set around the resident's usual. Sometimes only temp, SpO2 and pulse."""
+    t = round(min(max(vrng.gauss(u["t"], 0.15), u["t"] - 0.4), u["t"] + 0.4), 1)
+    v = dict(t=t, o2=min(100, u["o2"] + vrng.choice([-1, 0, 0, 1])), p=u["p"] + vrng.randint(-6, 6))
+    if vrng.random() < 0.7:
+        v.update(rr=u["rr"] + vrng.choice([-2, 0, 0, 2]),
+                 bp=(u["bp"][0] + vrng.randint(-8, 8), u["bp"][1] + vrng.randint(-5, 5)))
+    return v
+
+
+def build_vitals():
+    out = []
+    for rid, p in PROFILES.items():
+        d = p.get("start", HISTORY_START)
+        while d <= LAST_DAY:
+            if not (rid in VITALS_SCRIPTED_RECENT and d >= RECENT_START) and vrng.random() < VITALS_DAILY:
+                h0, h1 = vrng.choice([(8, 10), (8, 10), (14, 16)])
+                minute = vrng.randrange(h0 * 60, h1 * 60)
+                minute -= minute % 5
+                ts = datetime(d.year, d.month, d.day, minute // 60, minute % 60).isoformat()
+                out.append(vital_row(rid, ts, usual_reading(p["v"])))
+            d += timedelta(days=1)
+        out.extend(vital_row(rid, ts, v) for ts, v in SCRIPTED_VITALS.get(rid, []))
+    out.sort(key=lambda x: (x["resident_id"], x["recorded_at"]))
+    return out
 
 
 # ---------------------------------------------------------------- cases
@@ -360,7 +523,7 @@ EVAL = [
     dict(resident_id="DEMO-013", scenario="stable", expected=dict(alert_created=False, reason="normal variation within usual range")),
     dict(resident_id="DEMO-014", scenario="planted_decline",
          expected=dict(alert_created=True,
-                       categories=["nutrition", "fluids", "energy", "mobility", "toileting.urine"],
+                       categories=["nutrition", "fluids", "energy", "mobility", "toileting.urine", "temperature"],
                        min_similar_cases=2)),
     dict(resident_id="DEMO-015", scenario="negation_test",
          expected=dict(alert_created=False, reason="negated symptoms only",
@@ -383,13 +546,40 @@ EVAL = [
     dict(resident_id="DEMO-022", scenario="constipation_pattern",
          expected=dict(alert_created=True, categories=["toileting.bowel", "nutrition", "pain"],
                        min_similar_cases=2, reason="no bowel movement for 5 days with eating less and abdominal discomfort")),
+    dict(resident_id="DEMO-023", scenario="stable", expected=dict(alert_created=False, reason="normal variation within usual range")),
+    dict(resident_id="DEMO-024", scenario="stable_copd",
+         expected=dict(alert_created=False, reason="SpO2 of 90-92% and a daily cough are this resident's usual")),
+    dict(resident_id="DEMO-025", scenario="fever_decline",
+         expected=dict(alert_created=True, categories=["temperature", "energy", "nutrition", "fluids"],
+                       reason="37.5 C is a fever for her: more than 1.1 C above her usual 36.2 (IDSA)")),
+    dict(resident_id="DEMO-026", scenario="respiratory_urgent",
+         expected=dict(alert_created=True, urgent=True, categories=["oxygen", "breathing_rate"],
+                       reason="SpO2 down from a usual 96% to 88% with fast breathing")),
+    dict(resident_id="DEMO-027", scenario="isolated_vital",
+         expected=dict(alert_created=False, reason="one warm reading, normal on recheck")),
+    dict(resident_id="DEMO-028", scenario="stable_low_bp",
+         expected=dict(alert_created=False, reason="systolic around 100 is this resident's usual")),
+    dict(resident_id="DEMO-029", scenario="short_history",
+         expected=dict(alert_created=False, baseline_limited=True, reason="fewer than 7 days of history")),
+    dict(resident_id="DEMO-030", scenario="confusion_fever",
+         expected=dict(alert_created=True, categories=["confusion", "temperature"],
+                       reason="fever with new confusion (Loeb)")),
 ]
 
 
 # ---------------------------------------------------------------- checks
-def check(residents, notes, cases):
+def check(residents, notes, cases, vitals):
     ids = {r["id"] for r in residents}
     assert all(x["resident_id"] in ids for x in notes)
+    assert all(x["resident_id"] in ids for x in vitals)
+    assert len(residents) == 20
+    for rid, p in PROFILES.items():  # routine readings stay inside the resident's own normal
+        u, scripted = p["v"], {ts for ts, _ in SCRIPTED_VITALS.get(rid, [])}
+        for x in vitals:
+            if x["resident_id"] != rid or x["recorded_at"] in scripted:
+                continue
+            assert abs(x["temp_c"] - u["t"]) <= 0.4 and abs(x["spo2"] - u["o2"]) <= 1, x
+            assert x["pulse"] <= 100 and (x["resp_rate"] or 0) < 25, x
     assert len({c["id"] for c in cases}) == len(cases) == 70
     assert {"CASE-007", "CASE-012"} <= {c["id"] for c in cases}
     used = set()
@@ -430,26 +620,29 @@ def check(residents, notes, cases):
 PEOPLE = json.loads((Path(__file__).parent / "people.json").read_text(encoding="utf-8"))
 
 
-def name_people(residents, notes, evals):
-    """Swap the internal DEMO-0xx keys for unit IDs + names, and give each note one of
-    the unit's nurses (random, but the same every run). Note text is unchanged."""
+def name_people(residents, notes, evals, vitals):
+    """Swap the internal DEMO-0xx keys for unit IDs + names, and give each note and each set
+    of vitals one of the unit's nurses (random, but the same every run)."""
     ids = {r["old_id"]: r for r in PEOPLE["residents"]}
     nurses = [n["name"] for n in PEOPLE["nurses"]]
-    pick = random.Random(2026)
+    pick, vpick = random.Random(2026), random.Random(2027)
     residents = [{**r, "id": ids[r["id"]]["id"], "display_name": ids[r["id"]]["name"]} for r in residents]
     notes = [{**n, "resident_id": ids[n["resident_id"]]["id"], "author_name": pick.choice(nurses)} for n in notes]
+    vitals = [{**v, "resident_id": ids[v["resident_id"]]["id"], "author_name": vpick.choice(nurses)} for v in vitals]
     evals = [{**e, "resident_id": ids[e["resident_id"]]["id"]} for e in evals]
-    return residents, notes, evals
+    return residents, notes, evals, vitals
 
 
 def main():
     OUT.mkdir(exist_ok=True)
-    residents, notes = build_residents(), build_notes()
-    check(residents, notes, CASES)
-    residents, notes, evals = name_people(residents, notes, EVAL)
-    for name, data in [("residents", residents), ("notes", notes), ("cases", CASES), ("eval_scenarios", evals)]:
+    residents, notes, vitals = build_residents(), build_notes(), build_vitals()
+    check(residents, notes, CASES, vitals)
+    residents, notes, evals, vitals = name_people(residents, notes, EVAL, vitals)
+    for name, data in [("residents", residents), ("notes", notes), ("vitals", vitals), ("cases", CASES),
+                       ("eval_scenarios", evals)]:
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
-    print(f"{len(residents)} residents, {len(notes)} notes, {len(CASES)} cases, {len(EVAL)} eval scenarios")
+    print(f"{len(residents)} residents, {len(notes)} notes, {len(vitals)} vitals, {len(CASES)} cases, "
+          f"{len(EVAL)} eval scenarios")
 
 
 if __name__ == "__main__":

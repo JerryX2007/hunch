@@ -8,7 +8,35 @@ export interface Resident {
   display_name: string
   baseline_start: string | null
   baseline_end: string | null
+  /** medical history, e.g. ["COPD (severe)", "Type 2 diabetes"] */
+  conditions?: string[]
 }
+
+export type VitalField = 'temp_c' | 'spo2' | 'pulse' | 'resp_rate' | 'bp_systolic' | 'bp_diastolic'
+export type VitalKey = 'temperature' | 'oxygen' | 'pulse' | 'breathing_rate' | 'blood_pressure'
+
+export interface VitalsReading {
+  id: string
+  recorded_at: string
+  temp_c: number | null
+  spo2: number | null
+  pulse: number | null
+  resp_rate: number | null
+  bp_systolic: number | null
+  bp_diastolic: number | null
+  author_role: string | null
+  author_name?: string | null
+  /** field -> why this value is out of line */
+  flags: Partial<Record<VitalField, string>>
+}
+
+export interface VitalsTable {
+  /** the resident's usual (median of earlier readings); null until there are 3 */
+  usual: Partial<Record<VitalKey, number | null>>
+  readings: VitalsReading[]
+}
+
+export type NewVitals = Partial<Record<VitalField, number>>
 
 export interface AlertSummary {
   id: string
@@ -39,8 +67,9 @@ export interface Evidence {
   author_name?: string | null
   note_text: string
   phrase: string
-  /** 'ai' when only Gemini's (quote-checked) reading found it */
-  read_by?: 'rules' | 'ai'
+  /** 'ai': only Gemini's (quote-checked) reading found it; 'vitals' / 'note': a vitals reading */
+  read_by?: 'rules' | 'ai' | 'vitals' | 'note'
+  vital_id?: string | null
   language?: string | null
   /** English translation, when the note isn't in English */
   translation?: string | null
@@ -132,6 +161,7 @@ export interface ResidentOverview {
   alert: Alert | null
   similar: SimilarCases | null
   notes: CareNote[]
+  vitals?: VitalsTable
 }
 
 export interface Health {

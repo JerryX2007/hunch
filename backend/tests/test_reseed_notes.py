@@ -80,14 +80,20 @@ def test_reseed_replaces_seed_notes_and_keeps_later_ones():
     from scripts import reseed_notes
 
     new_notes = json.loads((DATA / "notes.json").read_text())
+    new_vitals = json.loads((DATA / "vitals.json").read_text())
     tables = {
         "care_notes": [
             {"id": "old-1", "resident_id": "2W-014", "recorded_at": "2026-10-16T08:00:00", "note_text": "Ate all of breakfast."},
             {"id": "old-2", "resident_id": "2W-017", "recorded_at": "2026-09-21T08:00:00", "note_text": "Ate well."},
             {"id": "mine", "resident_id": "2W-014", "recorded_at": "2026-10-18T07:48:00", "note_text": "Added in the app."},
-            {"id": "other", "resident_id": "2W-023", "recorded_at": "2026-10-01T08:00:00", "note_text": "New resident."},
+            {"id": "other", "resident_id": "2W-031", "recorded_at": "2026-10-01T08:00:00", "note_text": "New resident."},
         ],
-        "alerts": [{"id": "a1", "resident_id": "2W-014"}, {"id": "a2", "resident_id": "2W-023"}],
+        "alerts": [{"id": "a1", "resident_id": "2W-014"}, {"id": "a2", "resident_id": "2W-031"}],
+        "vitals": [
+            {"id": "v-old", "resident_id": "2W-014", "recorded_at": "2026-10-01T09:00:00", "temp_c": 36.4},
+            {"id": "v-mine", "resident_id": "2W-014", "recorded_at": "2026-10-18T09:00:00", "temp_c": 36.5},
+        ],
+        "residents": [{"id": "2W-014", "display_name": "Evelyn Brooks"}],
         "profiles": [{"id": "u-priya", "full_name": "Priya Raman"}],
     }
     asked = []
@@ -98,6 +104,8 @@ def test_reseed_replaces_seed_notes_and_keeps_later_ones():
     assert "old-1" not in ids and "old-2" not in ids          # seed-period notes replaced
     assert {"mine", "other"} <= ids                            # later notes and other residents kept
     assert len(notes) == len(new_notes) + 2
+    vids = {v["id"] for v in tables["vitals"]}
+    assert "v-old" not in vids and "v-mine" in vids and len(vids) == len(new_vitals) + 1
     assert [a["id"] for a in tables["alerts"]] == ["a2"]       # only seed residents' alerts cleared
     priya = [n for n in notes if n.get("author_name") == "Priya Raman"]
     assert priya and all(n["author_id"] == "u-priya" for n in priya)
@@ -110,3 +118,12 @@ def test_reseed_changes_nothing_without_a_yes():
     tables = {"care_notes": [{"id": "old-1", "resident_id": "2W-014", "recorded_at": "2026-10-16T08:00:00"}]}
     assert reseed_notes.main([], sb=FakeSB(tables), ask=lambda q: "no") == 1
     assert [n["id"] for n in tables["care_notes"]] == ["old-1"]
+
+
+def test_reseed_will_not_overwrite_a_patient_added_in_the_app():
+    from scripts import reseed_notes
+
+    tables = {"residents": [{"id": "2W-023", "display_name": "Ana Silva"}],
+              "care_notes": [{"id": "n", "resident_id": "2W-023", "recorded_at": "2026-10-16T08:00:00"}]}
+    assert reseed_notes.main(["--yes"], sb=FakeSB(tables)) == 2
+    assert tables["residents"] == [{"id": "2W-023", "display_name": "Ana Silva"}] and len(tables["care_notes"]) == 1

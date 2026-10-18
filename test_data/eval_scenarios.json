@@ -33,7 +33,8 @@
         "fluids",
         "energy",
         "mobility",
-        "toileting.urine"
+        "toileting.urine",
+        "temperature"
       ],
       "min_similar_cases": 2
     }
@@ -138,6 +139,86 @@
       ],
       "min_similar_cases": 2,
       "reason": "no bowel movement for 5 days with eating less and abdominal discomfort"
+    }
+  },
+  {
+    "resident_id": "2W-023",
+    "scenario": "stable",
+    "expected": {
+      "alert_created": false,
+      "reason": "normal variation within usual range"
+    }
+  },
+  {
+    "resident_id": "2W-024",
+    "scenario": "stable_copd",
+    "expected": {
+      "alert_created": false,
+      "reason": "SpO2 of 90-92% and a daily cough are this resident's usual"
+    }
+  },
+  {
+    "resident_id": "2W-025",
+    "scenario": "fever_decline",
+    "expected": {
+      "alert_created": true,
+      "categories": [
+        "temperature",
+        "energy",
+        "nutrition",
+        "fluids"
+      ],
+      "reason": "37.5 C is a fever for her: more than 1.1 C above her usual 36.2 (IDSA)"
+    }
+  },
+  {
+    "resident_id": "2W-026",
+    "scenario": "respiratory_urgent",
+    "expected": {
+      "alert_created": true,
+      "urgent": true,
+      "categories": [
+        "oxygen",
+        "breathing_rate"
+      ],
+      "reason": "SpO2 down from a usual 96% to 88% with fast breathing"
+    }
+  },
+  {
+    "resident_id": "2W-027",
+    "scenario": "isolated_vital",
+    "expected": {
+      "alert_created": false,
+      "reason": "one warm reading, normal on recheck"
+    }
+  },
+  {
+    "resident_id": "2W-028",
+    "scenario": "stable_low_bp",
+    "expected": {
+      "alert_created": false,
+      "reason": "systolic around 100 is this resident's usual"
+    }
+  },
+  {
+    "resident_id": "2W-029",
+    "scenario": "short_history",
+    "expected": {
+      "alert_created": false,
+      "baseline_limited": true,
+      "reason": "fewer than 7 days of history"
+    }
+  },
+  {
+    "resident_id": "2W-030",
+    "scenario": "confusion_fever",
+    "expected": {
+      "alert_created": true,
+      "categories": [
+        "confusion",
+        "temperature"
+      ],
+      "reason": "fever with new confusion (Loeb)"
     }
   }
 ]

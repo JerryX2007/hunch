@@ -28,6 +28,7 @@ from typing import Any, Dict, List, Optional
 
 from ..store import get_store
 from . import ai_read, narrative
+from . import vitals as vt
 from .check import LABELS, HistoryCheck, check_unit
 from .match import SCORER_VERSION, build_run, match_cases, outcome_spread
 
@@ -68,7 +69,7 @@ def preview(resident_id: Optional[str] = None, as_of: Optional[datetime] = None)
     with _lock:
         if as_of is not None or _cache is None:
             s = get_store()
-            checks = check_unit(s.residents(), s.notes(), as_of)
+            checks = check_unit(s.residents(), s.notes(), as_of, vitals=s.vitals())
             if as_of is None:
                 _cache = checks
         else:
@@ -104,10 +105,13 @@ def _observation_rows(c: HistoryCheck) -> List[Dict[str, Any]]:
     return list(rows.values())
 
 
-def evidence_fingerprint(observations: List[Dict[str, Any]]) -> str:
-    """sha256 of sorted evidence ids + scorer version (same formula as database.alert_fingerprint)."""
-    raw = json.dumps({"evidence": sorted(o["id"] for o in observations), "scorer": SCORER_VERSION})
-    return hashlib.sha256(raw.encode()).hexdigest()
+def evidence_fingerprint(observations: List[Dict[str, Any]], vital_ids: Optional[List[str]] = None) -> str:
+    """sha256 of sorted evidence ids + scorer version (same formula as database.alert_fingerprint).
+    Vitals readings behind a finding count too, so new out-of-line vitals reopen a reviewed alert."""
+    body: Dict[str, Any] = {"evidence": sorted(o["id"] for o in observations), "scorer": SCORER_VERSION}
+    if vital_ids:
+        body["vitals"] = sorted(vital_ids)
+    return hashlib.sha256(json.dumps(body).encode()).hexdigest()
 
 
 def _alert_row(c: HistoryCheck, alert_id: str, fingerprint: str, story: Dict[str, Any]) -> Dict[str, Any]:
@@ -130,7 +134,8 @@ def _alert_row(c: HistoryCheck, alert_id: str, fingerprint: str, story: Dict[str
 def _save(c: HistoryCheck, cases: List[Dict[str, Any]]) -> Dict[str, Any]:
     s = get_store()
     obs = _observation_rows(c)
-    fp = evidence_fingerprint(obs)
+    fp = evidence_fingerprint(obs, [ev.vital_id for f in c.findings if f.persisting or f.urgent
+                                    for ev in f.evidence if ev.vital_id])
     latest = s.latest_alert(c.resident_id)
     prev = (latest or {}).get("explanation") or {}
     same_evidence = prev.get("fingerprint") == fp
@@ -220,13 +225,37 @@ def overview(resident_id: str) -> Optional[Dict[str, Any]]:
         return None
     checks = preview(resident_id)
     alert = s.latest_alert(resident_id)
+    check = checks[0] if checks else None
     return {
         "resident": resident,
-        "check": to_dict(checks[0]) if checks else None,
+        "check": to_dict(check) if check else None,
         "alert": alert,
         "similar": similar_cases(alert["id"]) if alert else None,
         "notes": timeline(resident_id, 10),
+        "vitals": vitals_table(resident_id, check.vitals_usual if check else {}),
     }
+
+
+def vitals_table(resident_id: str, usuals: Dict[str, Optional[float]], limit: int = 10) -> Dict[str, Any]:
+    """Recent charted vitals, each value marked when it's out of line, plus the resident's usual."""
+    rows = []
+    for v in get_store().vitals(resident_id)[:limit]:
+        row = {k: v.get(k) for k in ("id", "recorded_at", "temp_c", "spo2", "pulse", "resp_rate",
+                                     "bp_systolic", "bp_diastolic", "author_role", "author_name")}
+        row["flags"] = vt.flags(v, usuals)
+        rows.append(row)
+    return {"usual": usuals, "readings": rows}
+
+
+def add_vitals(resident_id: str, values: Dict[str, Any], author_name: Optional[str] = None,
+               author_id: Optional[str] = None, recorded_at: Optional[str] = None) -> Dict[str, Any]:
+    """Chart a set of vitals, then re-run the check for that resident."""
+    row = {"resident_id": resident_id, **{k: values.get(k) for k in vt.FIELDS},
+           "recorded_at": recorded_at or datetime.now().replace(microsecond=0).isoformat(),
+           "author_role": "Nurse", "author_name": author_name, "author_id": author_id}
+    saved = get_store().add_vital({k: v for k, v in row.items() if v is not None or k in vt.FIELDS})
+    result = run(resident_id)
+    return {"vitals": saved, "result": result["residents"][0] if result["residents"] else None}
 
 
 def similar_cases(alert_id: str) -> Dict[str, Any]:
