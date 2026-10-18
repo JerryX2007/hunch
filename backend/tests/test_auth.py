@@ -74,7 +74,7 @@ def test_signed_in_nurse_sees_everything_and_can_act(client):
 def test_nurse_note_carries_her_name(client):
     sign_in(client)
     client.post("/api/residents/2W-013/notes", json={"note_text": "Temp 37.2, resting.", "author_role": "PSW"})
-    note = client.get("/api/residents/2W-013/notes?limit=1").json()[0]
+    note = next(n for n in client.get("/api/residents/2W-013/notes?limit=50").json() if n["note_text"] == "Temp 37.2, resting.")
     assert note["author_name"] == "Priya Raman" and note["author_role"] == "Nurse"
     assert note["author_id"] == auth.DEMO_USER_ID
     row = {r["id"]: r for r in client.get("/api/residents").json()}["2W-013"]
@@ -90,9 +90,10 @@ def test_name_shows_on_evidence(client):
 
 
 def test_psw_note_has_no_name(client):
-    client.post("/api/residents/2W-013/notes", json={"note_text": "Ate all of lunch.", "author_role": "PSW"})
+    text = "Ate all of lunch, PSW check."
+    client.post("/api/residents/2W-013/notes", json={"note_text": text, "author_role": "PSW"})
     sign_in(client)
-    note = client.get("/api/residents/2W-013/notes?limit=1").json()[0]
+    note = next(n for n in client.get("/api/residents/2W-013/notes?limit=50").json() if n["note_text"] == text)
     assert note["author_role"] == "PSW" and not note.get("author_name")
 
 
