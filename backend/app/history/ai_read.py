@@ -146,7 +146,9 @@ _EN_WORDS = set("""a an the and or but of to in on at for with from by was were 
 he she her his him they them it this that today tonight morning afternoon evening night yesterday
 ate eat eaten eating drank drink drinking breakfast lunch dinner meal meals snack fluids water juice tea
 slept sleep sleepy tired walked walking up out bed room chair very more less than usual all most half
-some few not no did does said says resident staff family care help needed bm voided pain""".split())
+some few not no did does said says resident staff family care help needed bm voided pain
+good poor well fluid intake appetite steady gait assist walker cane amb res pt am pm per after before
+w/ x1 x2 settled brief changed toileted continent repositioned checked""".split())
 
 
 def looks_english(text: str) -> bool:

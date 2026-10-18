@@ -81,61 +81,82 @@ def _rule(category, pattern, sub=None, change=None, neg=True, urgent=False, days
 
 RULES = [
     # --- urgent events --------------------------------------------------------
-    _rule("mobility", r"found on (?:the )?floor|\bfell\b|had a fall|unable to bear weight", urgent=True),
+    _rule("mobility", r"found on (?:the )?floor|\bfell\b(?! asleep)|had a fall|(?:un)?witnessed fall|\bs/p fall"
+                      r"|unable to (?:bear weight|wb)\b|non[- ]?weight[- ]?bearing", urgent=True),
     _rule("pain", r"chest pain", urgent=True),
-    _rule("breathing", r"short(?:ness)? of breath|difficulty breathing|labou?red breathing|gasping", urgent=True),
-    _rule("event", r"transferred to (?:the )?hospital|sent to (?:the )?(?:er|hospital|emergency)|unresponsive|seizure|blood in (?:stool|urine)|vomiting blood", urgent=True),
+    _rule("breathing", r"short(?:ness)? of breath|\bsob\b|difficulty breathing|labou?red breathing|gasping|\bdyspn\w*", urgent=True),
+    _rule("event", r"(?:transferred|transfer|sent) to (?:the )?(?:hospital|er|ed|emerg\w*)\b|911 (?:called|notified)|\bvia ems\b"
+                   r"|unresponsive|seizure|blood in (?:stool|urine)|vomiting blood", urgent=True),
     # --- fluids ---------------------------------------------------------------
     _rule("fluids", r"drinking less|drank less|drinking (?:very )?little|left most of (?:his|her) (?:juice|drink|fluids|water|tea)"
-                    r"|poor fluid|refus\w* (?:fluids|drinks)|drank (?:only |about )?(?:a third|a quarter|very little)|\bcups? only\b"),
+                    r"|poor (?:po |oral )?fluid|refus\w* (?:fluids|drinks)|minimal fluids?|fluids? (?:intake )?(?:poor|low|down)"
+                    r"|drank (?:only |about |approx\.? |~ ?)?(?:a third|a quarter|1/3|1/4|very little)|\bcups? only\b"),
     # --- energy ---------------------------------------------------------------
     _rule("energy", r"\b(?:tired|sleepy|drowsy|dozed|dozing|lethargic|lethargy|fatigued?|exhausted)\b"
                     r"|slept (?:through|most of the (?:day|afternoon))|rested in (?:his|her)? ?room|go to bed early"
-                    r"|needed prompting|\bquiet (?:this|today|all)"),
+                    r"|needed prompting|\bquiet (?:this|today|all)|\bnapp(?:ing|ed)\b|low energy|hard to (?:wake|rouse)"),
     # --- mobility -------------------------------------------------------------
-    _rule("mobility", r"hands-on (?:help|assist\w*)|(?:extra|more) (?:help|assist\w*)|needed (?:help|assistance) (?:walking|to walk|transferring)"
+    _rule("mobility", r"hands[- ]on (?:help|assist\w*|asst)|(?:extra|more) (?:help|assist\w*)"
+                      r"|needed (?:help|assistance|assist|asst) (?:w/ |with |to )?(?:walking|to walk|amb\w*|transfer\w*)"
+                      r"|\b(?:1|one|2|two)[- ](?:person |x )?assist (?:to |w/ |with |for )?(?:amb\w*|walk\w*|transfer\w*)"
                       r"|unable to (?:walk|stand)|difficulty walking|(?:one|two)-person assist|unsteady|shuffling|near fall|lost (?:his|her) balance"),
     # --- toileting ------------------------------------------------------------
-    _rule("toileting", r"no (?:bm|bowel movement)s?\b(?:[^.]*?\bfor (\d+) days)?", sub="bowel", change="decreased", neg=False, days_group=1),
+    _rule("toileting", r"no (?:bm|bowel movement)s?\b(?:[^.]*?\b(?:for|x)\s?(\d+)\s?(?:days?|d)\b)?", sub="bowel", change="decreased",
+          neg=False, days_group=1),
     _rule("toileting", r"constipat\w*", sub="bowel", change="decreased"),
     _rule("toileting", r"diarrh\w*|loose stools?", sub="bowel", change="increased"),
-    _rule("toileting", r"voided only once|only voided once|urine (?:was |is )?dark|dark urine|(?:has not|hasn't|not) voided|decreased urine|low urine output",
+    _rule("toileting", r"voided only once|only voided once|voided x ?1 only|only voided x ?1|urine (?:was |is )?(?:dark|amber|concentrated)"
+                       r"|dark (?:amber )?urine|(?:has not|hasn't|not) voided|decreased urine|low urine output|(?:low|decreased) u/o",
           sub="urine", change="decreased", neg=False),
     _rule("toileting", r"frequent urination|voiding (?:more )?frequently|urinary urgency|more incontinen\w*|incontinent more",
           sub="urine", change="increased"),
     # --- pain -----------------------------------------------------------------
     _rule("pain", r"\bpain(?:ful)?\b|grimac\w*|wincing|\bsore\b|\baches?\b|headaches?|\bhurts?\b"
-                  r"|holding (?:his|her) (?:stomach|side|head|back|abdomen)|stomach (?:feels|felt) full|complain\w* of|discomfort|uncomfortable"),
+                  r"|holding (?:his|her) (?:stomach|side|head|back|abdomen)|stomach (?:feels|felt) full|complain\w* of|\bc/o\b"
+                  r"|discomfort|uncomfortable|abd(?:omen)? (?:firm|distended|tender)"),
     # --- confusion ------------------------------------------------------------
     _rule("confusion", r"\bconfus\w*|disoriented|disorientation|agitated|hallucinat\w*|not making sense"),
     # --- social ---------------------------------------------------------------
     _rule("social", r"declined (?:the )?(?:afternoon |morning |evening )?(?:bingo|activit\w*|music\w*|coffee group|exercise\w*|program\w*)"
-                    r"|stayed in (?:his|her) room|withdrawn|isolating"),
+                    r"|refused (?:to (?:attend|go to) )?(?:the )?(?:afternoon |morning |evening )?(?:bingo|activit\w*|music\w*|coffee group|exercise\w*|program\w*)"
+                    r"|stayed in (?:his|her) room|in (?:his|her) room all day|withdrawn|isolating"),
     # --- sleep ----------------------------------------------------------------
     _rule("sleep", r"restless night|up (?:several|many|multiple) times|awake (?:most|much|all) of the night|poor(?:ly)? sle\w*"
                    r"|did not sleep|didn't sleep|trouble sleeping", neg=False),
 ]
 
 # "No", "not", "denies" ... before the symptom, in the same clause, rules it out.
-NEGATION = re.compile(r"\b(?:no|not|denies|denied|without|never|didn't|did not|doesn't|does not|wasn't|isn't|free of|negative for)\b", _R)
+NEGATION = re.compile(r"\b(?:no|not|nil|denies|denied|without|w/o|never|didn't|did not|doesn't|does not|wasn't|isn't|free of|negative for)\b", _R)
 # The note itself says this is a change from normal. "as usual" means the opposite.
-COMPARATIVE = re.compile(r"than usual|unusual|usually(?! as)|which (?:he|she) usually|than before|first time", _R)
+COMPARATIVE = re.compile(r"than usual|unusual|usually(?! as)|normally(?! as)|\busu\b|which (?:he|she) usually|than before|first time"
+                         r"|(?:below|not at|off) (?:his |her )?baseline", _R)
 
 # Meal amounts, most specific first.
-MEAL_CONTEXT = re.compile(r"\b(?:ate|eaten|eating|finished (?:his|her) (?:breakfast|lunch|dinner|meal)|bites?)\b", _R)
+# A meal is mentioned: "ate", or a meal's name in any of the usual spellings ("B/F 50%").
+MEAL_WORDS = r"breakfast|br[ea]*kf?a?st|bkfst|bfast|b/f|lunch|dinner|supper|meals?"
+MEAL_CONTEXT = re.compile(rf"\b(?:ate|eaten|eating|intake|consumed|bites?|{MEAL_WORDS})\b", _R)
+# ...but a clause only about drinks is not a meal ("poor fluid intake", "drank 1/3").
+FLUID_ONLY = re.compile(r"\bfluids?\b|\bdr[ai]nk\w*|\bjuice\b|\bwater\b|\bml\b", _R)
+SOLID_MEAL = re.compile(rf"\b(?:ate|eaten|eating|bites?|{MEAL_WORDS})\b", _R)
 MEAL_AMOUNTS = [
     (re.compile(r"(\d{1,3})\s*%"), None),
+    (re.compile(r"\brefused (?:" + MEAL_WORDS + r")", _R), 0),
+    (re.compile(r"(?<![\d/])3/4(?![\d/])"), 75),
+    (re.compile(r"(?<![\d/])2/3(?![\d/])"), 67),
+    (re.compile(r"(?<![\d/])1/2(?![\d/])"), 50),
+    (re.compile(r"(?<![\d/])1/3(?![\d/])"), 33),
+    (re.compile(r"(?<![\d/])1/4(?![\d/])"), 25),
     (re.compile(r"less than usual|eating less|poor appetite", _R), "less"),
-    (re.compile(r"almost all|ate well", _R), 90),
+    (re.compile(r"almost all|ate well|good appetite", _R), 90),
     (re.compile(r"\ball of\b|\bate all\b|finished (?:his|her)", _R), 100),
     (re.compile(r"three quarters", _R), 75),
     (re.compile(r"two thirds", _R), 67),
-    (re.compile(r"fair amount", _R), 65),
+    (re.compile(r"fair (?:amount|amt)", _R), 65),
     (re.compile(r"\bmost\b", _R), 80),
     (re.compile(r"\bhalf\b", _R), 50),
     (re.compile(r"a third", _R), 33),
     (re.compile(r"a quarter|quarter of", _R), 25),
-    (re.compile(r"few bites|poorly", _R), 15),
+    (re.compile(r"few bites|poorly|poor (?:po )?intake|\bminimal\b", _R), 15),
 ]
 
 _SENTENCES = re.compile(r"(?<=[.!?])\s+")
@@ -150,6 +171,8 @@ def parse_time(value: Any) -> datetime:
 
 def _meal(clause: str) -> Optional[Meal]:
     if not MEAL_CONTEXT.search(clause):
+        return None
+    if FLUID_ONLY.search(clause) and not SOLID_MEAL.search(clause):
         return None
     for rx, value in MEAL_AMOUNTS:
         m = rx.search(clause)
@@ -166,7 +189,7 @@ def _meal(clause: str) -> Optional[Meal]:
 def extract(note: Dict[str, Any]) -> NoteFacts:
     """Read one care note. ``note`` needs ``note_text`` and ``recorded_at``."""
     facts = NoteFacts(note=note, time=parse_time(note["recorded_at"]))
-    text = note.get("note_text") or ""
+    text = re.sub(r"\s+", " ", note.get("note_text") or "").strip()  # stray double spaces, line breaks
     for sentence in _SENTENCES.split(text):
         comparative = bool(COMPARATIVE.search(sentence))
         for clause in _CLAUSES.split(sentence):

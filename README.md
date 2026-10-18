@@ -132,7 +132,7 @@ backend/            FastAPI (Python)
     repositories/   per-table CRUD wrappers (residents, care_notes, observations, alerts, ...)
     auth.py         Supabase email/password sign-in, token check, logout
     utils/          error formatting + DB operation logging
-  scripts/          seed_db, check_db, run_history_check (--eval), read_notes, dump_schema
+  scripts/          seed_db, reseed_notes, check_db, run_history_check (--eval), read_notes, dump_schema
   tests/            pytest (offline, fake Supabase in conftest.py): python -m pytest -q
 db/migrations/      SQL to create the Supabase schema (see db/README.md)
 frontend/           Vite + React + TypeScript + Tailwind
@@ -171,3 +171,10 @@ Nurse endpoints (resident details, alerts, reviews, history check) need a signed
 - New page: add `frontend/src/pages/<Name>.tsx` and a `<Route>` in `App.tsx`.
 - New API type: update `backend/app/schemas.py` and `frontend/src/api/types.ts`.
 - Schema change: add a numbered file in `db/migrations/`, then `python -m scripts.dump_schema`.
+- Seed notes: edit `test_data/generate_seed.py` and run it (`python test_data/generate_seed.py`).
+  The notes are written the way staff chart (B/F 50%, amb w/ walker to DR, SBA, No BM x4d,
+  c/o, denies SOB, typos), and the rules read that shorthand (`backend/tests/test_shorthand.py`).
+  Then check the stories still hold with `python -m scripts.run_history_check --eval`, and put
+  the new notes in Supabase with `python -m scripts.reseed_notes` (from `backend/`): it replaces
+  the seed residents' seed-period notes and alerts, keeps notes written in the app, and re-runs
+  the check.
