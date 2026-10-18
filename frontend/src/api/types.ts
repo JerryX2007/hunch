@@ -39,6 +39,11 @@ export interface Evidence {
   author_name?: string | null
   note_text: string
   phrase: string
+  /** 'ai' when only Gemini's (quote-checked) reading found it */
+  read_by?: 'rules' | 'ai'
+  language?: string | null
+  /** English translation, when the note isn't in English */
+  translation?: string | null
 }
 
 export interface Finding {
@@ -65,6 +70,10 @@ export interface HistoryCheck {
   findings: Finding[]
   reasons: string[]
   ruled_out: string[]
+  /** recent notes nobody could read (not English, no Gemini reading) */
+  unread_notes?: { note_id: string | null; recorded_at: string; note_text: string }[]
+  /** how this resident's notes were read */
+  reading?: { notes: number; read_by_ai: number }
   title: string
   categories: string[]
   duration_days: number
@@ -113,6 +122,8 @@ export interface CareNote {
   recorded_at: string
   author_role: string | null
   author_name?: string | null
+  /** Gemini's checked reading of the note, once it has one */
+  ai_reading?: { status: string; language?: string; translation_en?: string | null } | null
 }
 
 export interface ResidentOverview {

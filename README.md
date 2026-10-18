@@ -42,6 +42,34 @@ needs a signed-in nurse; PSWs log notes at `/psw` without signing in.
 Sessions live in HttpOnly cookies; expired Supabase sessions renew automatically.
 Five wrong passwords in five minutes from one address pause sign-in for that address.
 
+## Gemini reads the notes
+
+With `GEMINI_API_KEY` in `backend/.env`, Gemini reads every care note
+(`backend/app/models/note_reader.py`): its language, an English translation if it isn't
+English, the changes it reports (eating, drinking, energy, mobility, confusion, pain, sleep,
+social, toileting, breathing) and serious events (a fall, chest pain, a hospital transfer...),
+each with the note's own words. Python then has the last word (`backend/app/history/ai_read.py`):
+
+- Every quote must really be in the note (or its translation), and every category one Hunch
+  knows; anything else is dropped.
+- The rules still read every note (the translation, for non-English notes). Their findings
+  always count, and they decide what's ruled out ("denies pain").
+- What only Gemini found is tagged **Read by AI** on the resident page; translations are shown
+  next to the original.
+- Each note is read once: the reading is saved with the note (`care_notes.ai_reading`) and in
+  `backend/.cache/`. A new note is read when it's saved; `run.py` reads older notes in the
+  background, or run `python -m scripts.read_notes` from `backend/`. Reading the whole history
+  matters: a resident's usual days and recent days must be read the same way to compare fairly.
+- Without a key (or if Gemini fails), the rules read the notes as before. A recent note that
+  nothing could read, and that doesn't look like English, puts the resident on **Keep an eye
+  on** with "A recent note needs reading", never quiet.
+
+`/api/health` shows how many notes Gemini has read. Model: `gemini-3.5-flash-lite`, falling
+back to `gemini-3.1-flash-lite` (set `GEMINI_NOTE_MODEL` to change it).
+
+**On live Supabase:** run `db/migrations/012_note_ai_reading.sql` once, then
+`python -m scripts.read_notes` once to read the existing notes.
+
 ## Voice notes
 
 Every note box (PSW note, resident note, admission note) has a **Speak** button. Tap it,
@@ -65,7 +93,9 @@ API under `/api` and the built web app (Vercel runs `npm run build` in `frontend
    directory as `./`; the framework should show **FastAPI**.
 2. Add these **Environment Variables** (same values as `backend/.env`):
    `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and
-   `HUNCH_MODE=supabase`. Optional: `GEMINI_API_KEY` for AI-written explanations.
+   `HUNCH_MODE=supabase`, and `GEMINI_API_KEY` so Gemini reads new notes and writes the
+   alert summaries (without it, notes are read by the rules only). Read the existing notes
+   once from your computer (see "Gemini reads the notes").
 3. **Deploy**, then open `https://<your-project>.vercel.app/api/health`: it should say
    `"mode": "supabase"` and `"database": "ok"`.
 
@@ -75,7 +105,9 @@ keep memory between requests. Every push to `main` redeploys.
 ## How it fits together
 
 ```
-care notes ─▶ extract.py  rule-based signals, each tied to the exact phrase (negation-aware)
+care notes ─▶ note_reader.py  Gemini: language, English translation, changes and events, with quotes
+           ─▶ ai_read.py  Python checks every quote against the note; merges with the rules
+           ─▶ extract.py  rule-based signals, each tied to the exact phrase (negation-aware)
            ─▶ check.py    resident vs their own baseline → urgent / alert / watch / quiet
            ─▶ narrative.py + explanation.py  plain-language summary; Gemini if a key is set,
                           every claim validated against evidence IDs, else a template
@@ -92,15 +124,15 @@ backend/            FastAPI (Python)
   app/
     main.py         app setup, routers under /api, serves frontend/dist when built
     store.py        data access: SupabaseStore or MemoryStore (demo)
-    history/        the pipeline: extract, check, narrative, match, service
+    history/        the pipeline: ai_read (checks Gemini's reading), extract, check, narrative, match, service
     explanation.py  LLM prompt + validator + template fallback for summaries
-    models/         Gemini note parser (optional; python -m app.models.test_parser)
+    models/         Gemini: note_reader (reads every note), parser (older single-note parser)
     routers/        health, residents (+ notes), history (check, run, alerts, similar cases)
     database.py     Supabase client + table helpers
     repositories/   per-table CRUD wrappers (residents, care_notes, observations, alerts, ...)
     auth.py         Supabase email/password sign-in, token check, logout
     utils/          error formatting + DB operation logging
-  scripts/          seed_db, check_db, run_history_check (--eval), dump_schema
+  scripts/          seed_db, check_db, run_history_check (--eval), read_notes, dump_schema
   tests/            pytest (offline, fake Supabase in conftest.py): python -m pytest -q
 db/migrations/      SQL to create the Supabase schema (see db/README.md)
 frontend/           Vite + React + TypeScript + Tailwind

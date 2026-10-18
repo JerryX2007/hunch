@@ -148,6 +148,8 @@ def main() -> int:
     env["HUNCH_API"] = api
     # Lets this script run the startup check without a nurse login; new each launch.
     env["HUNCH_INTERNAL_TOKEN"] = internal = secrets.token_urlsafe(32)
+    # With a Gemini key, the API has Gemini read any notes it hasn't read yet, in the background.
+    env.setdefault("HUNCH_AI_BACKFILL", "1")
     procs: list[subprocess.Popen] = []
 
     try:
@@ -194,6 +196,14 @@ def main() -> int:
             return 1
         mode = "Supabase" if health.get("mode") == "supabase" else "demo data (in memory)"
         say(f"API up. Data: {mode}. Summaries: {'Gemini (checked)' if health.get('llm') else 'template'}.")
+        nr = health.get("note_reading") or {}
+        if nr.get("enabled"):
+            todo = nr.get("notes", 0) - nr.get("read_by_ai", 0)
+            say(f"Notes: read by Gemini ({nr.get('model')}), checked against the note text. "
+                f"{nr.get('read_by_ai', 0)} of {nr.get('notes', 0)} read"
+                + (f"; reading the other {todo} in the background." if todo else "."))
+        elif "enabled" in nr:
+            say("Notes: read by the rules only (add GEMINI_API_KEY to backend/.env to have Gemini read them).")
         if health.get("database") != "ok":
             say(f"Database problem: {health.get('database')}")
             say("Pages will show this error. To present without the database: python run.py --demo")

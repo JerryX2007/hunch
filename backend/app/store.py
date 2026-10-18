@@ -59,6 +59,10 @@ class SupabaseStore:
         from . import database  # raises a clear error if backend/.env is incomplete
         self.db = database
         self.sb = database.supabase
+        # Gemini readings kept in memory when care_notes has no ai_reading column yet
+        # (db/migrations/012_note_ai_reading.sql not run).
+        self._readings: Dict[str, Dict[str, Any]] = {}
+        self._no_reading_column = False
 
     def ping(self) -> None:
         self.db.ping()
@@ -74,7 +78,29 @@ class SupabaseStore:
         return self.db.upsert_resident(resident)
 
     def notes(self, resident_id: Optional[str] = None) -> List[Dict[str, Any]]:
-        return self.db.get_care_notes(resident_id)  # newest first
+        rows = self.db.get_care_notes(resident_id)  # newest first
+        if self._readings:
+            for n in rows:
+                if n.get("id") in self._readings and not n.get("ai_reading"):
+                    n["ai_reading"] = self._readings[n["id"]]
+        return rows
+
+    def save_note_reading(self, note_id: str, reading: Dict[str, Any]) -> None:
+        """Keep Gemini's checked reading with the note, so it's read once."""
+        if not self._no_reading_column:
+            try:
+                self.sb.table("care_notes").update(
+                    {"ai_reading": reading, "extraction_status": "ai_read"}).eq("id", note_id).execute()
+                return
+            except Exception as e:  # noqa: BLE001
+                if "ai_reading" not in str(e):
+                    raise
+                import logging
+                logging.getLogger(__name__).warning(
+                    "care_notes has no ai_reading column yet; run db/migrations/012_note_ai_reading.sql. "
+                    "Readings are kept in memory until then.")
+                self._no_reading_column = True
+        self._readings[note_id] = reading
 
     def add_note(self, note: Dict[str, Any]) -> Dict[str, Any]:
         try:
@@ -184,6 +210,14 @@ class MemoryStore:
         with self._lock:
             self._notes.append(row)
         return dict(row)
+
+    def save_note_reading(self, note_id: str, reading: Dict[str, Any]) -> None:
+        with self._lock:
+            for n in self._notes:
+                if n["id"] == note_id:
+                    n["ai_reading"] = reading
+                    n["extraction_status"] = "ai_read"
+                    return
 
     def profile(self, user_id: str) -> Optional[Dict[str, Any]]:
         p = self._profiles.get(user_id)

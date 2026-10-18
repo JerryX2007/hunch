@@ -3,6 +3,7 @@ from typing import Any, Dict
 from fastapi import APIRouter
 
 from ..history.narrative import llm_enabled
+from ..history.service import reading_status
 from ..store import get_store
 
 router = APIRouter(tags=["health"])
@@ -19,4 +20,9 @@ def health() -> Dict[str, Any]:
         out["database"] = "ok"
     except Exception as e:  # noqa: BLE001 - report, don't crash the health check
         out["database"] = f"error: {type(e).__name__}: {str(e)[:200]}"
+        return out
+    try:
+        out["note_reading"] = reading_status()  # is Gemini reading notes, and how many has it read
+    except Exception as e:  # noqa: BLE001
+        out["note_reading"] = {"error": f"{type(e).__name__}: {str(e)[:200]}"}
     return out

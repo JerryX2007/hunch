@@ -65,7 +65,7 @@ def extract(note_text: str) -> ObservationResponse:
             system_instruction=SYSTEM_INSTRUCTION,
             response_mime_type="application/json",
             response_schema=ObservationResponse,
-            temperature=0,
+            # No temperature=0: Google warns it can make Gemini 3 models loop.
         ),
     )
 

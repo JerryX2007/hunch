@@ -5,7 +5,7 @@ import type { AlertStatus, CaseMatch, Finding, ResidentOverview } from '../api/t
 import { TierBadge } from './Badges'
 import Dictate from './Dictate'
 import { useToast } from './toastContext'
-import { STATUS_LABEL, TIER_HINT, TIER_STYLE, authorOf, capitalize, daysBetween, fmtDate, fmtDay, friendlyError, niceLabel, plural } from './format'
+import { STATUS_LABEL, TIER_HINT, TIER_STYLE, authorOf, capitalize, daysBetween, fmtDate, fmtDay, friendlyError, languageName, niceLabel, plural } from './format'
 
 const REVIEW_OPTIONS: { status: AlertStatus; label: string; done: string }[] = [
   { status: 'reviewed', label: 'Reviewed', done: 'Marked as reviewed' },
@@ -60,6 +60,11 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
   const story = alert?.explanation?.narrative
   const triggers = check?.findings.filter((f) => f.persisting || f.urgent) ?? []
   const onceOnly = check?.findings.filter((f) => !f.persisting && !f.urgent) ?? []
+  const unreadCount = check?.unread_notes?.length ?? 0
+  // The unread-note box below says it already; don't repeat it in the reasons list.
+  const reasons = check?.reasons.filter((r) => !(unreadCount && r.includes('couldn\'t be read automatically'))) ?? []
+  const hint =
+    check?.tier === 'watch' && triggers.length === 0 && unreadCount > 0 ? 'A recent note needs reading.' : check ? TIER_HINT[check.tier] : ''
   const recentDays = check?.window.recent_start && check.window.recent_end ? daysBetween(check.window.recent_start, check.window.recent_end) : []
 
   return (
@@ -76,7 +81,7 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
           </h2>
           {check && <TierBadge tier={check.tier} className="text-base" />}
         </div>
-        {check && <p className="mt-1 text-muted">{TIER_HINT[check.tier]}</p>}
+        {check && <p className="mt-1 text-muted">{hint}</p>}
 
         {alert && (
           <div className="mt-4 rounded-lg bg-ward p-3">
@@ -122,12 +127,29 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
                 Different from {resident.display_name === resident.id ? resident.id : resident.display_name.split(' ')[0]}’s usual for {plural(check.duration_days, 'day')}:{' '}
                 {triggers.map((f) => label(f).toLowerCase()).join(', ')}.
               </p>
-            ) : (
+            ) : reasons.length > 0 ? (
               <ul className="mt-2 max-w-prose list-disc space-y-1 pl-5">
-                {check.reasons.map((r) => (
+                {reasons.map((r) => (
                   <li key={r}>{r}</li>
                 ))}
               </ul>
+            ) : null}
+
+            {(check.unread_notes?.length ?? 0) > 0 && (
+              <div className="mt-4 rounded-lg border border-change/40 bg-change-soft p-4">
+                <p className="font-bold">
+                  {check.unread_notes!.length === 1 ? 'A recent note' : `${check.unread_notes!.length} recent notes`} couldn’t be read
+                  automatically
+                </p>
+                <p className="text-sm text-muted">It may not be in English. Please read it yourself:</p>
+                <ul className="mt-2 space-y-1">
+                  {check.unread_notes!.map((n, i) => (
+                    <li key={`${n.note_id}-${i}`}>
+                      “{n.note_text}” <span className="whitespace-nowrap text-sm text-muted">{fmtDate(n.recorded_at)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
 
             <div className="mt-4 space-y-3">
@@ -155,6 +177,12 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
               <p className="mt-3 text-sm text-muted">
                 These notes show a change; they don’t show the cause. Compared with {plural(check.baseline_days, 'day')} of earlier
                 notes.
+              </p>
+            )}
+            {check.reading && check.reading.read_by_ai > 0 && (
+              <p className="mt-1 text-sm text-muted">
+                Gemini read {check.reading.read_by_ai === check.reading.notes ? 'all' : `${check.reading.read_by_ai} of`}{' '}
+                {plural(check.reading.notes, 'note')}. Anything it found is checked against the note’s own words.
               </p>
             )}
           </section>
@@ -201,6 +229,12 @@ function FindingBlock({ f, days, baselineDays }: { f: Finding; days: string[]; b
               <span className="whitespace-nowrap text-sm text-muted">
                 {authorOf(e)}, {fmtDate(e.recorded_at)}
               </span>
+              {e.read_by === 'ai' && <AiTag />}
+              {e.translation && (
+                <span className="block text-sm text-muted">
+                  In English (translated from {languageName(e.language)} by Gemini): “{e.translation}”
+                </span>
+              )}
             </li>
           ))}
         </ul>
@@ -211,6 +245,17 @@ function FindingBlock({ f, days, baselineDays }: { f: Finding; days: string[]; b
         </button>
       )}
     </div>
+  )
+}
+
+function AiTag() {
+  return (
+    <span
+      className="ml-1 rounded bg-ward px-1.5 py-0.5 text-xs font-bold text-muted"
+      title="Found by Gemini’s reading of the note; the quoted words were checked against the note."
+    >
+      Read by AI
+    </span>
   )
 }
 
@@ -370,7 +415,14 @@ function NotesSection({
               {fmtDate(n.recorded_at)}
               <br className="hidden sm:block" /> {authorOf(n)}
             </span>
-            <span>{n.note_text}</span>
+            <span>
+              {n.note_text}
+              {n.ai_reading?.translation_en && (
+                <span className="mt-0.5 block text-sm text-muted">
+                  In English (translated from {languageName(n.ai_reading.language)} by Gemini): {n.ai_reading.translation_en}
+                </span>
+              )}
+            </span>
           </li>
         ))}
       </ol>
