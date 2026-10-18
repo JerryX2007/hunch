@@ -4,6 +4,7 @@ import { api } from '../api/client'
 import type { AlertStatus, CaseMatch, Finding, ResidentOverview } from '../api/types'
 import { TierBadge } from './Badges'
 import Dictate from './Dictate'
+import Vitals from './Vitals'
 import { useToast } from './toastContext'
 import { STATUS_LABEL, TIER_HINT, TIER_STYLE, authorOf, capitalize, daysBetween, fmtDate, fmtDay, friendlyError, languageName, niceLabel, plural } from './format'
 
@@ -82,6 +83,11 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
           {check && <TierBadge tier={check.tier} className="text-base" />}
         </div>
         {check && <p className="mt-1 text-muted">{hint}</p>}
+        {(resident.conditions?.length ?? 0) > 0 && (
+          <p className="mt-2 text-sm">
+            <span className="font-bold text-muted">Medical history:</span> {resident.conditions!.join(' · ')}
+          </p>
+        )}
 
         {alert && (
           <div className="mt-4 rounded-lg bg-ward p-3">
@@ -188,6 +194,11 @@ export default function ResidentDetail({ residentId, onChanged }: { residentId: 
           </section>
         )}
 
+        {/* ---------------- vitals */}
+        {data.vitals && (
+          <Vitals residentId={resident.id} name={resident.display_name} vitals={data.vitals} onSaved={() => { load(); onChanged() }} />
+        )}
+
         {/* ---------------- similar cases */}
         {similar && similar.cases.length > 0 && <SimilarCases cases={similar.cases} outcomes={similar.outcomes} />}
 
@@ -209,13 +220,15 @@ function FindingBlock({ f, days, baselineDays }: { f: Finding; days: string[]; b
   const noted = new Set(f.recent_days)
   const tone = f.urgent ? 'urgent' : f.persisting ? 'change' : 'quiet'
   const detail = f.reason.includes(':') ? f.reason.slice(f.reason.indexOf(':') + 1).trim() : f.reason
+  // Vitals findings: the reason has the numbers and the rule, worth showing even when urgent.
+  const isVital = ev.length > 0 && ev.every((e) => e.read_by === 'vitals' || e.read_by === 'note')
 
   return (
     <div className={`rounded-lg border p-4 ${tone === 'urgent' ? 'border-urgent/40 bg-urgent-soft' : 'border-line'}`}>
       <div className="flex flex-wrap items-start gap-x-5 gap-y-2">
         <div className="min-w-0 flex-1 basis-60">
           <p className="text-lg font-bold">{label(f)}</p>
-          {!f.urgent && <p className="text-ink/90">{capitalize(detail)}</p>}
+          {(!f.urgent || isVital) && <p className="text-ink/90">{capitalize(detail)}</p>}
         </div>
         {days.length > 0 && !f.urgent && (
           <DayStrip days={days} noted={noted} usualRate={f.baseline_rate} baselineDays={baselineDays} tone={tone} />
@@ -224,8 +237,12 @@ function FindingBlock({ f, days, baselineDays }: { f: Finding; days: string[]; b
       {ev.length > 0 && (
         <ul className="mt-3 space-y-1.5 border-l-2 border-line pl-3">
           {shown.map((e, i) => (
-            <li key={`${e.note_id}-${i}`} title={e.note_text}>
-              <span className="text-ink">“{e.phrase}”</span>{' '}
+            <li key={`${e.note_id ?? e.vital_id}-${i}`} title={e.note_text || undefined}>
+              {e.read_by === 'vitals' || e.read_by === 'note' ? (
+                <span className="text-ink">{e.read_by === 'note' ? 'In a note: ' : ''}{e.phrase}</span>
+              ) : (
+                <span className="text-ink">“{e.phrase}”</span>
+              )}{' '}
               <span className="whitespace-nowrap text-sm text-muted">
                 {authorOf(e)}, {fmtDate(e.recorded_at)}
               </span>
@@ -241,7 +258,7 @@ function FindingBlock({ f, days, baselineDays }: { f: Finding; days: string[]; b
       )}
       {ev.length > 2 && (
         <button onClick={() => setOpen(!open)} className="mt-2 text-sm font-bold text-care hover:underline">
-          {open ? 'Show fewer notes' : `Show all ${ev.length} notes`}
+          {open ? `Show fewer ${isVital ? 'readings' : 'notes'}` : `Show all ${ev.length} ${isVital ? 'readings' : 'notes'}`}
         </button>
       )}
     </div>

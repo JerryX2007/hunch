@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 from ..auth import User, nurse_profile, optional_user, require_nurse
 from ..history import service
-from ..schemas import NewNote, ResidentCreate
+from ..schemas import NewNote, NewVitals, ResidentCreate
 from ..store import get_store
 
 router = APIRouter(prefix="/residents", tags=["residents"])
@@ -37,6 +37,9 @@ def create_resident(body: ResidentCreate, request: Request,
     if get_store().resident(rid):
         raise HTTPException(status_code=409, detail=f"{rid} is already used by another resident. Pick another ID.")
     row = {"id": rid, "display_name": name, "baseline_start": body.baseline_start, "baseline_end": body.baseline_end}
+    conditions = [c.strip() for c in (body.conditions or []) if c.strip()]
+    if conditions:
+        row["conditions"] = conditions
     resident = service.add_resident(row)
     if body.first_note and body.first_note.strip():
         nurse = nurse_profile(request, user)
@@ -60,6 +63,29 @@ def resident_overview(resident_id: str) -> Dict[str, Any]:
     if not data:
         raise HTTPException(status_code=404, detail="Resident not found")
     return data
+
+
+@router.get("/{resident_id}/vitals", dependencies=[Depends(require_nurse)])
+def resident_vitals(resident_id: str, limit: int = 10) -> Dict[str, Any]:
+    """Recent vitals, each out-of-line value marked with why, and the resident's usual."""
+    if not get_store().resident(resident_id):
+        raise HTTPException(status_code=404, detail="Resident not found")
+    check = service.preview(resident_id)
+    return service.vitals_table(resident_id, check[0].vitals_usual if check else {}, max(1, min(limit, 200)))
+
+
+@router.post("/{resident_id}/vitals", status_code=201)
+def add_vitals(resident_id: str, body: NewVitals, request: Request,
+               nurse: Dict[str, Any] = Depends(require_nurse),
+               user: Optional[User] = Depends(optional_user)) -> Dict[str, Any]:
+    """Chart a set of vitals (signed-in nurse), then re-run the check for this resident."""
+    if not get_store().resident(resident_id):
+        raise HTTPException(status_code=404, detail="Resident not found")
+    try:
+        return service.add_vitals(resident_id, body.model_dump(), author_name=nurse.get("full_name"),
+                                  author_id=user.id if user else None)
+    except RuntimeError as e:  # vitals table missing on Supabase
+        raise HTTPException(status_code=503, detail=str(e)) from e
 
 
 @router.get("/{resident_id}/notes", dependencies=[Depends(require_nurse)])

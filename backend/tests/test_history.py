@@ -16,8 +16,9 @@ DATA = Path(__file__).resolve().parents[2] / "test_data"
 load = lambda name: json.loads((DATA / name).read_text())  # noqa: E731
 
 RESIDENTS, NOTES, CASES = load("residents.json"), load("notes.json"), load("cases.json")
+VITALS = load("vitals.json")
 EVAL = load("eval_scenarios.json")
-CHECKS = {c.resident_id: c for c in check_unit(RESIDENTS, NOTES)}
+CHECKS = {c.resident_id: c for c in check_unit(RESIDENTS, NOTES, vitals=VITALS)}
 
 
 @pytest.mark.parametrize("scenario", EVAL, ids=lambda e: f"{e['resident_id']}-{e['scenario']}")

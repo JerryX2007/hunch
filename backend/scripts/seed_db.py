@@ -1,6 +1,6 @@
 """Load test_data/ into Supabase. Run from backend/:
 
-    python -m scripts.seed_db              # residents, care notes, cases, eval scenarios
+    python -m scripts.seed_db              # residents, care notes, vitals, cases, eval scenarios
     python -m scripts.seed_db --results    # ...then run the history check and save its alerts
 
 Safe to re-run: residents, cases and eval scenarios are upserted by id, and only
@@ -91,6 +91,19 @@ def seed_notes():
     return f"{len(notes)} care notes ({len(new)} added, {len(notes) - len(new)} already there)"
 
 
+def seed_vitals():
+    if COLUMNS and "vitals" not in COLUMNS:
+        return "SKIPPED - table missing: run db/migrations/013_vitals.sql in the Supabase SQL Editor"
+    rows = fit("vitals", load("vitals.json"))
+    existing = db._fetch_all(lambda: db.supabase.table("vitals").select("id, resident_id, recorded_at")
+                             .in_("resident_id", ids).order("id"))
+    have = {(v["resident_id"], str(v["recorded_at"])[:19]) for v in existing}
+    new = [v for v in rows if (v["resident_id"], v["recorded_at"][:19]) not in have]
+    for i in range(0, len(new), 500):
+        db.supabase.table("vitals").insert(new[i:i + 500]).execute()
+    return f"{len(rows)} vitals ({len(new)} added, {len(rows) - len(new)} already there)"
+
+
 def seed_cases():
     return f"{db.seed_historical_cases_from_file()} historical cases"
 
@@ -117,6 +130,7 @@ if old:
 
 ok = step("residents", seed_residents)
 ok = (step("care_notes", seed_notes) if ok else False) and ok  # notes need residents first
+ok = (step("vitals", seed_vitals) if ok else False) and ok
 ok = step("historical_cases", seed_cases) and ok
 ok = (step("eval_scenarios", seed_eval) if ok else False) and ok  # needs residents
 

@@ -13,6 +13,7 @@ export default function AddPatient({ onAdded }: { onAdded: () => void }) {
   const [id, setId] = useState('')
   const [suggested, setSuggested] = useState('')
   const [note, setNote] = useState('')
+  const [history, setHistory] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -41,6 +42,10 @@ export default function AddPatient({ onAdded }: { onAdded: () => void }) {
         display_name: name.trim(),
         id: id.trim() || undefined,
         first_note: note.trim() || undefined,
+        conditions: history
+          .split('\n')
+          .map((c) => c.trim())
+          .filter(Boolean),
       })
       onAdded()
       toast({ tone: 'ok', text: `Added ${created.display_name} (${created.id}).` })
@@ -86,6 +91,19 @@ export default function AddPatient({ onAdded }: { onAdded: () => void }) {
         <span className="mt-1 block text-sm text-muted">
           {suggested && id === suggested ? 'The next free ID. Change it if your unit uses another.' : 'Letters, numbers and dashes.'}
         </span>
+      </label>
+
+      <label className="mt-4 block max-w-xl">
+        <span className="font-bold">Medical history</span> <span className="text-sm text-muted">(optional, one per line)</span>
+        <textarea
+          value={history}
+          onChange={(e) => setHistory(e.target.value)}
+          rows={3}
+          maxLength={2000}
+          placeholder={'e.g. Type 2 diabetes\nCOPD\nHistory of falls'}
+          className="mt-1 w-full rounded-lg border border-line px-3 py-2"
+        />
+        <span className="mt-1 block text-sm text-muted">Shown on their page for context. Hunch never flags anyone because of it.</span>
       </label>
 
       <label className="mt-4 block max-w-xl">

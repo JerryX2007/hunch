@@ -1,17 +1,19 @@
-"""Replace the seed care notes in Supabase with the ones in test_data/notes.json.
+"""Replace the seed residents' notes and vitals in Supabase with the ones in test_data/.
 
-Run from backend/ after regenerating the notes (test_data/generate_seed.py):
+Run db/migrations/013_vitals.sql first. Run from backend/ after regenerating the data
+(test_data/generate_seed.py):
 
     python -m scripts.reseed_notes          # shows what will change, asks before deleting
     python -m scripts.reseed_notes --yes    # no question
 
-For the 12 seed residents only, it:
-1. deletes their notes from the seed period (up to the last seed day). That also removes
-   what was found in those notes. Notes written after the seed period, by people using
-   the app, are kept. Residents added in the app are not touched.
+For the 20 seed residents only (adding any that are new, with their medical history), it:
+1. deletes their notes and vitals from the seed period (up to the last seed day). That also
+   removes what was found in those notes. Notes and vitals written after the seed period, by
+   people using the app, are kept. Residents added in the app are not touched; if one of
+   them already uses a seed ID, nothing is changed and the script says which.
 2. deletes their alerts (they're rebuilt in step 5) and the similar-case results saved with them,
-3. adds the new notes,
-4. links each note to its nurse's account (when the four demo nurses have accounts),
+3. adds the new notes and vitals,
+4. links each note and reading to its nurse's account (when the demo nurses have accounts),
 5. runs the history check again, so alerts match the new notes. With GEMINI_API_KEY set,
    Gemini reads the new notes first (otherwise run `python -m scripts.read_notes` later).
 """
@@ -44,19 +46,40 @@ def main(argv=None, sb=None, ask=input) -> int:
     sb = sb or db._require_admin()
 
     residents = [{k: v for k, v in r.items() if k != "scenario"} for r in load("residents.json")]
-    notes = load("notes.json")
-    nurses = [n["name"] for n in load("people.json")["nurses"]]
+    notes, vitals = load("notes.json"), load("vitals.json")
+    people = load("people.json")
+    nurses = [n["name"] for n in people["nurses"]]
     ids = [r["id"] for r in residents]
     cutoff = seed_cutoff(notes)
+
+    # A seed ID taken by a patient someone added in the app (e.g. 2W-023 before there were 20)?
+    seed_names = {r["id"]: r["name"] for r in people["residents"]}
+    existing = sb.table("residents").select("id, display_name").in_("id", ids).execute().data or []
+    clash = [e for e in existing if e.get("display_name") not in (seed_names.get(e["id"]), e["id"])]
+    if clash:
+        print("These IDs are used by patients added in the app, so nothing was changed:")
+        for e in clash:
+            print(f"  {e['id']}: {e.get('display_name')} (the seed data uses it for {seed_names.get(e['id'])})")
+        print("Give those patients other IDs first, or change the seed IDs in test_data/people.json.")
+        return 2
 
     old = db._fetch_all(lambda: sb.table("care_notes").select("id, recorded_at")
                         .in_("resident_id", ids).order("id"))
     replace = [n for n in old if str(n["recorded_at"])[:19] < cutoff]
+    try:
+        old_v = db._fetch_all(lambda: sb.table("vitals").select("id, recorded_at").in_("resident_id", ids).order("id"))
+    except Exception as e:  # noqa: BLE001
+        if "vitals" in str(e):
+            print("There's no vitals table yet: run db/migrations/013_vitals.sql in the Supabase SQL Editor first.")
+            return 2
+        raise
+    replace_v = [v for v in old_v if str(v["recorded_at"])[:19] < cutoff]
     print(f"Database: {db.SUPABASE_URL}")
     print(f"Seed residents: {len(ids)} ({ids[0]} to {ids[-1]}). Seed period ends {cutoff[:10]}.")
-    print(f"  will delete {len(replace)} old seed notes and these residents' alerts")
-    print(f"  will keep   {len(old) - len(replace)} notes written after the seed period")
-    print(f"  will add    {len(notes)} new notes from test_data/notes.json")
+    print(f"  will delete {len(replace)} old seed notes, {len(replace_v)} seed vitals and these residents' alerts")
+    print(f"  will keep   {len(old) - len(replace)} notes and {len(old_v) - len(replace_v)} vitals written after the seed period")
+    print(f"  will add    {len(notes)} notes and {len(vitals)} vitals from test_data/, "
+          f"and {len(set(ids) - {e['id'] for e in existing})} new residents")
     if not args.yes and ask("Go ahead? Type yes: ").strip().lower() != "yes":
         print("Nothing changed.")
         return 1
@@ -64,7 +87,8 @@ def main(argv=None, sb=None, ask=input) -> int:
     sb.table("residents").upsert(residents).execute()
     sb.table("alerts").delete().in_("resident_id", ids).execute()
     sb.table("care_notes").delete().in_("resident_id", ids).lt("recorded_at", cutoff).execute()
-    print(f"  deleted {len(replace)} notes and the alerts")
+    sb.table("vitals").delete().in_("resident_id", ids).lt("recorded_at", cutoff).execute()
+    print(f"  deleted {len(replace)} notes, {len(replace_v)} vitals and the alerts")
 
     rows = notes
     for i in range(0, len(rows), BATCH):
@@ -78,15 +102,19 @@ def main(argv=None, sb=None, ask=input) -> int:
                     for n in notes]
             sb.table("care_notes").insert(rows[i:i + BATCH]).execute()
     print(f"  added {len(notes)} notes")
+    for i in range(0, len(vitals), BATCH):
+        sb.table("vitals").insert(vitals[i:i + BATCH]).execute()
+    print(f"  added {len(vitals)} vitals")
 
     linked = 0
     try:
         profiles = sb.table("profiles").select("id, full_name").in_("full_name", nurses).execute().data or []
         for p in profiles:
-            got = (sb.table("care_notes").update({"author_id": p["id"]}).eq("author_name", p["full_name"])
-                   .in_("resident_id", ids).is_("author_id", "null").execute().data or [])
-            linked += len(got)
-        print(f"  linked {linked} notes to {len(profiles)} nurse accounts"
+            for table in ("care_notes", "vitals"):
+                got = (sb.table(table).update({"author_id": p["id"]}).eq("author_name", p["full_name"])
+                       .in_("resident_id", ids).is_("author_id", "null").execute().data or [])
+                linked += len(got)
+        print(f"  linked {linked} notes and vitals to {len(profiles)} nurse accounts"
               + ("" if profiles else " (no accounts yet: python -m scripts.create_demo_nurses)"))
     except Exception as e:  # noqa: BLE001 - linking is a nice-to-have
         print(f"  notes not linked to nurse accounts ({type(e).__name__}); "

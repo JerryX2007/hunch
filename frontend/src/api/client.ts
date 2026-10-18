@@ -1,4 +1,4 @@
-import type { Alert, AlertStatus, CareNote, Health, Me, Profile, Resident, ResidentOverview, ResidentSummary, RunResult, RunSummary } from './types'
+import type { Alert, AlertStatus, CareNote, Health, Me, NewVitals, Profile, Resident, ResidentOverview, ResidentSummary, RunResult, RunSummary } from './types'
 
 /** Fired when a nurse-only call comes back 401 (session ended); the sign-in state re-checks. */
 export const SIGNED_OUT_EVENT = 'hunch:signed-out'
@@ -43,7 +43,12 @@ export const api = {
       body: JSON.stringify({ note_text, author_role }),
     }),
   nextResidentId: () => request<{ id: string }>('/residents/next-id'),
-  addResident: (body: { display_name: string; id?: string; first_note?: string }) =>
+  addVitals: (id: string, body: NewVitals) =>
+    request<{ result: RunResult | null }>(`/residents/${encodeURIComponent(id)}/vitals`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  addResident: (body: { display_name: string; id?: string; first_note?: string; conditions?: string[] }) =>
     request<Resident>('/residents', { method: 'POST', body: JSON.stringify(body) }),
   runCheck: () => request<RunSummary>('/history/run', { method: 'POST' }),
   setAlertStatus: (alertId: string, status: AlertStatus) =>

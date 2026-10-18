@@ -44,9 +44,10 @@ def test_psw_can_log_a_note_without_sign_in(client):
 def test_me_never_401(client):
     me = client.get("/api/auth/me").json()
     assert me["signed_in"] is False and me["is_nurse"] is False
-    # demo mode lists the four nurses and the shared demo password on the sign-in screen
+    # demo mode lists the unit's nurses (test_data/people.json) and the shared demo password
     assert me["demo_login"]["password"] == auth.DEMO_PASSWORD
-    assert [n["name"] for n in me["demo_login"]["nurses"]] == ["Priya Raman", "Daniel Osei", "Grace Liu", "Mateo Alvarez"]
+    names = [n["name"] for n in me["demo_login"]["nurses"]]
+    assert len(names) == 7 and names[:2] == ["Priya Raman", "Daniel Osei"]
 
 
 # --------------------------------------------------------------------------- signing in

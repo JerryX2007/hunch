@@ -33,6 +33,7 @@ from typing import Any, Dict, Iterable, List, Optional
 
 from ..models import note_reader
 from .extract import COMPARATIVE, NEGATION, Meal, NoteFacts, Signal, _dedupe, extract
+from .vitals import from_text
 
 log = logging.getLogger(__name__)
 
@@ -148,7 +149,8 @@ ate eat eaten eating drank drink drinking breakfast lunch dinner meal meals snac
 slept sleep sleepy tired walked walking up out bed room chair very more less than usual all most half
 some few not no did does said says resident staff family care help needed bm voided pain
 good poor well fluid intake appetite steady gait assist walker cane amb res pt am pm per after before
-w/ x1 x2 settled brief changed toileted continent repositioned checked""".split())
+w/ x1 x2 settled brief changed toileted continent repositioned checked notified applied order using
+given monitor monitoring will cont rn np md ra rr prn vss assessed aware""".split())
 
 
 def looks_english(text: str) -> bool:
@@ -169,8 +171,8 @@ def read_note(note: Dict[str, Any]) -> NoteFacts:
     text = note.get("note_text") or ""
     if not current(reading):
         facts = extract(note)
-        if not (facts.signals or facts.meals or facts.negated) and not looks_english(text):
-            facts.unreadable = True
+        if not (facts.signals or facts.meals or facts.negated or from_text(text)) and not looks_english(text):
+            facts.unreadable = True  # (a note of vitals, "SpO2 88% RA, RR 28", was read fine)
         return facts
 
     translation = reading.get("translation_en")

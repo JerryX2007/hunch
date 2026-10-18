@@ -1,5 +1,5 @@
 {
-  "_note": "Fictional people for the demo unit (2 West). Used by generate_seed.py, the demo sign-in (backend/app/auth.py), scripts/create_demo_nurses.py and db/migrations/011_named_residents_and_nurses.sql. Keep them in sync.",
+  "_note": "Fictional people for the demo unit (2 West). Used by generate_seed.py, the demo sign-in (backend/app/auth.py), scripts/create_demo_nurses.py and scripts/reseed_notes.py (011 renamed the first 12). Keep them in sync.",
   "residents": [
     {"old_id": "DEMO-011", "id": "2W-011", "name": "Margaret Chen"},
     {"old_id": "DEMO-012", "id": "2W-012", "name": "Harold Okafor"},
@@ -12,12 +12,23 @@
     {"old_id": "DEMO-019", "id": "2W-019", "name": "George Fitzgerald"},
     {"old_id": "DEMO-020", "id": "2W-020", "name": "Agnes Tremblay"},
     {"old_id": "DEMO-021", "id": "2W-021", "name": "Frank Adeyemi"},
-    {"old_id": "DEMO-022", "id": "2W-022", "name": "Irene Santos"}
+    {"old_id": "DEMO-022", "id": "2W-022", "name": "Irene Santos"},
+    {"old_id": "DEMO-023", "id": "2W-023", "name": "Victor Lindqvist"},
+    {"old_id": "DEMO-024", "id": "2W-024", "name": "Bernard Kim"},
+    {"old_id": "DEMO-025", "id": "2W-025", "name": "Harjit Kaur"},
+    {"old_id": "DEMO-026", "id": "2W-026", "name": "Joseph Ferreira"},
+    {"old_id": "DEMO-027", "id": "2W-027", "name": "Helen Papadopoulos"},
+    {"old_id": "DEMO-028", "id": "2W-028", "name": "Beatrice Leblanc"},
+    {"old_id": "DEMO-029", "id": "2W-029", "name": "Stanley Wong"},
+    {"old_id": "DEMO-030", "id": "2W-030", "name": "Raymond Castillo"}
   ],
   "nurses": [
     {"name": "Priya Raman", "email": "priya.raman@hunch.test"},
     {"name": "Daniel Osei", "email": "daniel.osei@hunch.test"},
     {"name": "Grace Liu", "email": "grace.liu@hunch.test"},
-    {"name": "Mateo Alvarez", "email": "mateo.alvarez@hunch.test"}
+    {"name": "Mateo Alvarez", "email": "mateo.alvarez@hunch.test"},
+    {"name": "Aisha Mohamed", "email": "aisha.mohamed@hunch.test"},
+    {"name": "Tomasz Nowak", "email": "tomasz.nowak@hunch.test"},
+    {"name": "Mei Tanaka", "email": "mei.tanaka@hunch.test"}
   ]
 }

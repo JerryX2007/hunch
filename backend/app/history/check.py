@@ -26,6 +26,7 @@ from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, Iterable, List, Optional
 
+from . import vitals as vt
 from .ai_read import read_note
 from .extract import NoteFacts, Signal, parse_time
 
@@ -43,7 +44,11 @@ LABELS = {
     "mobility": "Mobility", "toileting.urine": "Urine", "toileting.bowel": "Bowels",
     "pain": "Pain / discomfort", "confusion": "Confusion", "social": "Social / activities",
     "sleep": "Sleep", "breathing": "Breathing", "event": "Event",
+    **{k: m[1] for k, m in vt.MEASURES.items()},
 }
+VITAL_KEYS = set(vt.MEASURES)
+URGENT_VITAL_WORDS = {"temperature": "high temperature", "oxygen": "low oxygen", "pulse": "fast pulse",
+                      "breathing_rate": "fast breathing", "blood_pressure": "low blood pressure"}
 
 
 @dataclass
@@ -58,6 +63,7 @@ class Evidence:
     read_by: str = "rules"             # "ai": found only by Gemini's (checked) reading
     language: Optional[str] = None     # note language, when Gemini read it
     translation: Optional[str] = None  # English translation of a non-English note
+    vital_id: Optional[str] = None     # a charted vitals reading (read_by "vitals")
 
     @classmethod
     def from_facts(cls, f: NoteFacts, phrase: str, source: str = "rules") -> "Evidence":
@@ -95,6 +101,7 @@ class HistoryCheck:
     ruled_out: List[str]          # negated mentions, e.g. "pain (denied)"
     unread_notes: List[Dict[str, Any]] = field(default_factory=list)  # recent notes nobody could read
     reading: Dict[str, int] = field(default_factory=dict)            # how the notes were read
+    vitals_usual: Dict[str, Optional[float]] = field(default_factory=dict)  # the resident's usual vitals
 
     @property
     def categories(self) -> List[str]:
@@ -102,14 +109,14 @@ class HistoryCheck:
 
     @property
     def match_signals(self) -> List[str]:
-        return sorted({f.match_key for f in self.findings if f.key != "event"})
+        return sorted({f.match_key for f in self.findings if f.key != "event" and f.key not in VITAL_KEYS})
 
     @property
     def match_weights(self) -> Dict[str, float]:
         """Signals for case matching: persisting/urgent weigh 1, one-off notes 0.5."""
         w: Dict[str, float] = {}
         for f in self.findings:
-            if f.key == "event":
+            if f.key == "event" or f.key in VITAL_KEYS:  # the case library has no vitals
                 continue
             v = 1.0 if (f.persisting or f.urgent) else 0.5
             w[f.match_key] = max(w.get(f.match_key, 0.0), v)
@@ -129,7 +136,10 @@ class HistoryCheck:
     def title(self) -> str:
         if self.urgent:
             urgent = [f for f in self.findings if f.urgent]
-            symptom = next((f for f in urgent if f.key != "event"), None)
+            vital = next((f for f in urgent if f.key in VITAL_KEYS), None)
+            if vital and not any(f.key not in VITAL_KEYS for f in urgent):
+                return f"Urgent: {URGENT_VITAL_WORDS[vital.key]}"
+            symptom = next((f for f in urgent if f.key != "event" and f.key not in VITAL_KEYS), None)
             what = LABELS.get(symptom.key, symptom.key).lower() if symptom else "serious"
             extra = " (hospital transfer)" if any(f.key == "event" for f in urgent) else ""
             return f"Urgent: {what} event{extra}"
@@ -148,22 +158,29 @@ def check_resident(
     notes: Iterable[Dict[str, Any]],
     as_of: Optional[datetime] = None,
     thresholds: Optional[Dict[str, float]] = None,
+    vitals: Optional[Iterable[Dict[str, Any]]] = None,
 ) -> HistoryCheck:
     """Run the history check for one resident.
 
     ``resident`` needs ``id``; ``baseline_start`` / ``baseline_end`` are used when present.
     ``notes`` are that resident's care notes (``note_text``, ``recorded_at``; ``id`` and
     ``author_role`` are carried into the evidence when present).
-    ``as_of`` defaults to the newest note's time, so the result doesn't drift with the clock.
+    ``vitals`` are that resident's charted vitals (``temp_c``, ``spo2``, ``pulse``, ``resp_rate``,
+    ``bp_systolic``, ``bp_diastolic``, ``recorded_at``); vitals written in notes are added.
+    ``as_of`` defaults to the newest note or reading, so the result doesn't drift with the clock.
     """
     t = {**THRESHOLDS, **(thresholds or {})}
     facts = sorted((read_note(n) for n in notes), key=lambda f: f.time)
     rid = resident["id"]
-    if not facts:
+    readings = vt.merge_note_readings(
+        list(vitals or []), [f.note for f in facts],
+        {f.note.get("id"): (f.translation or f.note.get("note_text") or "") for f in facts if f.note.get("id")})
+    times = [f.time.replace(tzinfo=None) for f in facts] + [vt._time(r) for r in readings]
+    if not times:
         return HistoryCheck(rid, (as_of or datetime.now()).isoformat(), "baseline_limited", False, False,
                             True, 0, {}, [], ["No care notes recorded yet."], [])
 
-    as_of = as_of or facts[-1].time
+    as_of = as_of or max(times)
     recent_start = _day(as_of) - timedelta(days=int(t["recent_days"]) - 1)
     b0 = date.fromisoformat(str(resident["baseline_start"])[:10]) if resident.get("baseline_start") else None
     b1 = date.fromisoformat(str(resident["baseline_end"])[:10]) if resident.get("baseline_end") else None
@@ -249,6 +266,53 @@ def check_resident(
                 evidence=[Evidence.from_facts(f, m.phrase, m.source) for f, m in low],
             ))
 
+    # --- vitals, against standard limits and the resident's own usual --------
+    def in_baseline(d: date) -> bool:
+        return (b0 is None or d >= b0) and d <= b1
+
+    base_v = [r for r in readings if in_baseline(_day(vt._time(r)))]
+    recent_v = [r for r in readings if recent_start <= _day(vt._time(r)) <= _day(as_of)]
+    usuals = {k: vt.usual(base_v, m[0]) for k, m in vt.MEASURES.items()}
+    for key, (fld, label, _unit, _dec) in vt.MEASURES.items():
+        u = usuals[key]
+        hits = [(r, float(r[fld]), j) for r in recent_v if r.get(fld) is not None
+                for j in [vt.judge(key, float(r[fld]), u)] if j.out_of_line]
+        if not hits:
+            continue
+        counts = any(j.alone for *_, j in hits) or len(hits) >= 2
+        urgent_v = any(j.urgent for *_, j in hits)
+        days = sorted({_day(vt._time(r)).isoformat() for r, *_ in hits})
+        n_base_r = sum(1 for r in base_v if r.get(fld) is not None)
+        base_out = sum(1 for r in base_v if r.get(fld) is not None and vt.judge(key, float(r[fld]), u).out_of_line)
+        n_recent_r = sum(1 for r in recent_v if r.get(fld) is not None)
+        usual_txt = f"usual {vt.fmt(key, u)}" if u is not None else "no usual yet (fewer than 3 earlier readings)"
+        values = ", ".join(f"{vt.fmt(key, v)} ({vt._time(r):%b} {vt._time(r).day})" for r, v, _ in hits)
+        main = next((j for *_, j in hits if j.urgent), None) or next((j for *_, j in hits if j.alone), None) or hits[-1][2]
+        if urgent_v:
+            reason = f"URGENT - {label}: {values}; {usual_txt}. {main.why[0].upper()}{main.why[1:]}."
+        elif counts:
+            reason = f"{label}: {values}; {usual_txt}. {main.why[0].upper()}{main.why[1:]}."
+        else:
+            reason = f"{label}: out of line once ({values}); {usual_txt}. Not repeated, so not counted."
+        ev = []
+        for r, v, j in hits:
+            phrase = f"{vt.fmt(key, v)}" + (f" (usual {vt.fmt(key, u)})" if u is not None else "")
+            if key == "blood_pressure" and r.get("bp_diastolic") is not None:
+                phrase = f"BP {v:.0f}/{float(r['bp_diastolic']):.0f}" + (f" (usual systolic {u:.0f})" if u is not None else "")
+            ev.append(Evidence(r.get("note_id"), vt._time(r).isoformat(), r.get("author_role"), "", phrase,
+                               r.get("author_name"), "note" if r.get("source") == "note" else "vitals",
+                               vital_id=r.get("id")))
+        findings.append(Finding(
+            key=key, match_key=key, persisting=counts, recent_days=days,
+            baseline_rate=round(base_out / n_base_r, 2) if n_base_r else 0.0,
+            recent_rate=round(len(hits) / n_recent_r, 2) if n_recent_r else 0.0,
+            reason=reason, urgent=urgent_v, evidence=ev,
+        ))
+    fever = next((f for f in findings if f.key == "temperature" and f.persisting), None)
+    if fever and any(f.key in ("confusion", "energy") for f in findings):
+        fever.reason += (" Fever with new confusion or drowsiness at the same time is one of the Loeb "
+                         "minimum criteria for assessing infection.")
+
     # --- decision -------------------------------------------------------------
     urgent = any(f.urgent for f in findings)
     persisting = [f for f in findings if f.persisting]
@@ -258,7 +322,7 @@ def check_resident(
                "note_text": f.note.get("note_text", "")} for f in recent if f.unreadable]
     if urgent:
         tier = "urgent"
-    elif limited:
+    elif limited and not persisting:  # only vitals can count without a usual pattern (standard limits)
         tier = "baseline_limited"
     elif len(persisting) >= t["alert_categories"]:
         tier = "alert"
@@ -293,18 +357,26 @@ def check_resident(
                 "baseline_end": (baseline_dates[-1].isoformat() if baseline_dates else None),
                 "recent_start": recent_start.isoformat(), "recent_end": _day(as_of).isoformat()},
         findings=findings, reasons=reasons, ruled_out=ruled_out, unread_notes=unread,
-        reading={"notes": len(facts), "read_by_ai": sum(1 for f in facts if f.read_by == "ai")},
+        reading={"notes": len(facts), "read_by_ai": sum(1 for f in facts if f.read_by == "ai"),
+                 "vitals": len(readings)},
+        vitals_usual=usuals,
     )
 
 
 def check_unit(residents: List[Dict[str, Any]], notes: List[Dict[str, Any]],
-               as_of: Optional[datetime] = None) -> List[HistoryCheck]:
-    """Run every resident with one shared as_of (newest note on the unit)."""
-    if as_of is None and notes:
-        as_of = max(parse_time(n["recorded_at"]) for n in notes)
+               as_of: Optional[datetime] = None,
+               vitals: Optional[List[Dict[str, Any]]] = None) -> List[HistoryCheck]:
+    """Run every resident with one shared as_of (newest note or reading on the unit)."""
+    vitals = vitals or []
+    if as_of is None and (notes or vitals):
+        as_of = max([parse_time(n["recorded_at"]).replace(tzinfo=None) for n in notes]
+                    + [vt._time(v) for v in vitals])
     by_res: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
     for n in notes:
         by_res[n["resident_id"]].append(n)
+    v_by_res: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+    for v in vitals:
+        v_by_res[v["resident_id"]].append(v)
     order = {"urgent": 0, "alert": 1, "watch": 2, "baseline_limited": 3, "quiet": 4}
-    out = [check_resident(r, by_res.get(r["id"], []), as_of) for r in residents]
+    out = [check_resident(r, by_res.get(r["id"], []), as_of, vitals=v_by_res.get(r["id"], [])) for r in residents]
     return sorted(out, key=lambda c: (order[c.tier], c.resident_id))

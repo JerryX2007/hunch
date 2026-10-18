@@ -4,6 +4,11 @@
     "display_name": "Margaret Chen",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Alzheimer's dementia (moderate)",
+      "Osteoarthritis",
+      "Hypertension"
+    ],
     "scenario": "stable"
   },
   {
@@ -11,6 +16,11 @@
     "display_name": "Harold Okafor",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Type 2 diabetes",
+      "Hypertension",
+      "Hearing loss"
+    ],
     "scenario": "stable"
   },
   {
@@ -18,6 +28,10 @@
     "display_name": "Rosa Marchetti",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Vascular dementia",
+      "Atrial fibrillation"
+    ],
     "scenario": "stable"
   },
   {
@@ -25,6 +39,11 @@
     "display_name": "Evelyn Brooks",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Alzheimer's dementia (mild)",
+      "Osteoporosis",
+      "Hypothyroidism"
+    ],
     "scenario": "planted_decline"
   },
   {
@@ -32,6 +51,10 @@
     "display_name": "Arjun Mehta",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Parkinson's disease",
+      "Benign prostatic hyperplasia"
+    ],
     "scenario": "negation_test"
   },
   {
@@ -39,6 +62,10 @@
     "display_name": "Dorothy Kowalski",
     "baseline_start": "2026-10-12",
     "baseline_end": "2026-10-13",
+    "conditions": [
+      "Mixed dementia",
+      "Hip fracture (2025, healed)"
+    ],
     "scenario": "short_history"
   },
   {
@@ -46,6 +73,11 @@
     "display_name": "Walter Nguyen",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Osteoporosis",
+      "Hypertension",
+      "History of falls"
+    ],
     "scenario": "urgent_symptom"
   },
   {
@@ -53,6 +85,10 @@
     "display_name": "Lillian Haddad",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Heart failure",
+      "Macular degeneration"
+    ],
     "scenario": "isolated_dip"
   },
   {
@@ -60,6 +96,10 @@
     "display_name": "George Fitzgerald",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Type 2 diabetes",
+      "Chronic kidney disease (stage 3)"
+    ],
     "scenario": "planted_decline"
   },
   {
@@ -67,6 +107,10 @@
     "display_name": "Agnes Tremblay",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Alzheimer's dementia (advanced)",
+      "Dysphagia (minced diet)"
+    ],
     "scenario": "stable"
   },
   {
@@ -74,6 +118,10 @@
     "display_name": "Frank Adeyemi",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "COPD (mild)",
+      "Hypertension"
+    ],
     "scenario": "isolated_dip"
   },
   {
@@ -81,6 +129,105 @@
     "display_name": "Irene Santos",
     "baseline_start": "2026-09-20",
     "baseline_end": "2026-10-10",
+    "conditions": [
+      "Parkinson's disease",
+      "Chronic constipation"
+    ],
     "scenario": "constipation_pattern"
+  },
+  {
+    "id": "2W-023",
+    "display_name": "Victor Lindqvist",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "conditions": [
+      "Stroke (2023), left-sided weakness",
+      "Hypertension",
+      "Atrial fibrillation"
+    ],
+    "scenario": "stable"
+  },
+  {
+    "id": "2W-024",
+    "display_name": "Bernard Kim",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "conditions": [
+      "COPD (severe), oxygen at night",
+      "Heart failure",
+      "Osteoarthritis"
+    ],
+    "scenario": "stable_copd"
+  },
+  {
+    "id": "2W-025",
+    "display_name": "Harjit Kaur",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "conditions": [
+      "Alzheimer's dementia (moderate)",
+      "Hypertension",
+      "Recurrent UTIs"
+    ],
+    "scenario": "fever_decline"
+  },
+  {
+    "id": "2W-026",
+    "display_name": "Joseph Ferreira",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "conditions": [
+      "Hypertension",
+      "Former smoker",
+      "Osteoarthritis"
+    ],
+    "scenario": "respiratory_urgent"
+  },
+  {
+    "id": "2W-027",
+    "display_name": "Helen Papadopoulos",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "conditions": [
+      "Osteoarthritis",
+      "Generalized anxiety",
+      "Hypertension"
+    ],
+    "scenario": "isolated_vital"
+  },
+  {
+    "id": "2W-028",
+    "display_name": "Beatrice Leblanc",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "conditions": [
+      "Orthostatic hypotension",
+      "Depression",
+      "Osteoporosis"
+    ],
+    "scenario": "stable_low_bp"
+  },
+  {
+    "id": "2W-029",
+    "display_name": "Stanley Wong",
+    "baseline_start": "2026-10-13",
+    "baseline_end": "2026-10-13",
+    "conditions": [
+      "Lewy body dementia",
+      "Hypertension"
+    ],
+    "scenario": "short_history"
+  },
+  {
+    "id": "2W-030",
+    "display_name": "Raymond Castillo",
+    "baseline_start": "2026-09-20",
+    "baseline_end": "2026-10-10",
+    "conditions": [
+      "Type 2 diabetes",
+      "Benign prostatic hyperplasia",
+      "Hypertension"
+    ],
+    "scenario": "confusion_fever"
   }
 ]

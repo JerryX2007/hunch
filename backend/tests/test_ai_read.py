@@ -152,7 +152,7 @@ def test_same_note_read_by_gemini_is_urgent():
     assert c.tier == "urgent" and not c.unread_notes
     ev = next(f for f in c.findings if f.urgent).evidence[0]
     assert ev.translation == TAGALOG_EN and ev.language == "tl"
-    assert c.reading == {"notes": 11, "read_by_ai": 1}
+    assert c.reading == {"notes": 11, "read_by_ai": 1, "vitals": 0}
 
 
 # --- asking Gemini, saving, caching -----------------------------------------
@@ -256,3 +256,8 @@ def test_non_english_reading_without_a_translation_does_not_count():
     r = ai_read.validate(reading(language="tl", translation=None), TAGALOG)
     assert r["status"] == "failed"
     assert ai_read.read_note(note(TAGALOG, reading_=r)).unreadable  # still flagged for the nurse
+
+
+def test_a_note_of_vitals_and_abbreviations_counts_as_read():
+    text = "SpO2 88% RA, RR 28, P 104, T 37.6. Using accessory muscles. NP notified, O2 2L applied per order."
+    assert not ai_read.read_note(note(text)).unreadable
