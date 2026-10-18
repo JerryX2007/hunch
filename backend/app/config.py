@@ -1,12 +1,15 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+BACKEND_DIR = Path(__file__).resolve().parent.parent
 
 
 class Settings(BaseSettings):
     """Reads values from environment variables or backend/.env (see .env.example)."""
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=BACKEND_DIR / ".env", extra="ignore")
 
-    database_url: str | None = None  # e.g. postgresql+psycopg://user:pass@host:5432/hunch
     cors_origins: list[str] = ["http://localhost:5173"]
 
 

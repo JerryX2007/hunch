@@ -8,8 +8,8 @@
 import argparse
 import json
 
-from app import database as db
 from app.history import service
+from app.store import REPO_DIR, get_store
 
 TIER_MARK = {"urgent": "!!", "alert": "! ", "watch": "~ ", "baseline_limited": "? ", "quiet": "  "}
 
@@ -19,6 +19,7 @@ p.add_argument("--eval", action="store_true", help="compare with test_data/eval_
 args = p.parse_args()
 
 checks = service.preview()
+print(f"Data: {get_store().mode}")
 print(f"As of {checks[0].as_of if checks else '-'}  ({len(checks)} residents)\n")
 for c in checks:
     print(f"{TIER_MARK[c.tier]} {c.resident_id:<10} {c.tier.upper():<17} {c.title if c.alert else ''}")
@@ -28,8 +29,9 @@ for c in checks:
         print(f"      (ruled out: {', '.join(c.ruled_out)})")
 
 if args.eval:
-    expected = {e["resident_id"]: e["expected"] for e in json.load(open(db.REPO_DIR / "test_data" / "eval_scenarios.json"))}
-    print("\nEval:")
+    rows = json.load(open(REPO_DIR / "test_data" / "eval_scenarios.json"))
+    expected = {e["resident_id"]: e["expected"] for e in rows}
+    print("\nEval (expected answers from test_data/eval_scenarios.json):")
     passed = 0
     for c in checks:
         e = expected.get(c.resident_id)
@@ -53,7 +55,9 @@ if args.save:
     print("\nSaving...")
     summary = service.run()
     for r in summary["residents"]:
-        if "alert_id" in r:
+        if r.get("suppressed"):
+            print(f"  {r['resident_id']}: alert {r['alert_id'][:8]} was dismissed and nothing new; left dismissed")
+        elif "alert_id" in r:
             sc = r["similar_cases"]
             outs = ", ".join(f"{o['outcome_category']} x{o['n']}" for o in sc["outcomes"])
             print(f"  {r['resident_id']}: alert {r['alert_id'][:8]}, {sc['matches']} similar cases ({outs})")

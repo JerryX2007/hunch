@@ -1,38 +1,41 @@
-"""Run the history check against Supabase and save the results.
+"""The Hunch pipeline in one place: care notes -> history check -> alerts -> similar cases.
 
-    preview()  -> compute only, writes nothing (safe to call any time)
-    run()      -> compute, then for each flagged resident:
-                    observations   one row per (note, signal) that supports the alert
-                    alerts         one open alert per resident, updated in place on re-runs
-                    alert_evidence links the alert to those observations
-                    case_match_runs / case_matches  look-alike historical cases
+    preview(resident_id)   compute only, writes nothing (cached until notes change)
+    run(resident_id)       compute and save: alerts, evidence, plain-language summary,
+                           similar historical cases
+    add_note(...)          store a care note, then re-run that resident
 
-Re-running is safe: observation ids are derived from (note, signal), the open
-alert is reused, and a case-match run is reused when its evidence is unchanged.
+Where data lives is decided by app.store: Supabase when backend/.env is filled in,
+otherwise an in-memory copy of test_data/ (demo mode).
+
+Re-running is safe: observation ids come from (note, signal), a resident keeps one
+alert that is updated in place, a review status survives re-runs, and a dismissed
+alert only comes back when the evidence changes.
 """
 
 from __future__ import annotations
 
+import hashlib
+import json
+import threading
 import uuid
 from dataclasses import asdict
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
+from ..store import get_store
+from . import narrative
 from .check import HistoryCheck, check_unit
 from .match import SCORER_VERSION, build_run, match_cases, outcome_spread
 
-# Text values written to constrained columns. Change here if your CHECK constraints differ.
-ALERT_STATUS_OPEN = "open"
+# Text values written to constrained columns (see db/migrations).
+ALERT_STATUSES = ("open", "reviewed", "needs_assessment", "dismissed")
 ASSERTION_PRESENT = "present"
 OBS_DIRECTION = "worsening"
+TIER_ORDER = {"urgent": 0, "alert": 1, "watch": 2, "baseline_limited": 3, "quiet": 4}
 
-_NS = uuid.UUID("6f1c3a52-6a2b-4c55-9d43-1f0d8f0c2b7e")  # fixed namespace for stable observation ids
-
-
-def _db():
-    # Imported lazily so the API still starts when Supabase isn't configured.
-    from .. import database
-    return database
+_lock = threading.RLock()
+_cache: Optional[List[HistoryCheck]] = None
 
 
 def _now() -> str:
@@ -50,13 +53,24 @@ def to_dict(c: HistoryCheck, include_evidence: bool = True) -> Dict[str, Any]:
     return d
 
 
+def invalidate() -> None:
+    global _cache
+    with _lock:
+        _cache = None
+
+
 def preview(resident_id: Optional[str] = None, as_of: Optional[datetime] = None) -> List[HistoryCheck]:
-    db = _db()
-    residents = db.get_residents()
-    notes = db.get_care_notes()
-    if resident_id:
-        residents = [r for r in residents if r["id"] == resident_id]
-    return check_unit(residents, notes, as_of)
+    """History check for every resident (or one). Shared as_of = newest note on the unit."""
+    global _cache
+    with _lock:
+        if as_of is not None or _cache is None:
+            s = get_store()
+            checks = check_unit(s.residents(), s.notes(), as_of)
+            if as_of is None:
+                _cache = checks
+        else:
+            checks = _cache
+    return [c for c in checks if resident_id is None or c.resident_id == resident_id]
 
 
 # ---------------------------------------------------------------------------
@@ -67,7 +81,7 @@ def _observation_rows(c: HistoryCheck) -> List[Dict[str, Any]]:
         for ev in f.evidence:
             if not ev.note_id:
                 continue
-            oid = str(uuid.uuid5(_NS, f"{ev.note_id}|{f.match_key}"))
+            oid = narrative.observation_id(ev.note_id, f.match_key)
             rows[oid] = {
                 "id": oid,
                 "note_id": ev.note_id,
@@ -86,70 +100,155 @@ def _observation_rows(c: HistoryCheck) -> List[Dict[str, Any]]:
     return list(rows.values())
 
 
-def _alert_row(c: HistoryCheck, alert_id: str) -> Dict[str, Any]:
+def evidence_fingerprint(observations: List[Dict[str, Any]]) -> str:
+    """sha256 of sorted evidence ids + scorer version (same formula as database.alert_fingerprint)."""
+    raw = json.dumps({"evidence": sorted(o["id"] for o in observations), "scorer": SCORER_VERSION})
+    return hashlib.sha256(raw.encode()).hexdigest()
+
+
+def _alert_row(c: HistoryCheck, alert_id: str, fingerprint: str, story: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "id": alert_id,
         "resident_id": c.resident_id,
         "title": c.title,
         "summary": " ".join(c.reasons),
-        "explanation": to_dict(c),
+        "explanation": {**to_dict(c), "fingerprint": fingerprint, "narrative": story},
         "triggered_rules": [
             {"category": f.key, "signal": f.match_key, "persisting": f.persisting, "urgent": f.urgent,
              "recent_days": f.recent_days, "baseline_rate": f.baseline_rate,
              "recent_rate": f.recent_rate, "reason": f.reason}
             for f in c.findings if f.persisting or f.urgent
         ],
-        "status": ALERT_STATUS_OPEN,
         "urgent": c.urgent,
     }
 
 
-def _save_alert(c: HistoryCheck) -> Dict[str, Any]:
-    db = _db()
-    existing = (db.supabase.table("alerts").select("id").eq("resident_id", c.resident_id)
-                .eq("status", ALERT_STATUS_OPEN).order("created_at", desc=True).limit(1).execute().data)
-    alert_id = existing[0]["id"] if existing else str(uuid.uuid4())
-    row = _alert_row(c, alert_id)
-    if not existing:
-        row["created_at"] = _now()
-    alert = db.supabase.table("alerts").upsert(row).execute().data[0]
-
+def _save(c: HistoryCheck, cases: List[Dict[str, Any]]) -> Dict[str, Any]:
+    s = get_store()
     obs = _observation_rows(c)
-    if obs:
-        db.supabase.table("observations").upsert(obs).execute()
-    db.supabase.table("alert_evidence").delete().eq("alert_id", alert_id).execute()
-    if obs:
-        db.supabase.table("alert_evidence").insert(
-            [{"alert_id": alert_id, "observation_id": o["id"]} for o in obs]).execute()
-    return alert
+    fp = evidence_fingerprint(obs)
+    latest = s.latest_alert(c.resident_id)
+    prev = (latest or {}).get("explanation") or {}
+    same_evidence = prev.get("fingerprint") == fp
 
+    if latest and latest["status"] == "dismissed" and same_evidence:
+        return {"alert_id": latest["id"], "suppressed": True}  # nurse said "not useful"; nothing new
+    new = latest is None or latest["status"] == "dismissed"
+    alert_id = str(uuid.uuid4()) if new else latest["id"]
 
-def _save_matches(c: HistoryCheck, alert_id: str, cases: List[Dict[str, Any]]) -> Dict[str, Any]:
-    db = _db()
-    query = c.match_weights
-    matches = match_cases(query, c.duration_days, cases)
-    fingerprint = db.alert_fingerprint(alert_id, SCORER_VERSION)
-    run = build_run(alert_id, fingerprint, sorted(query), c.duration_days,
-                    f"{c.title} over {c.duration_days} day(s)", candidates_seen=len(cases))
-    run["weights"] = {**run["weights"], "query_weights": query}
-    saved = db.save_match_run(run, matches)
+    story = prev.get("narrative") if (not new and same_evidence and prev.get("narrative")) \
+        else narrative.explain_check(c, obs)
+    row = _alert_row(c, alert_id, fp, story)
+    if new:
+        row.update(status="open", created_at=_now())
+    elif latest["status"] == "reviewed" and not same_evidence:
+        row["status"] = "open"  # new evidence since the nurse's review
+    s.save_alert(row, obs)
+
+    matches = match_cases(c.match_weights, c.duration_days, cases)
+    run_row = build_run(alert_id, fp, sorted(c.match_weights), c.duration_days,
+                        f"{c.title} over {c.duration_days} day(s)", candidates_seen=len(cases))
+    run_row["weights"] = {**run_row["weights"], "query_weights": c.match_weights}
+    saved = s.save_matches(run_row, matches)
     by_id = {x["id"]: x for x in cases}
-    return {"run_id": saved["id"], "matches": len(matches), "outcomes": outcome_spread(matches, by_id)}
+    return {"alert_id": alert_id, "new": new, "explanation_source": story.get("source"),
+            "similar_cases": {"run_id": saved.get("id"), "matches": len(matches),
+                              "outcomes": outcome_spread(matches, by_id)}}
 
 
-def run(as_of: Optional[datetime] = None) -> Dict[str, Any]:
-    """Check every resident, save alerts + evidence + similar cases. Returns a summary."""
-    db = _db()
-    checks = preview(as_of=as_of)
-    cases = db.get_cases_for_matching()
+def run(resident_id: Optional[str] = None, as_of: Optional[datetime] = None) -> Dict[str, Any]:
+    """Check residents (all, or one) and save alerts + evidence + similar cases. Returns a summary."""
+    s = get_store()
+    with _lock:
+        invalidate()
+        checks = preview(resident_id, as_of=as_of)
+        cases = s.cases()
+        out = []
+        for c in checks:
+            row: Dict[str, Any] = {"resident_id": c.resident_id, "tier": c.tier,
+                                   "title": c.title if c.alert else None, "reasons": c.reasons}
+            if c.alert:
+                row.update(_save(c, cases))
+            out.append(row)
+    return {"mode": s.mode, "as_of": checks[0].as_of if checks else None, "residents": out,
+            "alerts": sum(1 for r in out if r.get("alert_id") and not r.get("suppressed"))}
+
+
+# ---------------------------------------------------------------------------
+# Read helpers used by the API
+# ---------------------------------------------------------------------------
+def resident_list(q: Optional[str] = None) -> List[Dict[str, Any]]:
+    s = get_store()
+    checks = {c.resident_id: c for c in preview()}
+    latest: Dict[str, Dict[str, Any]] = {}
+    for a in s.alerts():  # newest first
+        latest.setdefault(a["resident_id"], a)
+    last_note: Dict[str, str] = {}
+    for n in s.notes():  # newest first
+        last_note.setdefault(n["resident_id"], str(n["recorded_at"]))
     out = []
-    for c in checks:
-        row = {"resident_id": c.resident_id, "tier": c.tier, "title": c.title if c.alert else None,
-               "reasons": c.reasons}
-        if c.alert:
-            alert = _save_alert(c)
-            row["alert_id"] = alert["id"]
-            row["similar_cases"] = _save_matches(c, alert["id"], cases)
-        out.append(row)
-    return {"as_of": checks[0].as_of if checks else None, "residents": out,
-            "alerts": sum(1 for c in checks if c.alert)}
+    for r in s.residents():
+        if q and q.lower() not in f"{r['id']} {r.get('display_name', '')}".lower():
+            continue
+        c = checks.get(r["id"])
+        out.append({**r, "tier": c.tier if c else "baseline_limited",
+                    "title": c.title if c and c.alert else None,
+                    "urgent": bool(c and c.urgent), "reasons": c.reasons if c else [],
+                    "alert": latest.get(r["id"]), "last_note_at": last_note.get(r["id"])})
+    return sorted(out, key=lambda r: (TIER_ORDER.get(r["tier"], 9), r["id"]))
+
+
+def timeline(resident_id: str, limit: int = 10) -> List[Dict[str, Any]]:
+    return get_store().notes(resident_id)[:limit]
+
+
+def overview(resident_id: str) -> Optional[Dict[str, Any]]:
+    s = get_store()
+    resident = s.resident(resident_id)
+    if not resident:
+        return None
+    checks = preview(resident_id)
+    alert = s.latest_alert(resident_id)
+    return {
+        "resident": resident,
+        "check": to_dict(checks[0]) if checks else None,
+        "alert": alert,
+        "similar": similar_cases(alert["id"]) if alert else None,
+        "notes": timeline(resident_id, 10),
+    }
+
+
+def similar_cases(alert_id: str) -> Dict[str, Any]:
+    return {"alert_id": alert_id,
+            "note": "Fictional case library. Shows what happened in similar past cases; not a diagnosis.",
+            **get_store().similar_cases(alert_id)}
+
+
+def alerts(status: Optional[str] = None) -> List[Dict[str, Any]]:
+    rows = get_store().alerts(status)
+    return sorted(rows, key=lambda a: not a["urgent"])  # urgent first, then newest (stable sort)
+
+
+def get_alert(alert_id: str) -> Optional[Dict[str, Any]]:
+    return get_store().alert(alert_id)
+
+
+def set_alert_status(alert_id: str, status: str) -> Optional[Dict[str, Any]]:
+    if status not in ALERT_STATUSES:
+        raise ValueError(f"status must be one of {', '.join(ALERT_STATUSES)}")
+    return get_store().set_alert_status(alert_id, status)
+
+
+def add_note(resident_id: str, note_text: str, author_role: str = "PSW",
+             recorded_at: Optional[str] = None) -> Dict[str, Any]:
+    """Save a care note, then re-run the check for that resident. Returns the note and the new result."""
+    s = get_store()
+    note = s.add_note({
+        "resident_id": resident_id,
+        "note_text": note_text.strip(),
+        "author_role": author_role,
+        # Local wall-clock time, no offset: matches how test_data/ timestamps are written.
+        "recorded_at": recorded_at or datetime.now().replace(microsecond=0).isoformat(),
+    })
+    result = run(resident_id)
+    return {"note": note, "result": result["residents"][0] if result["residents"] else None}

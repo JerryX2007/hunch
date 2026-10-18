@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Tailwind v4 borders default to the text colour; use a light grey instead. */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-slate-200);
+  }
+}

@@ -1,53 +1,87 @@
 # Hunch
 
-PSWs in long-term care log quick "hunches" about residents; a nurse dashboard turns them into early, explained warnings.
+PSWs and nurses log care notes about long-term care residents; Hunch compares each resident with
+their own usual pattern, explains what changed (quoting the notes), and shows what happened in
+similar past cases. All data in this repo is fictional.
+
+## Run everything
+
+```bash
+python run.py
+```
+
+Then open http://localhost:5173/nurse. One command starts the API, runs the analysis for every
+resident, and starts the web app. Ctrl+C stops it all.
+
+| Command | What it does |
+|---|---|
+| `python run.py` | Supabase if `backend/.env` is filled in, otherwise built-in demo data |
+| `python run.py --demo` | Always use in-memory demo data (no database or network; resets on restart) |
+| `python run.py --seed` | Load `test_data/` into Supabase first |
+| `python run.py --build` | Build the web app and serve everything from http://localhost:8000 |
+| `python run.py --api-only` | Just the API (docs at http://localhost:8000/docs) |
+
+First time only:
+
+```bash
+cd backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+cp .env.example .env    # optional: Supabase URL + keys, GEMINI_API_KEY
+```
+
+`run.py` uses `backend/.venv` automatically and installs the web app's npm packages on first run
+(needs Node.js 20+).
+
+## How it fits together
+
+```
+care notes ─▶ extract.py  rule-based signals, each tied to the exact phrase (negation-aware)
+           ─▶ check.py    resident vs their own baseline → urgent / alert / watch / quiet
+           ─▶ narrative.py + explanation.py  plain-language summary; Gemini if a key is set,
+                          every claim validated against evidence IDs, else a template
+           ─▶ match.py    similar fictional past cases: what's shared, what differs, outcome
+           ─▶ service.py  saves alerts, evidence and matches (store.py: Supabase or in-memory)
+           ─▶ API (FastAPI) ─▶ web app: nurse dashboard, resident page, PSW note page
+```
 
 ## Layout
 
 ```
+run.py              one command to run everything
 backend/            FastAPI (Python)
   app/
-    main.py         app setup, CORS, routers mounted under /api
-    config.py       settings from env / backend/.env
-    database.py     Supabase client + table helpers (needs backend/.env)
-    schemas.py      API models (keep in sync with frontend/src/api/types.ts)
-    routers/        one file per resource (health, residents, ...)
-  scripts/check_db.py  read-only check that every table is reachable
-  requirements.txt
-  .env.example
+    main.py         app setup, routers under /api, serves frontend/dist when built
+    store.py        data access: SupabaseStore or MemoryStore (demo)
+    history/        the pipeline: extract, check, narrative, match, service
+    explanation.py  LLM prompt + validator + template fallback for summaries
+    models/         Gemini note parser (optional; python -m app.models.test_parser)
+    routers/        health, residents (+ notes), history (check, run, alerts, similar cases)
+    database.py     Supabase client + table helpers
+  scripts/          seed_db, check_db, run_history_check (--eval), dump_schema
+  tests/            pytest (offline): python -m pytest -q
+db/migrations/      SQL to create the Supabase schema (see db/README.md)
 frontend/           Vite + React + TypeScript + Tailwind
-  src/
-    App.tsx         routes
-    api/            fetch client + shared types
-    components/     shared UI (Layout, ...)
-    pages/          Home, Join, Psw, Nurse, ResidentProfile
+  src/pages/        Nurse (dashboard), ResidentProfile, Psw (log a note), Join
+test_data/          fictional residents, notes, case library, eval scenarios
+ML/                 separate prototype: PSW icon "hunch" scoring engine (not wired in)
 ```
 
-## Run locally
+## API
 
-Backend (http://localhost:8000, docs at /docs):
-
-```bash
-cd backend
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env        # fill in SUPABASE_URL and the two keys
-python -m scripts.check_db  # confirm the database connection
-uvicorn app.main:app --reload
-```
-
-Frontend (http://localhost:5173):
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-The Vite dev server proxies `/api/*` to the backend, so the frontend always calls relative URLs like `/api/residents`.
+| Method | Path | |
+|---|---|---|
+| GET | `/api/health` | mode (demo/supabase), database status, whether Gemini is on |
+| GET | `/api/residents?q=` | residents with today's tier and latest alert, most concerning first |
+| GET | `/api/residents/{id}` | profile, live check with evidence, alert + summary, similar cases, last 10 notes |
+| GET/POST | `/api/residents/{id}/notes` | last notes / log a note (re-runs that resident) |
+| POST | `/api/history/run` | run the check for everyone and save alerts + similar cases |
+| GET | `/api/history/check` | compute only, writes nothing |
+| GET | `/api/alerts`, `/api/alerts/{id}` | alerts (urgent first) |
+| PATCH | `/api/alerts/{id}/status` | nurse review: reviewed / needs_assessment / dismissed / open |
+| GET | `/api/alerts/{id}/similar-cases` | ranked past cases with documented outcomes |
 
 ## Adding things
 
 - New endpoint: add `backend/app/routers/<name>.py`, then `app.include_router(<name>.router, prefix="/api")` in `main.py`.
 - New page: add `frontend/src/pages/<Name>.tsx` and a `<Route>` in `App.tsx`.
-- New API type: update both `backend/app/schemas.py` and `frontend/src/api/types.ts`.
+- New API type: update `backend/app/schemas.py` and `frontend/src/api/types.ts`.
+- Schema change: add a numbered file in `db/migrations/`, then `python -m scripts.dump_schema`.
