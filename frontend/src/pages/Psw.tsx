@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../api/client'
 import type { ResidentSummary, RunResult } from '../api/types'
 import { TierBadge } from '../components/Badges'
+import Dictate from '../components/Dictate'
 import { useAuth } from '../components/authContext'
 import { friendlyError } from '../components/format'
 
@@ -182,8 +183,12 @@ export default function Psw() {
           </p>
         )}
 
-        <label className="mt-5 block">
-          <span className="text-lg font-bold">Anything else?</span> <span className="text-sm text-muted">(optional, any language)</span>
+        <div className="mt-5">
+          <Dictate large onText={(s) => setExtra((t) => (t.trim() ? `${t.trim()} ${s}` : s))} />
+        </div>
+
+        <label className="mt-4 block">
+          <span className="text-lg font-bold">Anything else?</span> <span className="text-sm text-muted">(optional: type, or tap Speak)</span>
           <textarea
             value={extra}
             onChange={(e) => setExtra(e.target.value)}

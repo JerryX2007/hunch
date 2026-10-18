@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import type { AlertStatus, CaseMatch, Finding, ResidentOverview } from '../api/types'
 import { TierBadge } from './Badges'
+import Dictate from './Dictate'
 import { useToast } from './toastContext'
 import { STATUS_LABEL, TIER_HINT, TIER_STYLE, authorOf, capitalize, daysBetween, fmtDate, fmtDay, friendlyError, niceLabel, plural } from './format'
 
@@ -358,6 +359,9 @@ function NotesSection({
         >
           {saving ? 'Saving…' : 'Save note'}
         </button>
+      </div>
+      <div className="mt-2">
+        <Dictate onText={(s) => setText((t) => (t.trim() ? `${t.trim()} ${s}` : s))} />
       </div>
       <ol className="mt-4 divide-y divide-line">
         {notes.map((n) => (

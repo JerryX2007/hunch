@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
+import Dictate from './Dictate'
 import { friendlyError } from './format'
 import { useToast } from './toastContext'
 
@@ -99,6 +100,9 @@ export default function AddPatient({ onAdded }: { onAdded: () => void }) {
         />
         <span className="mt-1 block text-sm text-muted">Saved as their first note, under your name.</span>
       </label>
+      <div className="mt-2">
+        <Dictate onText={(s) => setNote((t) => (t.trim() ? `${t.trim()} ${s}` : s))} />
+      </div>
 
       {error && (
         <p className="mt-4 max-w-xl rounded-md bg-urgent-soft p-3 text-urgent" role="alert">

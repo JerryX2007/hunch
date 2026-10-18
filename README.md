@@ -42,6 +42,14 @@ needs a signed-in nurse; PSWs log notes at `/psw` without signing in.
 Sessions live in HttpOnly cookies; expired Supabase sessions renew automatically.
 Five wrong passwords in five minutes from one address pause sign-in for that address.
 
+## Voice notes
+
+Every note box (PSW note, resident note, admission note) has a **Speak** button. Tap it,
+talk, and the words appear in the box as you go; tap again to stop, then check and save.
+It uses the browser's built-in speech recognition (Chrome, Edge, Safari; Chrome sends the
+audio to Google's speech service), asks for English, and needs `https` or `localhost`.
+Firefox shows a short "use Chrome, Edge or Safari" note instead of the button.
+
 ## How it fits together
 
 ```
