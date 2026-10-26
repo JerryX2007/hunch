@@ -4,6 +4,19 @@ PSWs and nurses log care notes about long-term care residents; Hunch compares ea
 their own usual pattern, explains what changed (quoting the notes), and shows what happened in
 similar past cases. All data in this repo is fictional.
 
+## Live demo
+
+**Try it here: [hunch-beige.vercel.app](https://hunch-beige.vercel.app/login?next=%2Fnurse)**
+
+Sample nurse login (fictional account, demo data only):
+
+| | |
+|---|---|
+| Email | `priya.raman@hunch.test` |
+| Password | `admin1234` |
+
+PSWs log notes at `/psw` without signing in.
+
 ## Run everything
 
 ```bash
@@ -163,49 +176,4 @@ backend/            FastAPI (Python)
     repositories/   per-table CRUD wrappers (residents, care_notes, observations, alerts, ...)
     auth.py         Supabase email/password sign-in, token check, logout
     utils/          error formatting + DB operation logging
-  scripts/          seed_db, reseed_notes, check_db, run_history_check (--eval), read_notes, dump_schema
-  tests/            pytest (offline, fake Supabase in conftest.py): python -m pytest -q
-db/migrations/      SQL to create the Supabase schema (see db/README.md)
-frontend/           Vite + React + TypeScript + Tailwind
-  src/pages/        Nurse (list + resident detail), Psw (log a note), Join
-  src/components/   ResidentDetail, Badges, Toast, format (labels, dates)
-test_data/          fictional residents, notes, case library, eval scenarios
-ML/                 separate prototype: PSW icon "hunch" scoring engine (not wired in)
-```
-
-## API
-
-| Method | Path | |
-|---|---|---|
-| GET | `/api/health` | mode (demo/supabase), database status, whether Gemini is on |
-| GET | `/api/residents?q=` | residents with today's tier and latest alert, most concerning first |
-| POST | `/api/residents` | add a resident: `display_name`, optional `id` (default: next free 2W-NNN) and `first_note` |
-| GET | `/api/residents/next-id` | the ID a new resident gets by default |
-| GET | `/api/residents/{id}` | profile, live check with evidence, alert + summary, similar cases, last 10 notes |
-| GET/POST | `/api/residents/{id}/notes` | last notes / log a note (re-runs that resident) |
-| POST | `/api/history/run` | run the check for everyone and save alerts + similar cases |
-| GET | `/api/history/check` | compute only, writes nothing |
-| GET | `/api/alerts`, `/api/alerts/{id}` | alerts (urgent first) |
-| PATCH | `/api/alerts/{id}/status` | nurse review: reviewed / needs_assessment / dismissed / open |
-| GET | `/api/alerts/{id}/similar-cases` | ranked past cases with documented outcomes |
-| POST | `/api/auth/signin` | `{email, password}` → sets the session cookies (HttpOnly) |
-| GET | `/api/auth/me` | who is signed in on this browser (never 401) |
-| POST | `/api/auth/logout` | sign out |
-| GET/PUT | `/api/profile/me` | your name |
-
-Nurse endpoints (resident details, alerts, reviews, history check) need a signed-in nurse. Without sign-in, `/api/residents` returns only IDs and names, and
-`POST /api/residents/{id}/notes` still works, so PSWs log notes without an account.
-
-## Adding things
-
-- New endpoint: add `backend/app/routers/<name>.py`, then `app.include_router(<name>.router, prefix="/api")` in `main.py`.
-- New page: add `frontend/src/pages/<Name>.tsx` and a `<Route>` in `App.tsx`.
-- New API type: update `backend/app/schemas.py` and `frontend/src/api/types.ts`.
-- Schema change: add a numbered file in `db/migrations/`, then `python -m scripts.dump_schema`.
-- Seed notes: edit `test_data/generate_seed.py` and run it (`python test_data/generate_seed.py`).
-  The notes are written the way staff chart (B/F 50%, amb w/ walker to DR, SBA, No BM x4d,
-  c/o, denies SOB, typos), and the rules read that shorthand (`backend/tests/test_shorthand.py`).
-  Then check the stories still hold with `python -m scripts.run_history_check --eval`, and put
-  the new notes in Supabase with `python -m scripts.reseed_notes` (from `backend/`): it replaces
-  the seed residents' seed-period notes and alerts, keeps notes written in the app, and re-runs
-  the check.
+  scripts/          seed_db, reseed_notes, check_db, run_history_check
